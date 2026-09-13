@@ -10,7 +10,12 @@ export interface CampaignRow {
   readonly fields: JsonRecord;
 }
 
-const campaignLogPath = "evidence/campaign/actions.jsonl";
+const actionLogPaths = {
+  campaign: "evidence/campaign/actions.jsonl",
+  repeatRound: "evidence/c5/actions.jsonl",
+} as const;
+
+export type ActionLog = keyof typeof actionLogPaths;
 
 function isEvidenceLabel(value: string | undefined): value is EvidenceLabel {
   return evidenceLabels.some((label) => label === value);
@@ -31,8 +36,8 @@ function toCampaignRow(line: string): CampaignRow | undefined {
   return { observedAt, action, state, evidenceKind, fields: parsed };
 }
 
-export function loadCampaignLog(): readonly CampaignRow[] | undefined {
-  const text = readEvidenceText(campaignLogPath);
+export function loadActionLog(log: ActionLog): readonly CampaignRow[] | undefined {
+  const text = readEvidenceText(actionLogPaths[log]);
   if (text === undefined) {
     return undefined;
   }
@@ -41,6 +46,10 @@ export function loadCampaignLog(): readonly CampaignRow[] | undefined {
     .filter((line) => line.trim().length > 0)
     .map(toCampaignRow)
     .filter((row): row is CampaignRow => row !== undefined);
+}
+
+export function loadCampaignLog(): readonly CampaignRow[] | undefined {
+  return loadActionLog("campaign");
 }
 
 export function findRow(

@@ -11,6 +11,7 @@ export const claimRoutes = {
   gate: "/dashboard/claims/gate",
   a: "/dashboard/claims/a",
   b: "/dashboard/claims/b",
+  c: "/dashboard/claims/c",
 } as const satisfies Record<CampaignPrefix, string>;
 
 export type DashboardHref =

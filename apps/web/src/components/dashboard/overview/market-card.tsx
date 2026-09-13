@@ -28,7 +28,7 @@ export function MarketCard({ image, side }: { image: StaticImageData; side: "esc
         : "Unverifiable";
 
   return (
-    <div className="h-[280px] relative rounded-2xl overflow-hidden group border border-white/5">
+    <div className="h-[340px] relative rounded-2xl overflow-hidden group border border-white/5">
       <CoverPhoto
         image={image}
         sizes="(min-width: 1024px) 25vw, 100vw"

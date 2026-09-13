@@ -25,6 +25,10 @@ const labels: Readonly<Record<string, MilestoneLabel>> = {
   "settle:outcome-verified": { label: stateLanguage.SELLER_FUNDS_CLAIMABLE, chain: "cc3" },
   "refund:outcome-verified": { label: stateLanguage.REFUND_CLAIMABLE, chain: "cc3" },
   "redeem:redemption-verified": { label: "Redeemed at maturity", chain: "sepolia" },
+  "refusal:refusal-verified": {
+    label: "Round 1 proof refused for round 2",
+    chain: undefined,
+  },
 };
 
 const withdrawalLabels: Readonly<Record<string, string>> = {

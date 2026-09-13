@@ -1,15 +1,56 @@
 import type { EvidenceLabel, Hash, SaleTerms } from "@morrow/protocol";
 import type { ChainKey } from "@/lib/explorers";
-import { findRow, loadCampaignLog, type CampaignRow } from "./campaign-log";
+import { actionStep, findLatestStep } from "./action-steps";
+import { findRow, loadActionLog, type ActionLog, type CampaignRow } from "./campaign-log";
 import { isHex, numberField, recordField, stringField } from "./json-fields";
 import { milestoneLabel } from "./milestone-labels";
 import { parseSaleTerms } from "./sale-terms";
 
+export type ClaimOutcome = "assignment" | "cancellation";
+
+interface CampaignClaimEntry {
+  readonly prefix: string;
+  readonly name: string;
+  readonly path: string;
+  readonly expectedOutcome: ClaimOutcome;
+  readonly log: ActionLog;
+  readonly actionPrefix: string;
+}
+
 export const campaignClaims = [
-  { prefix: "gate", name: "Gate claim", outcome: "cancellation" },
-  { prefix: "a", name: "Claim A", outcome: "assignment" },
-  { prefix: "b", name: "Claim B", outcome: "cancellation" },
-] as const;
+  {
+    prefix: "gate",
+    name: "Gate claim",
+    path: "cancellation path",
+    expectedOutcome: "cancellation",
+    log: "campaign",
+    actionPrefix: "gate",
+  },
+  {
+    prefix: "a",
+    name: "Claim A",
+    path: "assignment path",
+    expectedOutcome: "assignment",
+    log: "campaign",
+    actionPrefix: "a",
+  },
+  {
+    prefix: "b",
+    name: "Claim B",
+    path: "cancellation path",
+    expectedOutcome: "cancellation",
+    log: "campaign",
+    actionPrefix: "b",
+  },
+  {
+    prefix: "c",
+    name: "Claim C",
+    path: "repeat-round path",
+    expectedOutcome: "assignment",
+    log: "repeatRound",
+    actionPrefix: "c5",
+  },
+] as const satisfies readonly CampaignClaimEntry[];
 
 export type CampaignPrefix = (typeof campaignClaims)[number]["prefix"];
 
@@ -26,7 +67,8 @@ export interface LedgerMilestone {
 export interface LedgerClaim {
   readonly prefix: CampaignPrefix;
   readonly name: string;
-  readonly outcome: "assignment" | "cancellation";
+  readonly path: string;
+  readonly outcome: ClaimOutcome;
   readonly claimId: string;
   readonly saleId: Hash;
   readonly fundingHash: string | undefined;
@@ -40,9 +82,12 @@ export interface CampaignLedger {
   readonly snapshotAt: string | undefined;
 }
 
-function rowsFor(rows: readonly CampaignRow[], prefix: CampaignPrefix): readonly CampaignRow[] {
-  const owned = rows.filter((row) => row.action.startsWith(`${prefix}-`));
-  return prefix === "a"
+type ActionLogs = Readonly<Record<ActionLog, readonly CampaignRow[]>>;
+
+function rowsFor(logs: ActionLogs, entry: (typeof campaignClaims)[number]): readonly CampaignRow[] {
+  const rows = logs[entry.log];
+  const owned = rows.filter((row) => row.action.startsWith(`${entry.actionPrefix}-`));
+  return entry.prefix === "a"
     ? [...owned, ...rows.filter((row) => row.action === "withdraw-fee")]
     : owned;
 }
@@ -59,19 +104,17 @@ function sourceBlockFor(row: CampaignRow, owned: readonly CampaignRow[]): number
 
 function toMilestone(
   row: CampaignRow,
-  prefix: CampaignPrefix,
+  actionPrefix: string,
   owned: readonly CampaignRow[],
 ): LedgerMilestone | undefined {
-  const suffix = row.action.startsWith(`${prefix}-`)
-    ? row.action.slice(prefix.length + 1)
-    : row.action;
-  const label = milestoneLabel(suffix, row.state, stringField(row.fields, "role"));
+  const { round, step } = actionStep(row.action, actionPrefix);
+  const label = milestoneLabel(step, row.state, stringField(row.fields, "role"));
   if (!label) {
     return undefined;
   }
   return {
     key: `${row.action}:${row.state}:${row.observedAt}`,
-    label: label.label,
+    label: round === undefined ? label.label : `Round ${round.toString()} · ${label.label}`,
     observedAt: row.observedAt,
     chain: label.chain,
     transactionHash: stringField(row.fields, "transactionHash"),
@@ -91,48 +134,60 @@ function latestPerLabel(milestones: readonly LedgerMilestone[]): readonly Ledger
 }
 
 function buildClaim(
-  rows: readonly CampaignRow[],
+  logs: ActionLogs,
   entry: (typeof campaignClaims)[number],
 ): LedgerClaim | undefined {
-  const owned = rowsFor(rows, entry.prefix);
-  const funded = findRow(owned, `${entry.prefix}-fund`, "bound-verified");
-  const termsRecord = funded ? recordField(funded.fields, "terms") : undefined;
+  const owned = rowsFor(logs, entry);
+  const latest = (step: string, state: string) =>
+    findLatestStep(owned, entry.actionPrefix, step, state);
+  const funded = latest("fund", "bound-verified");
+  const anchor = funded ?? latest("reserve", "reservation-verified");
+  const termsRecord = anchor ? recordField(anchor.fields, "terms") : undefined;
   const terms = termsRecord ? parseSaleTerms(termsRecord) : undefined;
-  const saleId = funded ? stringField(funded.fields, "saleId") : undefined;
-  if (!funded || !terms || !isHex(saleId)) {
+  const saleId = anchor ? stringField(anchor.fields, "saleId") : undefined;
+  if (!terms || !isHex(saleId)) {
     return undefined;
   }
-  const milestones = latestPerLabel(
-    owned
-      .map((row) => toMilestone(row, entry.prefix, owned))
-      .filter((milestone): milestone is LedgerMilestone => milestone !== undefined),
-  );
-  const outcomeAction = entry.outcome === "assignment" ? "settle" : "refund";
-  const settled = findRow(owned, `${entry.prefix}-${outcomeAction}`, "outcome-verified");
-  const redeemed = findRow(owned, `${entry.prefix}-redeem`, "redemption-verified");
+  const settled = latest("settle", "outcome-verified");
+  const refunded = latest("refund", "outcome-verified");
+  const redeemed = latest("redeem", "redemption-verified");
 
   return {
     prefix: entry.prefix,
     name: entry.name,
-    outcome: entry.outcome,
+    path: entry.path,
+    outcome: settled ? "assignment" : refunded ? "cancellation" : entry.expectedOutcome,
     claimId: terms.claimId.toString(),
     saleId,
-    fundingHash: stringField(funded.fields, "transactionHash"),
+    fundingHash: funded ? stringField(funded.fields, "transactionHash") : undefined,
     terms,
-    milestones,
-    complete: settled !== undefined && redeemed !== undefined,
+    milestones: latestPerLabel(
+      owned
+        .map((row) => toMilestone(row, entry.actionPrefix, owned))
+        .filter((milestone): milestone is LedgerMilestone => milestone !== undefined),
+    ),
+    complete: (settled ?? refunded) !== undefined && redeemed !== undefined,
   };
 }
 
+function latestObservation(logs: ActionLogs): string | undefined {
+  return Object.values(logs)
+    .map((rows) => rows.at(-1)?.observedAt)
+    .filter((observedAt): observedAt is string => observedAt !== undefined)
+    .sort()
+    .at(-1);
+}
+
 export function loadCampaignLedger(): CampaignLedger | undefined {
-  const rows = loadCampaignLog();
-  if (!rows) {
+  const campaign = loadActionLog("campaign");
+  if (!campaign) {
     return undefined;
   }
+  const logs: ActionLogs = { campaign, repeatRound: loadActionLog("repeatRound") ?? [] };
   return {
     claims: campaignClaims
-      .map((entry) => buildClaim(rows, entry))
+      .map((entry) => buildClaim(logs, entry))
       .filter((claim): claim is LedgerClaim => claim !== undefined),
-    snapshotAt: rows.at(-1)?.observedAt,
+    snapshotAt: latestObservation(logs),
   };
 }

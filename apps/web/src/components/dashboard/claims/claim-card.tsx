@@ -30,7 +30,7 @@ export function ClaimCard({ claim }: { claim: LedgerClaim }) {
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between mb-6">
         <div>
           <span className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">
-            Claim #{claim.claimId} · round {claim.terms.round.toString()} · {claim.outcome} path
+            Claim #{claim.claimId} · round {claim.terms.round.toString()} · {claim.path}
           </span>
           <h3 className="text-xl font-medium text-white mt-1">{claim.name}</h3>
         </div>

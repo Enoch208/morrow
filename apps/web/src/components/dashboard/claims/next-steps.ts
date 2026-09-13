@@ -13,16 +13,27 @@ export interface NextStep {
 
 const operatorNote = "Eligible · submitted by the campaign operator while the live campaign runs";
 
-function assignStep(claim: LiveClaim): NextStep {
+function assignStep(claim: LiveClaim, terms: SaleTerms, now: bigint): NextStep {
   const base = { name: "Assign sale", who: "Seller only" };
   if (claim.roundState === "ASSIGNED")
     return { ...base, status: "done", reason: "Assigned on source" };
   if (claim.roundState !== "RESERVED")
     return { ...base, status: "unavailable", reason: `Round is ${claim.roundState.toLowerCase()}` };
+  if (now >= terms.assignBefore)
+    return { ...base, status: "unavailable", reason: "Assignment window has closed" };
+  if (claim.saleState !== "BOUND")
+    return {
+      ...base,
+      status: "unavailable",
+      reason:
+        now >= terms.fundBefore
+          ? "Funding window closed with no buyer deposit"
+          : "Waiting for the buyer to fund on Creditcoin",
+    };
   return {
     ...base,
-    status: "unavailable",
-    reason: "Requires the SDK seller preflight, not yet in the browser",
+    status: "eligible",
+    reason: `Seller signs after the preflight passes · before ${utcDateTimeFromUnix(terms.assignBefore)}`,
   };
 }
 
@@ -45,6 +56,8 @@ function outcomeStep(claim: LiveClaim): NextStep {
   const base = { name: "Submit outcome proof", who: "Anyone" };
   if (claim.saleState === "ASSIGNED_CLAIMABLE" || claim.saleState === "CANCELLED_CLAIMABLE")
     return { ...base, status: "done", reason: "Outcome recognized on Creditcoin" };
+  if (claim.saleState === "ABSENT" && claim.roundState !== "RESERVED")
+    return { ...base, status: "unavailable", reason: "Round was never funded; nothing to settle" };
   if (claim.saleState === "BOUND" && claim.roundState !== "RESERVED")
     return { ...base, status: "eligible", reason: operatorNote };
   return {
@@ -71,7 +84,7 @@ function redeemStep(claim: LiveClaim, terms: SaleTerms, now: bigint): NextStep {
 
 export function nextSteps(claim: LiveClaim, terms: SaleTerms, now: bigint): readonly NextStep[] {
   return [
-    assignStep(claim),
+    assignStep(claim, terms, now),
     cancelStep(claim, terms, now),
     outcomeStep(claim),
     redeemStep(claim, terms, now),
