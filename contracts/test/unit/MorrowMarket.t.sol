@@ -28,12 +28,36 @@ contract MorrowMarketTest is MarketFixture {
     function test_T31_changedTermsRejectSameProofAndCanRetry() public {
         AttestcoinGate.ProofEnvelope memory proof = reservation(terms);
         terms.grossPurchasePriceRaw++;
+        rejectSubstitutedTerms(proof);
+        terms.grossPurchasePriceRaw--;
+        terms.seller = address(0xBAD);
+        rejectSubstitutedTerms(proof);
+        terms.seller = SELLER;
+        terms.buyer = address(0xBAD);
+        rejectSubstitutedTerms(proof);
+        terms.buyer = BUYER;
+        terms.feeBps++;
+        rejectSubstitutedTerms(proof);
+        terms.feeBps--;
+        terms.claimId++;
+        rejectSubstitutedTerms(proof);
+        terms.claimId--;
+        terms.round++;
+        rejectSubstitutedTerms(proof);
+        terms.round--;
+        terms.fundBefore++;
+        rejectSubstitutedTerms(proof);
+        terms.fundBefore--;
+        fund();
+        solvent();
+    }
+
+    function rejectSubstitutedTerms(AttestcoinGate.ProofEnvelope memory proof) private {
         vm.prank(BUYER);
         vm.expectRevert(ProofBindingLib.SaleIdMismatch.selector);
         market.fundReservation(proof, 0, terms);
-        terms.grossPurchasePriceRaw--;
-        fund();
-        solvent();
+        require(market.totalLiabilities() == 0 && token.balanceOf(address(market)) == 0);
+        require(market.getSale(SaleTermsLib.saleId(terms)).state == MarketTypes.State.ABSENT);
     }
 
     function test_T35_duplicateFundingDoesNotTakeMoney() public {

@@ -14,6 +14,7 @@ interface VmMarket {
     function prank(address) external;
     function expectRevert(bytes4) external;
     function mockCall(address, bytes calldata, bytes calldata) external;
+    function clearMockedCalls() external;
 }
 
 abstract contract MarketFixture {
@@ -99,9 +100,9 @@ abstract contract MarketFixture {
         topics[2] = bytes32(supplied.claimId);
         topics[3] = bytes32(supplied.round);
         EvmV1Decoder.LogEntry[] memory logs = new EvmV1Decoder.LogEntry[](1);
-        logs[0] = EvmV1Decoder.LogEntry(VAULT, topics, data);
+        logs[0] = EvmV1Decoder.LogEntry(supplied.sourceVault, topics, data);
         bytes[] memory chunks = new bytes[](3);
-        chunks[0] = abi.encode(uint64(0), uint64(100000), SELLER, false, VAULT, uint256(0), hex"");
+        chunks[0] = abi.encode(uint64(0), uint64(100000), SELLER, false, supplied.sourceVault, uint256(0), hex"");
         chunks[1] = hex"";
         chunks[2] = abi.encode(uint8(1), uint64(50000), logs, new bytes(256));
         proof.chainKey = 1;

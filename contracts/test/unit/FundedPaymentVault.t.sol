@@ -163,6 +163,17 @@ contract FundedPaymentVaultTest {
         vault.assignSale(claimId, 1, SaleTermsLib.termsHash(terms(1)));
     }
 
+    function test_T14_cancellationAfterAssignmentRejected() public {
+        reserve(1);
+        VM.prank(SELLER);
+        vault.assignSale(claimId, 1, SaleTermsLib.termsHash(terms(1)));
+        VM.expectRevert(FundedPaymentVault.RoundMismatch.selector);
+        vault.cancelExpiredSale(claimId, 1);
+        require(vault.getRound(claimId, 1).state == SourceTypes.RoundState.ASSIGNED);
+        require(vault.getClaim(claimId).currentBeneficiary == BUYER);
+        require(token.balanceOf(address(vault)) == 10000000000);
+    }
+
     function reserve(uint256 round) private {
         VM.prank(SELLER);
         vault.reserveSale(claimId, terms(round));

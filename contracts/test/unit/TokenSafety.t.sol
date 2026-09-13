@@ -79,6 +79,22 @@ contract TokenSafetyTest is MarketFixture {
         require(hostile.balanceOf(address(vault)) == 0);
     }
 
+    function test_T48_sourceCreationCallbackCannotCreateSecondClaim() public {
+        vm.chainId(11155111);
+        FundedPaymentVault vault = new FundedPaymentVault(address(hostile));
+        hostile.approve(address(vault), type(uint256).max);
+        hostile.configure(
+            false,
+            false,
+            address(vault),
+            abi.encodeCall(FundedPaymentVault.createClaim, (address(hostile), 10000, SELLER, 4000, bytes32(0)))
+        );
+        uint256 id = vault.createClaim(address(hostile), 10000, SELLER, 3000, bytes32(0));
+        require(!hostile.callbackSucceeded());
+        require(id == 1 && vault.nextClaimId() == 2 && vault.totalBacking() == 10000);
+        require(hostile.balanceOf(address(vault)) == 10000 && hostile.balanceOf(address(this)) == 998990000);
+    }
+
     function test_T48_sourceRedemptionCallbackCannotRedeemTwice() public {
         vm.chainId(11155111);
         FundedPaymentVault vault = new FundedPaymentVault(address(hostile));

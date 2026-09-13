@@ -20,12 +20,27 @@ contract CanonicalTermsTest {
     }
 
     function test_T31_eachNumericAndActorFieldChangesIdentity() public pure {
+        bytes32 original = SaleTermsLib.saleId(fixture());
         SaleTermsLib.Terms memory terms = fixture();
-        bytes32 original = SaleTermsLib.saleId(terms);
-        terms.round++;
+        terms.seller = address(0xBAD);
         require(SaleTermsLib.saleId(terms) != original);
         terms = fixture();
         terms.buyer = address(0xBAD);
+        require(SaleTermsLib.saleId(terms) != original);
+        terms = fixture();
+        terms.grossPurchasePriceRaw++;
+        require(SaleTermsLib.saleId(terms) != original);
+        terms = fixture();
+        terms.feeBps++;
+        require(SaleTermsLib.saleId(terms) != original);
+        terms = fixture();
+        terms.claimId++;
+        require(SaleTermsLib.saleId(terms) != original);
+        terms = fixture();
+        terms.round++;
+        require(SaleTermsLib.saleId(terms) != original);
+        terms = fixture();
+        terms.fundBefore++;
         require(SaleTermsLib.saleId(terms) != original);
         terms = fixture();
         terms.destinationMarket = address(0xBAD);
