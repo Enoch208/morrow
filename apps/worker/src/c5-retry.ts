@@ -16,6 +16,7 @@ export function c5Retry(job: C5Job, error: string, attempt: number, now: bigint)
       error === "C5 source cancellation too early") ||
     (job.operation === "redeem" && error === "C5 source redemption too early");
   const network =
+    error === "Error: ERR_SSL_SSL/TLS_ALERT_BAD_RECORD_MAC" ||
     /(?:TIMEOUT|NETWORK_ERROR|SERVER_ERROR|EPROTO|ECONNRESET|ETIMEDOUT|ECONNREFUSED|EAI_AGAIN|UND_ERR_CONNECT_TIMEOUT)\b/.test(
       error,
     );

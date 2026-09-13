@@ -145,3 +145,37 @@ await test("C5 interrupted worker attempt remains unresolved until a terminal co
     false,
   );
 });
+
+await test("C5 audited reconciliation retains retry count and unrelated semantic stops", () => {
+  const stopped = {
+    action: "c5-r1-cancel-proof",
+    state: "semantic-stop",
+    attempt: 1,
+    observedAt: "2026-09-13T10:30:41.460Z",
+  };
+  const unrelated = { ...stopped, action: "c5-r2-fund", attempt: 3 };
+  const reconciled = {
+    ...stopped,
+    state: "operator-reconciled",
+    observedAt: "2026-09-13T11:09:17.175Z",
+  };
+  const attempts = parseWorkerAttempts(
+    [stopped, unrelated, reconciled].map((row) => JSON.stringify(row)).join("\n"),
+  );
+  assert.deepEqual(attempts.get(stopped.action), {
+    count: 1,
+    lastAt: Date.parse(reconciled.observedAt),
+    stopped: false,
+    unfinished: false,
+  });
+  assert.equal(attempts.get(unrelated.action)?.stopped, true);
+  assert.equal(attempts.get(unrelated.action)?.count, 3);
+});
+
+await test("C5 retries observed TLS transport failure but never native refusal or exhausted budget", () => {
+  const transport = "Error: ERR_SSL_SSL/TLS_ALERT_BAD_RECORD_MAC";
+  assert.equal(c5Retry(c5Job("fund"), transport, 1, 1789297800n).retry, true);
+  assert.equal(c5Retry(c5Job("fund"), transport, 30, 1789297800n).retry, false);
+  for (const refusal of ["Native proof verification failed", "Invalid native C5 frontier"])
+    assert.equal(c5Retry(c5Job("fund"), refusal, 1, 1789297800n).retry, false);
+});

@@ -3,7 +3,11 @@ import { provider, cc3Rpc } from "@morrow/sdk/src/environment.ts";
 import { ConfigurationError } from "@morrow/sdk/src/errors.ts";
 import type { C5Job, C5Row } from "./c5-state.ts";
 
-export async function c5Frontier(job: C5Job, records: readonly C5Row[]) {
+export async function c5Frontier(
+  job: C5Job,
+  records: readonly C5Row[],
+  createRpc: () => ReturnType<typeof provider> = () => provider(cc3Rpc),
+) {
   if (!job.operation.startsWith("proof-")) return null;
   const sourceAction = job.action.slice(0, -"-proof".length);
   const source = [...records]
@@ -18,10 +22,11 @@ export async function c5Frontier(job: C5Job, records: readonly C5Row[]) {
   if (
     !source ||
     typeof source.blockNumber !== "number" ||
-    !Number.isSafeInteger(source.blockNumber)
+    !Number.isSafeInteger(source.blockNumber) ||
+    source.blockNumber < 0
   )
     throw new ConfigurationError("C5 proof requires verified source block");
-  const rpc = provider(cc3Rpc);
+  const rpc = createRpc();
   try {
     const chain: unknown = await rpc.send("eth_chainId", []);
     if (typeof chain !== "string" || BigInt(chain) !== 102031n)
@@ -35,8 +40,20 @@ export async function c5Frontier(job: C5Job, records: readonly C5Row[]) {
       [1],
       block.number,
     );
-    const height: unknown = native.decoded[0];
-    if (typeof height !== "bigint") throw new ConfigurationError("Invalid native C5 frontier");
+    const tuple: unknown = native.decoded[0];
+    if (!Array.isArray(tuple) || tuple.length !== 4)
+      throw new ConfigurationError("Invalid native C5 frontier");
+    const values: readonly unknown[] = tuple;
+    const [height, nativeHash, isAttestation, exists] = values;
+    if (
+      typeof height !== "bigint" ||
+      height < 0n ||
+      typeof nativeHash !== "string" ||
+      !/^0x[0-9a-f]{64}$/i.test(nativeHash) ||
+      typeof isAttestation !== "boolean" ||
+      typeof exists !== "boolean"
+    )
+      throw new ConfigurationError("Invalid native C5 frontier");
     const canonical: unknown = await rpc.send("eth_getBlockByNumber", [
       `0x${block.number.toString(16)}`,
       false,
@@ -49,9 +66,12 @@ export async function c5Frontier(job: C5Job, records: readonly C5Row[]) {
     )
       throw new ConfigurationError("C5 frontier snapshot reorganized");
     return {
-      ready: height >= BigInt(source.blockNumber),
+      ready: exists && isAttestation && height >= BigInt(source.blockNumber),
       sourceBlock: source.blockNumber,
       nativeHeight: height.toString(),
+      nativeHash,
+      isAttestation,
+      exists,
       destinationBlock: block.number,
       destinationBlockHash: block.hash,
       destinationTimestamp: block.timestamp,
