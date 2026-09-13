@@ -1,3 +1,4 @@
+import { mutationCases as cases } from "./mutation-cases.mjs";
 import { cp, mkdir, mkdtemp, readFile, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -8,95 +9,6 @@ import { createHash } from "node:crypto";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const temporary = await mkdtemp(join(tmpdir(), "morrow-mutations-"));
 const target = join(temporary, "contracts");
-const cases = [
-  {
-    name: "source incoming delta",
-    file: "src/source/FundedPaymentVault.sol",
-    guard:
-      "if (SOURCE_TOKEN.balanceOf(address(this)) != balanceBefore + faceValueRaw) revert TransferDeltaMismatch();",
-    test: "test_T02_sourceTaxCannotCreateUnbackedClaim",
-  },
-  {
-    name: "source assignment cutoff",
-    file: "src/source/FundedPaymentVault.sol",
-    guard: "if (block.timestamp >= round.terms.assignBefore) revert AssignmentExpired();",
-    test: "test_T10_T11_assignmentAndCancellationBoundary",
-  },
-  {
-    name: "source cancellation cutoff",
-    file: "src/source/FundedPaymentVault.sol",
-    guard: "if (block.timestamp < round.terms.assignBefore) revert CancellationTooEarly();",
-    test: "test_T12_earlyCancellationRejected",
-  },
-  {
-    name: "buyer authority",
-    file: "src/destination/MorrowMarket.sol",
-    guard: "if (msg.sender != terms.buyer) revert NotBuyer();",
-    test: "test_T33_T36_nonBuyerCannotConsumeReservation",
-  },
-  {
-    name: "destination incoming delta",
-    file: "src/destination/MorrowMarket.sol",
-    guard:
-      "if (SETTLEMENT_TOKEN.balanceOf(address(this)) != beforeBalance + price) revert TransferDeltaMismatch();",
-    test: "test_T34_taxedFundingRollsBackMoneyStateAndConsumption",
-  },
-  {
-    name: "funding admission cutoff",
-    file: "src/destination/MorrowMarket.sol",
-    guard: "if (block.timestamp >= terms.fundBefore) revert FundingClosed();",
-    test: "test_fundingCutoffIsStrictButNeverAnExit",
-  },
-  {
-    name: "approved source emitter",
-    file: "src/libraries/AttestcoinGate.sol",
-    guard: "if (entry.address_ != expectedEmitter) revert WrongEmitter();",
-    test: "test_T24_nativeValidUnapprovedEmitterRejected",
-  },
-  {
-    name: "withdrawal credit consumption",
-    file: "src/destination/MorrowMarket.sol",
-    guard: "credits[msg.sender] = 0;",
-    test: "test_withdrawalOnlyPaysCallerAndCannotRepeat",
-  },
-  {
-    name: "claim and round binding",
-    file: "src/libraries/ProofBindingLib.sol",
-    guard:
-      "if (entry.topics[2] != bytes32(terms.claimId) || entry.topics[3] != bytes32(terms.round)) {\n            revert ClaimRoundMismatch();\n        }",
-    test: "test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash",
-  },
-  {
-    name: "destination deployment binding",
-    file: "src/destination/MarketTerms.sol",
-    guard:
-      "|| terms.destinationEvmChainId != block.chainid || terms.destinationMarket != address(this)",
-    test: "test_T32_authenticOtherDestinationCannotFundHere",
-  },
-  {
-    name: "terminal state guard",
-    file: "src/destination/MorrowMarket.sol",
-    guard: "if (sale.state != MarketTypes.State.BOUND) revert SaleNotBound();",
-    test: "test_T37_T39_lateAssignmentAllocatesExactlyOnce",
-  },
-  {
-    name: "combined outcome identity and terms binding",
-    file: "src/libraries/ProofBindingLib.sol",
-    guard:
-      "bindIdentity(entry, terms);\n        if (entry.data.length != 32) revert InvalidEventLayout();\n        if (abi.decode(entry.data, (bytes32)) != SaleTermsLib.termsHash(terms)) revert TermsHashMismatch();",
-    replacement: "if (entry.data.length != 32) revert InvalidEventLayout();",
-    test: "test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific",
-  },
-  {
-    name: "receipt-local event identity",
-    file: "src/libraries/AttestcoinGate.sol",
-    guard:
-      "eventKey = keccak256(abi.encode(proof.chainKey, proof.blockHeight, txIndex, receiptLocalLogIndex));",
-    replacement:
-      "eventKey = keccak256(abi.encode(proof.chainKey, proof.blockHeight, txIndex, uint256(0)));",
-    test: "test_T47_distinctLocalIndicesFundInForwardOrder",
-  },
-];
 
 function run(test) {
   const args = ["test", "--root", target];
