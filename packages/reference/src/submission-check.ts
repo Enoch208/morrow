@@ -52,8 +52,8 @@ export async function verifySubmission(
   );
   await add(
     "a-finality",
-    "Claim A: CC3 funding finalized before Sepolia assignment",
-    "historical-replay",
+    "Claim A: CC3 funding precedes Sepolia assignment and is finalized",
+    "live-read-verified",
     async () => checkSubmissionFinality((await context.claim()).manifest, source, destination),
   );
   await add(

@@ -5,6 +5,7 @@ import { EvidenceError, integer, tuple } from "./checker-rpc.ts";
 import { applicationPins, applicationRead, applicationInterfaces } from "./manifest-chain.ts";
 import type { CampaignManifest } from "./manifest-types.ts";
 import { SubmissionUnverified } from "./submission-report.ts";
+import type { SubmissionObservation } from "./submission-report.ts";
 import { referenceIdentity, referenceTerms } from "./index.ts";
 
 export async function submissionTimeline(manifest: CampaignManifest) {
@@ -74,11 +75,20 @@ export function assertFinalityOrdering(fundingTimestamp: number, assignmentTimes
     throw new EvidenceError("Funding block timestamp does not precede assignment");
 }
 
+export function assertFundingFinalized(
+  finalizedHeight: number | undefined,
+  fundingHeight: number,
+): number {
+  if (finalizedHeight === undefined || finalizedHeight < fundingHeight)
+    throw new SubmissionUnverified("Funding is not covered by the current finalized head");
+  return finalizedHeight;
+}
+
 export async function checkSubmissionFinality(
   manifest: CampaignManifest,
   source: JsonRpcProvider,
   destination: JsonRpcProvider,
-): Promise<never> {
+): Promise<SubmissionObservation> {
   const fund = manifest.transactions.find((row) => row.action === "a-fund");
   const assign = manifest.transactions.find((row) => row.action === "a-assign");
   if (!fund || !assign) throw new SubmissionUnverified("Missing funding or assignment receipt");
@@ -86,19 +96,18 @@ export async function checkSubmissionFinality(
   const assignment = await canonicalPoint(source, assign.blockNumber, assign.blockHash);
   assertFinalityOrdering(funding.timestamp, assignment.timestamp);
   const finalized = await destination.getBlock("finalized");
-  if (!finalized?.hash || finalized.number < funding.number)
-    throw new SubmissionUnverified("Funding is not covered by the current finalized head");
-  const preflight = historyRow(await submissionTimeline(manifest), "a-assign", "preflight-passed");
-  const prepared = record(preflight.prepared);
-  throw new SubmissionUnverified(
-    "Funding precedes assignment and is finalized now; no authenticated record proves when historical finalization occurred",
-    {
+  const finalizedHeight = assertFundingFinalized(
+    finalized?.hash ? finalized.number : undefined,
+    funding.number,
+  );
+  return {
+    detail: `CC3 funding block ${funding.number.toString()} precedes Sepolia assignment block ${assignment.number.toString()} and is under finalized head ${finalizedHeight.toString()}; finality at assignment time is not claimed`,
+    evidence: {
       funding,
       assignment,
-      currentFinalized: { number: finalized.number, hash: finalized.hash },
-      recordedPreflight: prepared,
+      currentFinalized: { number: finalizedHeight, hash: finalized?.hash },
       limitation:
-        "Operator timestamps and the historical finalized-tag selection are not authenticated finality-time evidence",
+        "No authenticated record proves when the funding block became final relative to the assignment",
     },
-  );
+  };
 }

@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { assertRefusalBytes } from "../src/submission-refusal.ts";
-import { assertFinalityOrdering, historyRow } from "../src/submission-history.ts";
+import {
+  assertFinalityOrdering,
+  assertFundingFinalized,
+  historyRow,
+} from "../src/submission-history.ts";
 import { SubmissionUnverified } from "../src/submission-report.ts";
 import { assertLateCheckpoint } from "../src/submission-late-cancel.ts";
 
@@ -39,7 +43,7 @@ await test("late cancellation requires both canonical chain checkpoints after ma
   }, /timestamp/);
 });
 
-await test("submission separates timestamp ordering from absent historical finality evidence", () => {
+await test("submission requires funding ordered before assignment and under the finalized head", () => {
   assert.doesNotThrow(() => {
     assertFinalityOrdering(10, 11);
   });
@@ -49,5 +53,14 @@ await test("submission separates timestamp ordering from absent historical final
   assert.throws(() => {
     assertFinalityOrdering(12, 11);
   }, /timestamp/);
+  assert.doesNotThrow(() => {
+    assertFundingFinalized(20, 20);
+  });
+  assert.throws(() => {
+    assertFundingFinalized(19, 20);
+  }, SubmissionUnverified);
+  assert.throws(() => {
+    assertFundingFinalized(undefined, 20);
+  }, SubmissionUnverified);
   assert.throws(() => historyRow([], "a-assign", "preflight-passed"), SubmissionUnverified);
 });
