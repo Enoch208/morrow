@@ -6,6 +6,7 @@
     "node": ">=24"
   },
   "scripts": {
+    "verify:submission": "node packages/reference/src/submission-cli.ts",
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",

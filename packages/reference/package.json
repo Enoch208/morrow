@@ -7,8 +7,10 @@
     ".": "./src/index.ts"
   },
   "scripts": {
+    "verify:submission": "node src/submission-cli.ts",
     "evidence:generate": "node src/manifest-cli.ts",
     "verify:evidence": "node src/verify-manifest-cli.ts",
+    "check:release": "node src/release-check-cli.ts",
     "test": "node --test test/*.test.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0"
