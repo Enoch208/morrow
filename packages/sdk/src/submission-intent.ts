@@ -34,8 +34,9 @@ export async function persistThenBroadcast<T extends { readonly hash: string }>(
   signedTransaction: string,
   prepare: (transactionHash: string) => Promise<void>,
   broadcast: (signedTransaction: string) => Promise<T>,
+  validateAction: (action: string) => void = requireCampaignAction,
 ): Promise<T> {
-  requireCampaignAction(action);
+  validateAction(action);
   const transaction = Transaction.from(signedTransaction);
   const hash = transaction.hash;
   if (
