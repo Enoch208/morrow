@@ -5,6 +5,7 @@ import { CanonicalSale } from "@/components/dashboard/evidence/canonical-sale";
 import { DeploymentList } from "@/components/dashboard/evidence/deployment-list";
 import { SameBytesPanel } from "@/components/dashboard/evidence/same-bytes-panel";
 import { SafetyChecks } from "@/components/dashboard/evidence/safety-checks";
+import { VerifyYourself } from "@/components/dashboard/evidence/verify-yourself";
 import { WriteSurfacePanel } from "@/components/dashboard/evidence/write-surface-panel";
 import { PageHeading } from "@/components/dashboard/page-heading";
 import { loadCampaignChecks } from "@/lib/evidence/campaign-checks";
@@ -24,6 +25,7 @@ export default function ProofRoomPage() {
         description="Every claim Morrow makes, next to the transaction, proof or live read that backs it. Nothing here is a screenshot: re-run the checks from this browser."
       />
       <div className="flex flex-col gap-10">
+        <VerifyYourself />
         {canonical && <CanonicalSale claim={canonical} />}
         <ActorDisclosure />
         <SafetyChecks checks={loadCampaignChecks()} />

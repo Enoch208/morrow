@@ -39,7 +39,7 @@ export default async function ClaimPage({ params }: PageProps<"/dashboard/claims
       </Link>
       <div className="flex flex-col gap-4">
         <ClaimCard claim={claim} />
-        {claim.fundingHash && (
+        {claim.fundingHash && !claim.complete && (
           <SellerPreflightCard
             terms={claim.terms}
             fundingHash={claim.fundingHash}
