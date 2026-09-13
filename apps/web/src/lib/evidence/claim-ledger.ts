@@ -123,14 +123,14 @@ function toMilestone(
   };
 }
 
-function latestPerLabel(milestones: readonly LedgerMilestone[]): readonly LedgerMilestone[] {
-  const latest = new Map<string, LedgerMilestone>();
+function firstPerLabel(milestones: readonly LedgerMilestone[]): readonly LedgerMilestone[] {
+  const first = new Map<string, LedgerMilestone>();
   for (const milestone of milestones) {
-    latest.set(milestone.label, milestone);
+    if (!first.has(milestone.label)) {
+      first.set(milestone.label, milestone);
+    }
   }
-  return [...latest.values()].sort((left, right) =>
-    left.observedAt.localeCompare(right.observedAt),
-  );
+  return [...first.values()].sort((left, right) => left.observedAt.localeCompare(right.observedAt));
 }
 
 function buildClaim(
@@ -161,7 +161,7 @@ function buildClaim(
     saleId,
     fundingHash: funded ? stringField(funded.fields, "transactionHash") : undefined,
     terms,
-    milestones: latestPerLabel(
+    milestones: firstPerLabel(
       owned
         .map((row) => toMilestone(row, entry.actionPrefix, owned))
         .filter((milestone): milestone is LedgerMilestone => milestone !== undefined),
