@@ -1,0 +1,42 @@
+{
+  "observedAt": "2026-09-13T06:34:24.347Z",
+  "evidenceKind": "live-read-verified",
+  "issue": "Receipt log removed metadata absent; block-query log explicitly false",
+  "blockLogs": [
+    {
+      "_type": "log",
+      "address": "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
+      "blockHash": "0x4052a47bd94d9cd4a758320f22d0e55abf4effad143ec2f7667cfdc7079dbf98",
+      "blockNumber": 5477466,
+      "data": "0x00000000000000000000000000000000000000000000000000000000008f95d0",
+      "index": 1,
+      "removed": false,
+      "topics": [
+        "0x98ee0b26bff3abf10569a438254f6453679a57aa8de5cd0eeccece9b17656067",
+        "0xf1d9e03ea44e90946e61981fd385a0acdf90104aa05c8b2f36916d0043e1435a",
+        "0xfb06988ccb954e6aca9da66c140f50a587cbca069735d18f17084ce8ab2cdb2f",
+        "0x0000000000000000000000008c48477bd205b0007d32a45ea3b7ae27745fdfbe"
+      ],
+      "transactionHash": "0x4bfeaaee1cec83f2ec7494bf652cac8921b7913721006af2993c2b68fab07795",
+      "transactionIndex": 0
+    }
+  ],
+  "receiptLogs": [
+    {
+      "_type": "log",
+      "address": "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
+      "blockHash": "0x4052a47bd94d9cd4a758320f22d0e55abf4effad143ec2f7667cfdc7079dbf98",
+      "blockNumber": 5477466,
+      "data": "0x00000000000000000000000000000000000000000000000000000000008f95d0",
+      "index": 1,
+      "topics": [
+        "0x98ee0b26bff3abf10569a438254f6453679a57aa8de5cd0eeccece9b17656067",
+        "0xf1d9e03ea44e90946e61981fd385a0acdf90104aa05c8b2f36916d0043e1435a",
+        "0xfb06988ccb954e6aca9da66c140f50a587cbca069735d18f17084ce8ab2cdb2f",
+        "0x0000000000000000000000008c48477bd205b0007d32a45ea3b7ae27745fdfbe"
+      ],
+      "transactionHash": "0x4bfeaaee1cec83f2ec7494bf652cac8921b7913721006af2993c2b68fab07795",
+      "transactionIndex": 0
+    }
+  ]
+}

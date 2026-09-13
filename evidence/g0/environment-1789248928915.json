@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-09-12T21:35:28.900Z",
+  "implementationCommit": null,
+  "checks": [
+    {
+      "name": "https://proof-gen-api.cc3-testnet.creditcoin.network",
+      "evidenceKind": "live-read-verified",
+      "result": {
+        "httpStatus": 200,
+        "body": "{\"attestedHeight\":11691530}",
+        "healthy": true
+      }
+    },
+    {
+      "name": "https://prover.cc3-testnet.creditcoin.network",
+      "evidenceKind": "live-read-verified",
+      "result": {
+        "httpStatus": 200,
+        "body": "{\"attestedHeight\":11691530}",
+        "healthy": true
+      }
+    },
+    {
+      "name": "supportedChains",
+      "evidenceKind": "live-read-verified",
+      "result": [
+        {
+          "chainKey": 3,
+          "chainId": 1,
+          "chainName": "0x457468657265756d",
+          "chainEncoding": 1
+        },
+        {
+          "chainKey": 1,
+          "chainId": 11155111,
+          "chainName": "0x5365706f6c696120657468657265756d",
+          "chainEncoding": 1
+        }
+      ]
+    },
+    {
+      "name": "destinationBlock",
+      "evidenceKind": "live-read-verified",
+      "result": {
+        "number": 5477183,
+        "hash": "0xa57eb99845154fefb8b4ba220ef295d4175b1887ea80fb9180cc5af4da3a6096",
+        "timestamp": 1789248885
+      }
+    },
+    {
+      "name": "sepoliaAttestation",
+      "evidenceKind": "live-read-verified",
+      "result": {
+        "height": 11691530,
+        "hash": "0x8da78b1f1443e7110c89851adda3f080a8c77c8f8710e1fabdb4d046d6618d7d",
+        "isAttestation": true,
+        "exists": true
+      }
+    },
+    {
+      "name": "sourceChain",
+      "evidenceKind": "blocked",
+      "error": "SOURCE_CHAIN_RPC_URL not configured locally"
+    },
+    {
+      "name": "PAYER gas readiness",
+      "evidenceKind": "blocked",
+      "error": "Error"
+    },
+    {
+      "name": "SELLER gas readiness",
+      "evidenceKind": "blocked",
+      "error": "Error"
+    },
+    {
+      "name": "BUYER gas readiness",
+      "evidenceKind": "blocked",
+      "error": "Error"
+    }
+  ]
+}

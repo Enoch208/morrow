@@ -1,0 +1,129 @@
+{
+  "generatedAt": "2026-09-13T06:00:03.824Z",
+  "evidenceKind": "live-read-verified",
+  "basis": {
+    "path": "evidence/manifests/b-1789279177757.json",
+    "sha256": "8a9f0f9a9bd4a034f5b7df3bdeface960cc09da03ad066523aed888c34eb2e52"
+  },
+  "snapshots": [
+    {
+      "chainId": "11155111",
+      "blockNumber": 11694021,
+      "blockHash": "0x119303a7bd8fea73b319847fbfb9658b2a2e4172da3420359b5b292b998daada",
+      "timestamp": 1789279164
+    },
+    {
+      "chainId": "102031",
+      "blockNumber": 5479197,
+      "blockHash": "0x313fb9478ce1b2b187c449e3244884996b285efbb2b38c85eec64f765ec88322",
+      "timestamp": 1789279170
+    }
+  ],
+  "checked": [
+    {
+      "role": "vault",
+      "method": "totalBacking",
+      "args": [],
+      "raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "blockNumber": 11694021,
+      "chainId": "11155111",
+      "value": "0"
+    },
+    {
+      "role": "sourceToken",
+      "method": "balanceOf",
+      "args": [
+        "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583"
+      ],
+      "raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "blockNumber": 11694021,
+      "chainId": "11155111",
+      "value": "0"
+    },
+    {
+      "role": "sourceToken",
+      "method": "balanceOf",
+      "args": [
+        "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c"
+      ],
+      "raw": "0x0000000000000000000000000000000000000000000000000000000254a47a80",
+      "blockNumber": 11694021,
+      "chainId": "11155111",
+      "value": "10010000000"
+    },
+    {
+      "role": "sourceToken",
+      "method": "balanceOf",
+      "args": [
+        "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE"
+      ],
+      "raw": "0x00000000000000000000000000000000000000000000000000000002540be400",
+      "blockNumber": 11694021,
+      "chainId": "11155111",
+      "value": "10000000000"
+    },
+    {
+      "role": "market",
+      "method": "totalBound",
+      "args": [],
+      "raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "blockNumber": 5479197,
+      "chainId": "102031",
+      "value": "0"
+    },
+    {
+      "role": "market",
+      "method": "totalCredits",
+      "args": [],
+      "raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "blockNumber": 5479197,
+      "chainId": "102031",
+      "value": "0"
+    },
+    {
+      "role": "market",
+      "method": "totalLiabilities",
+      "args": [],
+      "raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "blockNumber": 5479197,
+      "chainId": "102031",
+      "value": "0"
+    },
+    {
+      "role": "settlementToken",
+      "method": "balanceOf",
+      "args": [
+        "0x7c3310280083eE63e32427D11d0A7C2CAf584474"
+      ],
+      "raw": "0x0000000000000000000000000000000000000000000000000000000000000000",
+      "blockNumber": 5479197,
+      "chainId": "102031",
+      "value": "0"
+    },
+    {
+      "role": "settlementToken",
+      "method": "balanceOf",
+      "args": [
+        "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c"
+      ],
+      "raw": "0x000000000000000000000000000000000000000000000000000000022e134770",
+      "blockNumber": 5479197,
+      "chainId": "102031",
+      "value": "9362950000"
+    },
+    {
+      "role": "settlementToken",
+      "method": "balanceOf",
+      "args": [
+        "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE"
+      ],
+      "raw": "0x000000000000000000000000000000000000000000000000000000023170ca50",
+      "blockNumber": 5479197,
+      "chainId": "102031",
+      "value": "9419410000"
+    }
+  ],
+  "signingEnabled": false,
+  "fullReleaseVerified": false,
+  "limitation": "Latest-block snapshot from fresh public RPC reads, not a finalized-source or full release check"
+}

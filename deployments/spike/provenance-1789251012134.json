@@ -1,0 +1,62 @@
+{
+  "observedAt": "2026-09-12T22:10:12.133Z",
+  "evidenceKind": "live-read-verified",
+  "implementationCommit": null,
+  "commitBlocker": "Repository has no authorized commit yet",
+  "deployments": [
+    {
+      "action": "deploy-approved",
+      "chainId": "11155111",
+      "address": "0x49AB3ee671A84a0e14a0B937f69DE8d4157cb7dB",
+      "transactionHash": "0x5d7e2ac94a32f2e516129ba4d4e9b48657027c78c08f4743d157cf1594f5c01c",
+      "blockNumber": 11691727,
+      "blockHash": "0x4bff2b7e342730f3d3a5c9061e69d1f3dc431f11d3cc8a76a6adddaa4e554f1c",
+      "receiptStatus": 1,
+      "constructorArguments": [],
+      "runtimeCodeHash": "0x523fb973e9756f75d18ab8889c2016a0e01fe8a31ecdcf3dccf186375f14699a",
+      "creationBytecodeHash": "0x452c03dad6e38adc1c8c1ca7bbddebed80ad5e402d5211a9836d13de5dbac6b4",
+      "artifactSha256": "118447d86f1a5d50e52dfff4d00490f454ad089a121664a0f3a6e86491cf90a0",
+      "observationBlock": 11691740,
+      "observationBlockHash": "0xa9fc80b67e60c21d575de230e6c6afe20cab59b4fdac7945a536786731ad1a91",
+      "creationMatches": true,
+      "runtimeMatches": true
+    },
+    {
+      "action": "deploy-unapproved",
+      "chainId": "11155111",
+      "address": "0xEA8CC50b9c8E44b48Fa1bf3FBa64191cfa8bd46f",
+      "transactionHash": "0xa71bbb2bf6f88ffce8ec73838a1a895bba13fd526bda47f2f66f314fbbe16df3",
+      "blockNumber": 11691729,
+      "blockHash": "0x5faa4def885450cc208408647d30923efc095e1a9a649cc6574ed8497f67f9bb",
+      "receiptStatus": 1,
+      "constructorArguments": [],
+      "runtimeCodeHash": "0x523fb973e9756f75d18ab8889c2016a0e01fe8a31ecdcf3dccf186375f14699a",
+      "creationBytecodeHash": "0x452c03dad6e38adc1c8c1ca7bbddebed80ad5e402d5211a9836d13de5dbac6b4",
+      "artifactSha256": "118447d86f1a5d50e52dfff4d00490f454ad089a121664a0f3a6e86491cf90a0",
+      "observationBlock": 11691740,
+      "observationBlockHash": "0xa9fc80b67e60c21d575de230e6c6afe20cab59b4fdac7945a536786731ad1a91",
+      "creationMatches": true,
+      "runtimeMatches": true
+    },
+    {
+      "action": "deploy-receiver",
+      "chainId": "102031",
+      "address": "0x49AB3ee671A84a0e14a0B937f69DE8d4157cb7dB",
+      "transactionHash": "0x9b6b9290058c4167ba76615142b81f49375be68cb2a04320a7ae04ebf2481ca0",
+      "blockNumber": 5477316,
+      "blockHash": "0x4fba9a7bceaa14048b9324c8bab560c088b70753902c5b8eaa9003b7d5ebba7b",
+      "receiptStatus": 1,
+      "constructorArguments": [
+        "0x49AB3ee671A84a0e14a0B937f69DE8d4157cb7dB",
+        "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D"
+      ],
+      "runtimeCodeHash": "0xdcdbd6679db858cabc950619b76e540552951986253f8f46584379f6ff7dba93",
+      "creationBytecodeHash": "0x05c77d1506dca5785027fb9593dba469fa869bdf9d07c36fb864e3bea314a418",
+      "artifactSha256": "b880c62bbd3a40b28146492c43572008fbe00b7f3794cdc50279939970d5935d",
+      "observationBlock": 5477324,
+      "observationBlockHash": "0x64633c1c33ce6ad2218cf5402826ec65280eb41fa7ab34b40cf53dca7c886c17",
+      "creationMatches": true,
+      "runtimeMatches": true
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "observedAt": "2026-09-13T00:39:34.999Z",
+  "action": "gate-withdraw",
+  "state": "withdrawal-verified",
+  "evidenceKind": "live-read-verified",
+  "transactionHash": "0x5955161fbcc81cf395fec42ca0da51a7ea5b02e494e8600428b15e413aca977c",
+  "blockNumber": 5477921,
+  "blockHash": "0x13b74cf18f95348f3e13e2708d345f37eec951d0570c6769f2aef0b7f7d1644a",
+  "role": "BUYER",
+  "amount": "9410000",
+  "before": {
+    "bound": "18820000000",
+    "credits": "9410000",
+    "liabilities": "18829410000",
+    "balance": "18829410000",
+    "payerBalance": "981170590000",
+    "sellerBalance": "0",
+    "buyerBalance": "0",
+    "payerCredit": "0",
+    "sellerCredit": "0",
+    "buyerCredit": "9410000"
+  },
+  "after": {
+    "bound": "18820000000",
+    "credits": "0",
+    "liabilities": "18820000000",
+    "balance": "18820000000",
+    "payerBalance": "981170590000",
+    "sellerBalance": "0",
+    "buyerBalance": "9410000",
+    "payerCredit": "0",
+    "sellerCredit": "0",
+    "buyerCredit": "0"
+  }
+}

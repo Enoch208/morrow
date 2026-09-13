@@ -1,0 +1,569 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "live-read-verified",
+  "campaignId": "gate",
+  "generatedAt": "2026-09-13T05:54:32.652Z",
+  "implementationCommit": null,
+  "commitBlocker": "No repository commit exists",
+  "networks": {
+    "sourceEvmChainId": "11155111",
+    "destinationEvmChainId": "102031",
+    "attestcoinChainKey": "1"
+  },
+  "deployments": [
+    {
+      "role": "sourceToken",
+      "chainId": "11155111",
+      "address": "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9",
+      "transactionHash": "0xfaef1e5a1cb3ed0d75e73a934357b8115c3073400f376e2da8b199271202f0d0",
+      "runtimeCodeHash": "0x2ebb03f50ccc7b228f8b7eaa868e81f7edbdd47cf4dd98f1dff2655a683ef65e",
+      "constructorArguments": [
+        "Morrow Source Test Token",
+        "mSRC",
+        6,
+        "1000000000000"
+      ],
+      "artifact": {
+        "path": "deployments/custody/MorrowTestToken-48b8723d4e8c6f321cc8749cb66ab72536a31d068816c82cff252e6032e7c66a.artifact.json",
+        "sha256": "48b8723d4e8c6f321cc8749cb66ab72536a31d068816c82cff252e6032e7c66a"
+      }
+    },
+    {
+      "role": "vault",
+      "chainId": "11155111",
+      "address": "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583",
+      "transactionHash": "0x560b6a5c02b4dc9f3035739f182e6db8644022c46611774acc30c9ce4e76879e",
+      "runtimeCodeHash": "0x0d92b51fec0c1d28e34b701b0f41a56675b2fa2c52ec6097c5100660f31a4560",
+      "constructorArguments": [
+        "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9"
+      ],
+      "artifact": {
+        "path": "deployments/custody/FundedPaymentVault-9d90679be7fbad0158e10b4867c8de2fec9a3cae28d035dc35499f2f239ddeda.artifact.json",
+        "sha256": "9d90679be7fbad0158e10b4867c8de2fec9a3cae28d035dc35499f2f239ddeda"
+      }
+    },
+    {
+      "role": "settlementToken",
+      "chainId": "102031",
+      "address": "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0",
+      "transactionHash": "0x00ee8fddb42bd2375e9aaec2ee3520883f436d0429cdbca4263e9ec43cc2d75d",
+      "runtimeCodeHash": "0x2ebb03f50ccc7b228f8b7eaa868e81f7edbdd47cf4dd98f1dff2655a683ef65e",
+      "constructorArguments": [
+        "Morrow Settlement Test Token",
+        "mSET",
+        6,
+        "1000000000000"
+      ],
+      "artifact": {
+        "path": "deployments/custody/MorrowTestToken-48b8723d4e8c6f321cc8749cb66ab72536a31d068816c82cff252e6032e7c66a.artifact.json",
+        "sha256": "48b8723d4e8c6f321cc8749cb66ab72536a31d068816c82cff252e6032e7c66a"
+      }
+    },
+    {
+      "role": "market",
+      "chainId": "102031",
+      "address": "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
+      "transactionHash": "0x5b52d2df078dad2b151d2e561548ac18c865c18d950aa53a7d33fb2cff639f48",
+      "runtimeCodeHash": "0x8104de85a27582fa15cea674c7f19e19a69041586f509b982413b9dead287751",
+      "constructorArguments": [
+        "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0",
+        "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583",
+        "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9",
+        "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D",
+        50
+      ],
+      "artifact": {
+        "path": "deployments/custody/MorrowMarket-3787b0567476cd277b7663ec2c31f0415ee3899a6a6ce5abb65e83612899de19.artifact.json",
+        "sha256": "3787b0567476cd277b7663ec2c31f0415ee3899a6a6ce5abb65e83612899de19"
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "address": "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9",
+      "chainId": "11155111",
+      "decimals": 6,
+      "testToken": true
+    },
+    {
+      "address": "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0",
+      "chainId": "102031",
+      "decimals": 6,
+      "testToken": true
+    }
+  ],
+  "terms": {
+    "protocolVersion": "1",
+    "sourceEvmChainId": "11155111",
+    "sourceVault": "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583",
+    "claimId": "1",
+    "round": "1",
+    "destinationEvmChainId": "102031",
+    "destinationMarket": "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
+    "seller": "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c",
+    "buyer": "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE",
+    "sourceToken": "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9",
+    "sourceFaceValueRaw": "10000000",
+    "maturity": "1789264800",
+    "settlementToken": "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0",
+    "grossPurchasePriceRaw": "9410000",
+    "feeBps": "50",
+    "feeRecipient": "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D",
+    "fundBefore": "1789257600",
+    "assignBefore": "1789259400"
+  },
+  "identity": {
+    "encodedTerms": "0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000aa36a7000000000000000000000000ef6ee2fa664da7d3d710b272850cfaa6ac73d583000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000018e8f0000000000000000000000007c3310280083ee63e32427d11d0a7c2caf584474000000000000000000000000b9e1914c0844d9cd0188adffc10e3bd6a633d12c0000000000000000000000008c48477bd205b0007d32a45ea3b7ae27745fdfbe00000000000000000000000077b3e1ae0cad279b8ad1e7b01a89efd139e1e5e90000000000000000000000000000000000000000000000000000000000989680000000000000000000000000000000000000000000000000000000006aa603a0000000000000000000000000d48fb19fd5c2dc98f58484b38e5d54388eceadc000000000000000000000000000000000000000000000000000000000008f95d000000000000000000000000000000000000000000000000000000000000000320000000000000000000000009ddb9007583a7b9df073b65bce820f77d6e2365d000000000000000000000000000000000000000000000000000000006aa5e780000000000000000000000000000000000000000000000000000000006aa5ee88",
+    "claimKey": "0x04f3e6b6adb47364ae7d32cd74816fb6a829c1eb926b497e3e94f6b0784ad642",
+    "termsHash": "0x4cd93fe22d3296ee3dff5d8aeece4478568405f2642416f6a3401c651e5c97f6",
+    "saleId": "0xf1d9e03ea44e90946e61981fd385a0acdf90104aa05c8b2f36916d0043e1435a"
+  },
+  "transactions": [
+    {
+      "action": "approve-source",
+      "chainId": "11155111",
+      "transactionHash": "0x17a531751a3cbada80525c5c9ab7b72d2d01d23669ad8812fa8293dd24fbc890",
+      "blockNumber": 11691855,
+      "blockHash": "0x7e4f4fbd9c82c2a5b7ccb6df58a89d9f5026cee96c1edfff30c6f05df2f2f5f6",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-12T22:34:29.254Z",
+      "receipt": {
+        "path": "evidence/blobs/afbf5136e0c9d0a1780883c714e9b67785f4995855ff0f46fe54fcf3b487dffe.json",
+        "sha256": "afbf5136e0c9d0a1780883c714e9b67785f4995855ff0f46fe54fcf3b487dffe"
+      }
+    },
+    {
+      "action": "supply-buyer",
+      "chainId": "102031",
+      "transactionHash": "0x1a4974273ea9ae6441c54a0e888b630b40d05908050d656ec83ad71e33351244",
+      "blockNumber": 5477422,
+      "blockHash": "0x2ed26de0d02f2a58bf6bbfc833c54b694a73797cc2d070fad5852e0667c1d962",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-12T22:34:31.916Z",
+      "receipt": {
+        "path": "evidence/blobs/daf3dd24ac10e6a7b8282e4bc59de5725806dac7aecea83292ea3e7aa4e75bc2.json",
+        "sha256": "daf3dd24ac10e6a7b8282e4bc59de5725806dac7aecea83292ea3e7aa4e75bc2"
+      }
+    },
+    {
+      "action": "approve-settlement",
+      "chainId": "102031",
+      "transactionHash": "0xbc77aa282f9cf9e7727a03f3f253ed041c77dca49563f20b2cf2d69e5f5129ef",
+      "blockNumber": 5477423,
+      "blockHash": "0xfada0b44351730d0fac75fd3c26ae687191b4b77e83f81e467e761ca88c640d4",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-12T22:34:49.107Z",
+      "receipt": {
+        "path": "evidence/blobs/8e074a72a4e686381dac05060807bf0f3da3fcd4e770e81cfef2aa8000f7fd5d.json",
+        "sha256": "8e074a72a4e686381dac05060807bf0f3da3fcd4e770e81cfef2aa8000f7fd5d"
+      }
+    },
+    {
+      "action": "gate-create",
+      "chainId": "11155111",
+      "transactionHash": "0xca07ff5a275597579df0a7bec1e8f01822671ff009f122c2143530accbf067f4",
+      "blockNumber": 11691857,
+      "blockHash": "0xc821f748b8b7f61525ff7a213b1f7776872bd2db44a3cb90f246dea6b9f7f2b1",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-12T22:34:52.497Z",
+      "receipt": {
+        "path": "evidence/blobs/1ea9558aeca728cdfbeabf22e5d92ad4aa9c4769553afefe49cb7efc960361c5.json",
+        "sha256": "1ea9558aeca728cdfbeabf22e5d92ad4aa9c4769553afefe49cb7efc960361c5"
+      }
+    },
+    {
+      "action": "gate-reserve",
+      "chainId": "11155111",
+      "transactionHash": "0x6960905b2cfa146d12bc3d18ee9df8d93eeb8bd7a352901cb0e0ffec654c2981",
+      "blockNumber": 11691862,
+      "blockHash": "0x92b434f69db510b1f5a877dce46e3aa96eaa5c2700fca81468602be969d65b04",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-12T22:35:51.937Z",
+      "receipt": {
+        "path": "evidence/blobs/2e853bfaae80a592b82d388132b0e4bd5fac2af39ffcd536d9726ebec18d13e8.json",
+        "sha256": "2e853bfaae80a592b82d388132b0e4bd5fac2af39ffcd536d9726ebec18d13e8"
+      }
+    },
+    {
+      "action": "gate-fund",
+      "chainId": "102031",
+      "transactionHash": "0x4bfeaaee1cec83f2ec7494bf652cac8921b7913721006af2993c2b68fab07795",
+      "blockNumber": 5477466,
+      "blockHash": "0x4052a47bd94d9cd4a758320f22d0e55abf4effad143ec2f7667cfdc7079dbf98",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-12T22:45:32.504Z",
+      "receipt": {
+        "path": "evidence/blobs/b9152a026782d9ddaa431d3399176fb5c7f325ff7f78bf4802e56a6cbd6dc973.json",
+        "sha256": "b9152a026782d9ddaa431d3399176fb5c7f325ff7f78bf4802e56a6cbd6dc973"
+      }
+    },
+    {
+      "action": "gate-cancel",
+      "chainId": "11155111",
+      "transactionHash": "0xd20d492700c17c96dff46da99477775e7c337f023333361abfeaf38f05d782e3",
+      "blockNumber": 11692419,
+      "blockHash": "0xb4acaaa6867e283fd36833eebd6f6f845ff55f49ef47937c16ff7b532c0d44de",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-13T00:30:28.023Z",
+      "receipt": {
+        "path": "evidence/blobs/9a391538539ae6b7162132158153992b46e2378786c681fcdfe1ab9ccde9481b.json",
+        "sha256": "9a391538539ae6b7162132158153992b46e2378786c681fcdfe1ab9ccde9481b"
+      }
+    },
+    {
+      "action": "gate-refund",
+      "chainId": "102031",
+      "transactionHash": "0x33d03c4e920993c9ebe457346f03c4f1b66155b9a081189cd1212de9bbf6cfe6",
+      "blockNumber": 5477919,
+      "blockHash": "0x6dac65eacc884c504af3f2a2ae35c55ce3c94fbc593e8fb9da93d3017bb61e5d",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-13T00:39:03.979Z",
+      "receipt": {
+        "path": "evidence/blobs/33fd7eb0ba023423357929ea7df0759e4b28ff360d5a636c4a0d2aa1fd3d7961.json",
+        "sha256": "33fd7eb0ba023423357929ea7df0759e4b28ff360d5a636c4a0d2aa1fd3d7961"
+      }
+    },
+    {
+      "action": "gate-withdraw",
+      "chainId": "102031",
+      "transactionHash": "0x5955161fbcc81cf395fec42ca0da51a7ea5b02e494e8600428b15e413aca977c",
+      "blockNumber": 5477921,
+      "blockHash": "0x13b74cf18f95348f3e13e2708d345f37eec951d0570c6769f2aef0b7f7d1644a",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-13T00:39:33.276Z",
+      "receipt": {
+        "path": "evidence/blobs/db5e48f6b00f018d451f44f3857395e528e704c06f5afc386d8a1c2551bea9c3.json",
+        "sha256": "db5e48f6b00f018d451f44f3857395e528e704c06f5afc386d8a1c2551bea9c3"
+      }
+    },
+    {
+      "action": "gate-redeem",
+      "chainId": "11155111",
+      "transactionHash": "0xc23aeb5841c3648f4b8a595455b5ea430e1062f362733a76b9b003359a99a8a5",
+      "blockNumber": 11693991,
+      "blockHash": "0xa5f64c65bb5a0950dde59c3f4cf43b724a24612aa69d097a3928760c41e7bc36",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-13T05:53:14.878Z",
+      "receipt": {
+        "path": "evidence/blobs/9cdfd92945945aea3c6de0c4f92978d89726ab7def520775996ac1114fff4fbc.json",
+        "sha256": "9cdfd92945945aea3c6de0c4f92978d89726ab7def520775996ac1114fff4fbc"
+      }
+    }
+  ],
+  "proofs": [
+    {
+      "sourceTransactionHash": "0x6960905b2cfa146d12bc3d18ee9df8d93eeb8bd7a352901cb0e0ffec654c2981",
+      "sourceBlock": 11691862,
+      "receiptLocalLogIndex": 0,
+      "nativeTransactionIndex": "1",
+      "eventKey": "0xfb06988ccb954e6aca9da66c140f50a587cbca069735d18f17084ce8ab2cdb2f",
+      "nativeVerified": true,
+      "observedAt": "2026-09-12T22:45:17.309Z",
+      "artifact": {
+        "path": "evidence/campaign/gate-reserve-1789253116526-96c1fab8936efbb35aa8281c2865decb1c11609ce906490fc250c4975efee348.json",
+        "sha256": "96c1fab8936efbb35aa8281c2865decb1c11609ce906490fc250c4975efee348"
+      },
+      "decodedEvent": {
+        "name": "SaleReserved",
+        "saleId": "0xf1d9e03ea44e90946e61981fd385a0acdf90104aa05c8b2f36916d0043e1435a",
+        "claimId": "1",
+        "round": "1",
+        "termsHash": "0x4cd93fe22d3296ee3dff5d8aeece4478568405f2642416f6a3401c651e5c97f6"
+      }
+    },
+    {
+      "sourceTransactionHash": "0xd20d492700c17c96dff46da99477775e7c337f023333361abfeaf38f05d782e3",
+      "sourceBlock": 11692419,
+      "receiptLocalLogIndex": 0,
+      "nativeTransactionIndex": "9",
+      "eventKey": "0x879fbe097a1e2a11864c43ad3fd3abbc101313358ef1d50c2c7b6b3306617c65",
+      "nativeVerified": true,
+      "observedAt": "2026-09-13T00:38:42.421Z",
+      "artifact": {
+        "path": "evidence/campaign/gate-cancel-1789259921957-956a062649684aea33f2796024d4c72718b2cc430ee387f85d70318c7cb77573.json",
+        "sha256": "956a062649684aea33f2796024d4c72718b2cc430ee387f85d70318c7cb77573"
+      },
+      "decodedEvent": {
+        "name": "SaleCancelled",
+        "saleId": "0xf1d9e03ea44e90946e61981fd385a0acdf90104aa05c8b2f36916d0043e1435a",
+        "claimId": "1",
+        "round": "1",
+        "termsHash": "0x4cd93fe22d3296ee3dff5d8aeece4478568405f2642416f6a3401c651e5c97f6"
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "chainId": "11155111",
+      "blockNumber": 11693996,
+      "blockHash": "0xabb78b978289cc0b823a8340d5f32d63b008c2dc2e48faddf411d9470339e4f0",
+      "timestamp": 1789278864,
+      "reads": [
+        {
+          "role": "vault",
+          "method": "getClaim",
+          "args": [
+            "1"
+          ],
+          "raw": "0x00000000000000000000000077b3e1ae0cad279b8ad1e7b01a89efd139e1e5e90000000000000000000000000000000000000000000000000000000000989680000000000000000000000000000000000000000000000000000000006aa603a0000000000000000000000000b9e1914c0844d9cd0188adffc10e3bd6a633d12c000000000000000000000000b9e1914c0844d9cd0188adffc10e3bd6a633d12c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "role": "vault",
+          "method": "getRound",
+          "args": [
+            "1",
+            "1"
+          ],
+          "raw": "0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000aa36a7000000000000000000000000ef6ee2fa664da7d3d710b272850cfaa6ac73d583000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000018e8f0000000000000000000000007c3310280083ee63e32427d11d0a7c2caf584474000000000000000000000000b9e1914c0844d9cd0188adffc10e3bd6a633d12c0000000000000000000000008c48477bd205b0007d32a45ea3b7ae27745fdfbe00000000000000000000000077b3e1ae0cad279b8ad1e7b01a89efd139e1e5e90000000000000000000000000000000000000000000000000000000000989680000000000000000000000000000000000000000000000000000000006aa603a0000000000000000000000000d48fb19fd5c2dc98f58484b38e5d54388eceadc000000000000000000000000000000000000000000000000000000000008f95d000000000000000000000000000000000000000000000000000000000000000320000000000000000000000009ddb9007583a7b9df073b65bce820f77d6e2365d000000000000000000000000000000000000000000000000000000006aa5e780000000000000000000000000000000000000000000000000000000006aa5ee880000000000000000000000000000000000000000000000000000000000000003f1d9e03ea44e90946e61981fd385a0acdf90104aa05c8b2f36916d0043e1435a4cd93fe22d3296ee3dff5d8aeece4478568405f2642416f6a3401c651e5c97f6"
+        },
+        {
+          "role": "vault",
+          "method": "totalBacking",
+          "args": [],
+          "raw": "0x00000000000000000000000000000000000000000000000000000004a817c800"
+        },
+        {
+          "role": "sourceToken",
+          "method": "balanceOf",
+          "args": [
+            "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583"
+          ],
+          "raw": "0x00000000000000000000000000000000000000000000000000000004a817c800"
+        },
+        {
+          "role": "sourceToken",
+          "method": "decimals",
+          "args": [],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000000006"
+        },
+        {
+          "role": "sourceToken",
+          "method": "balanceOf",
+          "args": [
+            "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c"
+          ],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000989680"
+        },
+        {
+          "role": "sourceToken",
+          "method": "balanceOf",
+          "args": [
+            "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE"
+          ],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "role": "sourceToken",
+          "method": "balanceOf",
+          "args": [
+            "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D"
+          ],
+          "raw": "0x000000000000000000000000000000000000000000000000000000e42bf4b180"
+        }
+      ]
+    },
+    {
+      "chainId": "102031",
+      "blockNumber": 5479177,
+      "blockHash": "0x6c9b492ae8a53a0fb76e5e6d5be96b66213151d1a2fa26f9a66c9b12c67455dc",
+      "timestamp": 1789278870,
+      "reads": [
+        {
+          "role": "market",
+          "method": "getSale",
+          "args": [
+            "0xf1d9e03ea44e90946e61981fd385a0acdf90104aa05c8b2f36916d0043e1435a"
+          ],
+          "raw": "0x00000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000aa36a7000000000000000000000000ef6ee2fa664da7d3d710b272850cfaa6ac73d583000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000018e8f0000000000000000000000007c3310280083ee63e32427d11d0a7c2caf584474000000000000000000000000b9e1914c0844d9cd0188adffc10e3bd6a633d12c0000000000000000000000008c48477bd205b0007d32a45ea3b7ae27745fdfbe00000000000000000000000077b3e1ae0cad279b8ad1e7b01a89efd139e1e5e90000000000000000000000000000000000000000000000000000000000989680000000000000000000000000000000000000000000000000000000006aa603a0000000000000000000000000d48fb19fd5c2dc98f58484b38e5d54388eceadc000000000000000000000000000000000000000000000000000000000008f95d000000000000000000000000000000000000000000000000000000000000000320000000000000000000000009ddb9007583a7b9df073b65bce820f77d6e2365d000000000000000000000000000000000000000000000000000000006aa5e780000000000000000000000000000000000000000000000000000000006aa5ee880000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "market",
+          "method": "totalBound",
+          "args": [],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000230e13480"
+        },
+        {
+          "role": "market",
+          "method": "totalCredits",
+          "args": [],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "role": "market",
+          "method": "totalLiabilities",
+          "args": [],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000230e13480"
+        },
+        {
+          "role": "settlementToken",
+          "method": "balanceOf",
+          "args": [
+            "0x7c3310280083eE63e32427D11d0A7C2CAf584474"
+          ],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000230e13480"
+        },
+        {
+          "role": "settlementToken",
+          "method": "decimals",
+          "args": [],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000000006"
+        },
+        {
+          "role": "settlementToken",
+          "method": "balanceOf",
+          "args": [
+            "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c"
+          ],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "role": "market",
+          "method": "credits",
+          "args": [
+            "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c"
+          ],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "role": "settlementToken",
+          "method": "balanceOf",
+          "args": [
+            "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE"
+          ],
+          "raw": "0x000000000000000000000000000000000000000000000000000000023170ca50"
+        },
+        {
+          "role": "market",
+          "method": "credits",
+          "args": [
+            "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE"
+          ],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "role": "settlementToken",
+          "method": "balanceOf",
+          "args": [
+            "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D"
+          ],
+          "raw": "0x000000000000000000000000000000000000000000000000000000e472531130"
+        },
+        {
+          "role": "market",
+          "method": "credits",
+          "args": [
+            "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D"
+          ],
+          "raw": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ]
+    }
+  ],
+  "timeline": {
+    "path": "evidence/blobs/71dcc6f0a0ef1dfd916f5397921adeef8a42e871c37ad76607523784572a2d89.json",
+    "sha256": "71dcc6f0a0ef1dfd916f5397921adeef8a42e871c37ad76607523784572a2d89"
+  },
+  "stateHistory": [
+    {
+      "path": "evidence/blobs/db55031827b27dad434fc9e4b3e34b50b9b6aabe3243e54bf760bf39b6fb7766.json",
+      "sha256": "db55031827b27dad434fc9e4b3e34b50b9b6aabe3243e54bf760bf39b6fb7766"
+    },
+    {
+      "path": "evidence/blobs/ddf1da7e41c71692f9929eb4eb603a487178c6d78cb857096733ea7e558b614b.json",
+      "sha256": "ddf1da7e41c71692f9929eb4eb603a487178c6d78cb857096733ea7e558b614b"
+    },
+    {
+      "path": "evidence/blobs/6d1799e398abb34e796072a6de6641e27be7970e2692451a476f3475c575892e.json",
+      "sha256": "6d1799e398abb34e796072a6de6641e27be7970e2692451a476f3475c575892e"
+    },
+    {
+      "path": "evidence/blobs/6dff02aa849124c3689db08a21b441528d17098856e5941bb2046d0039b50aab.json",
+      "sha256": "6dff02aa849124c3689db08a21b441528d17098856e5941bb2046d0039b50aab"
+    },
+    {
+      "path": "evidence/blobs/7ca919f947d73377682861cb671b7bfcc56f3392761eced4d1d4863bb89dfee3.json",
+      "sha256": "7ca919f947d73377682861cb671b7bfcc56f3392761eced4d1d4863bb89dfee3"
+    },
+    {
+      "path": "evidence/blobs/b34db54380bf26ab2615b84dacb3611980bc9d873af795fff564ba603756c14f.json",
+      "sha256": "b34db54380bf26ab2615b84dacb3611980bc9d873af795fff564ba603756c14f"
+    },
+    {
+      "path": "evidence/blobs/636517f21e9c499b04a0ce0866b5788d996763f3d762e5f9e4790d3cce4b3fb7.json",
+      "sha256": "636517f21e9c499b04a0ce0866b5788d996763f3d762e5f9e4790d3cce4b3fb7"
+    }
+  ],
+  "withdrawals": [
+    {
+      "action": "gate-withdraw",
+      "chainId": "102031",
+      "transactionHash": "0x5955161fbcc81cf395fec42ca0da51a7ea5b02e494e8600428b15e413aca977c",
+      "blockNumber": 5477921,
+      "blockHash": "0x13b74cf18f95348f3e13e2708d345f37eec951d0570c6769f2aef0b7f7d1644a",
+      "receiptStatus": 1,
+      "observedAt": "2026-09-13T00:39:33.276Z",
+      "receipt": {
+        "path": "evidence/blobs/db5e48f6b00f018d451f44f3857395e528e704c06f5afc386d8a1c2551bea9c3.json",
+        "sha256": "db5e48f6b00f018d451f44f3857395e528e704c06f5afc386d8a1c2551bea9c3"
+      }
+    }
+  ],
+  "phaseTimings": [
+    {
+      "action": "gate-reserve-wait",
+      "observedAt": "2026-09-12T22:44:59.540Z",
+      "inclusionToObservedMs": 551540,
+      "proofConstructionMs": null
+    },
+    {
+      "action": "gate-reserve-proof",
+      "observedAt": "2026-09-12T22:45:17.309Z",
+      "inclusionToObservedMs": null,
+      "proofConstructionMs": 821
+    },
+    {
+      "action": "gate-cancel-proof",
+      "observedAt": "2026-09-13T00:38:42.421Z",
+      "inclusionToObservedMs": null,
+      "proofConstructionMs": 1662
+    }
+  ],
+  "failures": [
+    {
+      "action": "gate-refund",
+      "observedAt": "2026-09-13T00:30:50.129Z",
+      "error": "Error"
+    },
+    {
+      "action": "gate-refund",
+      "observedAt": "2026-09-13T00:31:24.768Z",
+      "error": "Error"
+    },
+    {
+      "action": "gate-refund",
+      "observedAt": "2026-09-13T00:32:29.281Z",
+      "error": "Error"
+    },
+    {
+      "action": "gate-refund",
+      "observedAt": "2026-09-13T00:34:33.735Z",
+      "error": "Error"
+    }
+  ],
+  "expectedOutcome": "cancelled-refunded-and-redeemed",
+  "actualOutcome": {
+    "sourceRoundState": 3,
+    "destinationState": 3,
+    "redeemed": true
+  },
+  "independentChecker": {
+    "path": "evidence/independent/funding-4bfeaaee1cec83f2ec7494bf652cac8921b7913721006af2993c2b68fab07795-1789253374871.json",
+    "sha256": "2d117de276e5692c4b59ca0a7c7368bd94a5914556233b7029d89dbf2ebf9562"
+  },
+  "unresolvedFacts": [
+    "Full pinned-release verification is incomplete",
+    "Historical funding checks do not establish current ownership",
+    "Original bounded reference model unavailable",
+    "No repository commit exists"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-09-12T23:01:04.180Z",
+  "action": "assigned-cancel-refusal",
+  "state": "rejection-verified",
+  "evidenceKind": "live-read-verified",
+  "kind": "vault",
+  "calldata": "0x6a4fe51100000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001",
+  "blockNumber": 11691986,
+  "blockHash": "0x3bd9bee52144207b9b48bc2f90cc3e9ec0d001f5bea48c68cdbd1652f644ebde",
+  "revertData": "0x486dfbe0",
+  "actualError": "RoundMismatch",
+  "mined": false
+}
