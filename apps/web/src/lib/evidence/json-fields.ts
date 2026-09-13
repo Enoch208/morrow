@@ -27,3 +27,14 @@ export function recordField(record: JsonRecord, key: string): JsonRecord | undef
 export function isHex(value: string | undefined): value is `0x${string}` {
   return value !== undefined && /^0x[0-9a-fA-F]*$/.test(value);
 }
+
+export function fieldAt(record: JsonRecord, path: readonly string[]): unknown {
+  let current: unknown = record;
+  for (const key of path) {
+    if (!isRecord(current)) {
+      return undefined;
+    }
+    current = current[key];
+  }
+  return current;
+}

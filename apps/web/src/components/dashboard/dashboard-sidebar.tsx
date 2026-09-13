@@ -40,7 +40,7 @@ export function DashboardSidebar({ claims }: { claims: readonly LedgerClaim[] })
           }))}
         />
         <SidebarSection
-          label="Evidence"
+          label="Proof Room"
           href={dashboardRoutes.evidence}
           icon={CheckmarkBadge01Icon}
           items={[]}

@@ -7,6 +7,7 @@ import { addressUrl } from "@/lib/explorers";
 import { shortHex } from "@/lib/format/display";
 import { formatUnits } from "@/lib/format/token-units";
 import { errorMessage } from "@/lib/wallet/eip1193";
+import { actorRoleCopy } from "../actor-roles";
 import { useLiveChain } from "../live/live-chain-provider";
 
 type CreditsByRole =
@@ -17,12 +18,6 @@ type CreditsByRole =
       readonly values: Readonly<Record<ActorRole, bigint>>;
     }
   | { readonly status: "unverifiable"; readonly reason: string };
-
-const roleCopy: Readonly<Record<ActorRole, { name: string; duty: string }>> = {
-  payer: { name: "Payer / Treasury", duty: "Funds claims, receives the protocol fee" },
-  seller: { name: "Seller / Recipient", duty: "Reserves and assigns, receives seller net" },
-  buyer: { name: "Liquidity buyer", duty: "Funds escrow, receives refunds and redemptions" },
-};
 
 const roles = Object.keys(actors) as ActorRole[];
 
@@ -74,8 +69,8 @@ export function ActorCredits() {
             className="flex flex-col gap-2 py-4 first:pt-0 last:pb-0 md:flex-row md:items-center md:justify-between"
           >
             <div className="flex flex-col gap-0.5">
-              <span className="text-sm text-white">{roleCopy[role].name}</span>
-              <span className="text-[11px] text-neutral-500">{roleCopy[role].duty}</span>
+              <span className="text-sm text-white">{actorRoleCopy[role].name}</span>
+              <span className="text-[11px] text-neutral-500">{actorRoleCopy[role].duty}</span>
             </div>
             <div className="flex items-center gap-6">
               <a
