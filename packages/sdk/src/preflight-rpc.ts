@@ -2,10 +2,16 @@ import { keccak256 } from "ethers";
 import type { JsonRpcProvider } from "ethers";
 import type { SaleTerms } from "@morrow/protocol";
 import type { PreflightReaders } from "./preflight.ts";
-import { campaignRead, decodedInteger, verifyCampaignContract } from "./campaign-chain.ts";
-import { decodedClaim, decodedHash, decodedTerms, decodedTuple } from "./decoded-state.ts";
+import { campaignRead, verifyCampaignContract } from "./contract-reads.ts";
+import {
+  decodedClaim,
+  decodedHash,
+  decodedInteger,
+  decodedTerms,
+  decodedTuple,
+} from "./decoded-state.ts";
 import { saleIdentity } from "./canonical.ts";
-import { ConfigurationError } from "./environment.ts";
+import { ConfigurationError } from "./errors.ts";
 
 export function livePreflightReaders(
   source: JsonRpcProvider,
@@ -30,6 +36,8 @@ export function livePreflightReaders(
       const claim = decodedClaim(claimRead.decoded[0], terms.claimId);
       const round = decodedTuple(roundRead.decoded[0], 4);
       const roundTerms = decodedTerms(round[0]);
+      if ((await source.getBlock(block.number))?.hash !== block.hash)
+        throw new ConfigurationError("Source snapshot block is not canonical");
       return {
         chainId: network.chainId,
         blockNumber: block.number,
@@ -105,6 +113,8 @@ export function livePreflightReaders(
         receipt.from === terms.buyer &&
         receipt.to === terms.destinationMarket;
       const sale = decodedTuple(saleRead.decoded[0], 2);
+      if ((await destination.getBlock(block.number))?.hash !== block.hash)
+        throw new ConfigurationError("Destination snapshot block is not canonical");
       return {
         chainId: network.chainId,
         blockNumber: block.number,

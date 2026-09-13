@@ -1,8 +1,12 @@
 import { Result, getAddress, isAddress } from "ethers";
 import type { Address, Claim, SaleTerms } from "@morrow/protocol";
 import { saleTermsFields } from "@morrow/protocol";
-import { ConfigurationError } from "./environment.ts";
-import { decodedInteger } from "./campaign-chain.ts";
+import { ConfigurationError } from "./errors.ts";
+
+export function decodedInteger(value: unknown): bigint {
+  if (typeof value !== "bigint") throw new ConfigurationError("Expected decoded integer");
+  return value;
+}
 
 export function decodedAddress(value: unknown): Address {
   if (typeof value !== "string" || !isAddress(value))

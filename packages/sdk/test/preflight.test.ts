@@ -4,6 +4,7 @@ import { campaignContracts, campaignTerms, campaignActors } from "../src/campaig
 import { saleIdentity } from "../src/canonical.ts";
 import { prepareAssignment } from "../src/preflight.ts";
 import type { SourcePreflightRead, DestinationPreflightRead } from "../src/preflight.ts";
+import { contractArtifact } from "../src/artifact.ts";
 
 const terms = campaignTerms("a", 2n);
 const now = 1789255000n;
@@ -67,6 +68,14 @@ await test("seller preflight prepares exact round/hash only after repeated live 
   assert.equal(sourceReads, 2);
   assert.equal(result.to, terms.sourceVault);
   assert.equal(result.sellerNetRaw, 9362950000n);
+  assert.equal(
+    result.data,
+    contractArtifact("FundedPaymentVault").abi.encodeFunctionData("assignSale", [
+      terms.claimId,
+      terms.round,
+      saleIdentity(terms).termsHash,
+    ]),
+  );
   assert.deepEqual(
     await prepareAssignment(terms, terms.seller, 11155111n, readers(), () => now),
     result,
@@ -91,6 +100,21 @@ await test("T53 destination empty, unfinalized or reverted funding blocks signat
       ),
     );
   }
+});
+
+await test("T53 finality retry is distinct from a mismatched funding receipt", async () => {
+  const prepare = (fundingMatches: boolean) =>
+    prepareAssignment(
+      terms,
+      terms.seller,
+      11155111n,
+      readers(source, { ...destination, fundingBlockNumber: 21, fundingMatches }),
+      () => now,
+    );
+  await assert.rejects(prepare(true), { message: "Funding transaction is unfinalized" });
+  await assert.rejects(prepare(false), {
+    message: "Funding transaction is missing, reverted, unfinalized or mismatched",
+  });
 });
 
 await test("T54 mismatched price, buyer, runtime or insufficient backing fails closed", async () => {
@@ -140,5 +164,25 @@ await test("T54 source cancellation during preflight and RPC failure cannot prep
       },
       () => now,
     ),
+  );
+});
+
+await test("T54 destination evidence cannot become stale during the final source read", async () => {
+  let reads = 0;
+  await assert.rejects(
+    prepareAssignment(
+      terms,
+      terms.seller,
+      11155111n,
+      {
+        source: () => {
+          reads++;
+          return Promise.resolve(reads === 1 ? source : { ...source, timestamp: now + 121n });
+        },
+        destination: () => Promise.resolve(destination),
+      },
+      () => (reads < 2 ? now : now + 121n),
+    ),
+    /Stale or inconsistent chain timestamp/,
   );
 });

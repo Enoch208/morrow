@@ -1,8 +1,8 @@
 import type { SaleIdentity, SaleTerms } from "@morrow/protocol";
 import { campaignContracts } from "./campaign-config.ts";
 import { encodeTerms, quoteEconomics, saleIdentity } from "./canonical.ts";
-import { contractArtifact } from "./artifact.ts";
-import { ConfigurationError } from "./environment.ts";
+import { contractInterfaces } from "./contract-reads.ts";
+import { ConfigurationError } from "./errors.ts";
 
 interface BlockRead {
   readonly chainId: bigint;
@@ -121,12 +121,13 @@ export async function prepareAssignment(
   if (
     !destination.finalized ||
     destination.fundingStatus !== 1 ||
-    destination.fundingBlockNumber > destination.blockNumber ||
     !destination.fundingMatches
   )
     throw new ConfigurationError(
       "Funding transaction is missing, reverted, unfinalized or mismatched",
     );
+  if (destination.fundingBlockNumber > destination.blockNumber)
+    throw new ConfigurationError("Funding transaction is unfinalized");
   if (
     destination.chainId !== 102031n ||
     destination.marketCodeHash !== campaignContracts.market.codeHash ||
@@ -142,7 +143,9 @@ export async function prepareAssignment(
   )
     throw new ConfigurationError("Destination liabilities are not covered");
   const sourceAfter = await readers.source();
-  validateSource(sourceAfter, terms, clock());
+  const signingTime = clock();
+  validateSource(sourceAfter, terms, signingTime);
+  fresh(destination, signingTime);
   if (
     sourceAfter.blockNumber < sourceBefore.blockNumber ||
     (sourceAfter.blockNumber === sourceBefore.blockNumber &&
@@ -154,7 +157,7 @@ export async function prepareAssignment(
   return {
     to: terms.sourceVault,
     chainId: 11155111n,
-    data: contractArtifact("FundedPaymentVault").abi.encodeFunctionData("assignSale", [
+    data: contractInterfaces.vault.encodeFunctionData("assignSale", [
       terms.claimId,
       terms.round,
       identity.termsHash,

@@ -1,5 +1,5 @@
 import type { SaleTerms } from "@morrow/protocol";
-import { ConfigurationError } from "./environment.ts";
+import { ConfigurationError } from "./errors.ts";
 
 export const campaignActors = {
   PAYER: "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D",

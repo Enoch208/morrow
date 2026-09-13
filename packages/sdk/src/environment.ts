@@ -2,6 +2,9 @@ import { existsSync, readFileSync } from "node:fs";
 import { parseEnv } from "node:util";
 import { fileURLToPath } from "node:url";
 import { FetchRequest, JsonRpcProvider, Wallet } from "ethers";
+import { ConfigurationError } from "./errors.ts";
+
+export { ConfigurationError } from "./errors.ts";
 
 export const repositoryRoot = fileURLToPath(new URL("../../../", import.meta.url));
 export const cc3Rpc = "https://rpc.cc3-testnet.creditcoin.network";
@@ -9,8 +12,6 @@ export const proverEndpoints = [
   "https://prover.cc3-testnet.creditcoin.network",
   "https://proof-gen-api.cc3-testnet.creditcoin.network",
 ] as const;
-
-export class ConfigurationError extends Error {}
 
 export function localConfiguration(): Record<string, string> {
   const path = `${repositoryRoot}.env`;
@@ -25,7 +26,7 @@ export function localConfiguration(): Record<string, string> {
 export function provider(url: string): JsonRpcProvider {
   const request = new FetchRequest(url);
   request.timeout = 12_000;
-  return new JsonRpcProvider(request, undefined, { batchMaxCount: 1 });
+  return new JsonRpcProvider(request, undefined, { batchMaxCount: 1, cacheTimeout: -1 });
 }
 
 export async function requireTestnet(rpc: JsonRpcProvider, expectedChain: bigint): Promise<void> {
