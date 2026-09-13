@@ -1,6 +1,7 @@
 import type { LedgerMilestone } from "@/lib/evidence/claim-ledger";
 import { chains, transactionUrl } from "@/lib/explorers";
 import { shortHex, utcDay, utcTime } from "@/lib/format/display";
+import { AttestedChip } from "../attestation/attested-chip";
 
 export function ClaimTimeline({ milestones }: { milestones: readonly LedgerMilestone[] }) {
   return (
@@ -28,6 +29,7 @@ export function ClaimTimeline({ milestones }: { milestones: readonly LedgerMiles
               <span className="text-neutral-600">{milestone.evidenceKind}</span>
             )}
           </div>
+          {milestone.sourceBlock !== undefined && <AttestedChip height={milestone.sourceBlock} />}
         </li>
       ))}
     </ol>

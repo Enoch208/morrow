@@ -5,6 +5,10 @@ export const deployments = {
   market: "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
 } as const;
 
+export const attestcoinChainKeys = {
+  sepolia: 1n,
+} as const;
+
 export const actors = {
   payer: "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D",
   seller: "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c",

@@ -1,7 +1,7 @@
 import type { EvidenceLabel, Hash, SaleTerms } from "@morrow/protocol";
 import type { ChainKey } from "@/lib/explorers";
 import { findRow, loadCampaignLog, type CampaignRow } from "./campaign-log";
-import { isHex, recordField, stringField } from "./json-fields";
+import { isHex, numberField, recordField, stringField } from "./json-fields";
 import { milestoneLabel } from "./milestone-labels";
 import { parseSaleTerms } from "./sale-terms";
 
@@ -19,6 +19,7 @@ export interface LedgerMilestone {
   readonly observedAt: string;
   readonly chain: ChainKey | undefined;
   readonly transactionHash: string | undefined;
+  readonly sourceBlock: number | undefined;
   readonly evidenceKind: EvidenceLabel;
 }
 
@@ -45,7 +46,21 @@ function rowsFor(rows: readonly CampaignRow[], prefix: CampaignPrefix): readonly
     : owned;
 }
 
-function toMilestone(row: CampaignRow, prefix: CampaignPrefix): LedgerMilestone | undefined {
+function sourceBlockFor(row: CampaignRow, owned: readonly CampaignRow[]): number | undefined {
+  const direct = numberField(row.fields, "blockNumber");
+  if (direct !== undefined) {
+    return direct;
+  }
+  const mined = findRow(owned, row.action, "mined");
+  const receipt = mined ? recordField(mined.fields, "receipt") : undefined;
+  return receipt ? numberField(receipt, "blockNumber") : undefined;
+}
+
+function toMilestone(
+  row: CampaignRow,
+  prefix: CampaignPrefix,
+  owned: readonly CampaignRow[],
+): LedgerMilestone | undefined {
   const suffix = row.action.startsWith(`${prefix}-`)
     ? row.action.slice(prefix.length + 1)
     : row.action;
@@ -59,6 +74,7 @@ function toMilestone(row: CampaignRow, prefix: CampaignPrefix): LedgerMilestone 
     observedAt: row.observedAt,
     chain: label.chain,
     transactionHash: stringField(row.fields, "transactionHash"),
+    sourceBlock: label.chain === "sepolia" ? sourceBlockFor(row, owned) : undefined,
     evidenceKind: row.evidenceKind,
   };
 }
@@ -87,7 +103,7 @@ function buildClaim(
   }
   const milestones = latestPerLabel(
     owned
-      .map((row) => toMilestone(row, entry.prefix))
+      .map((row) => toMilestone(row, entry.prefix, owned))
       .filter((milestone): milestone is LedgerMilestone => milestone !== undefined),
   );
   const outcomeAction = entry.outcome === "assignment" ? "settle" : "refund";

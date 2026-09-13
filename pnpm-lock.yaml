@@ -17,6 +17,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@gluwa/usc-sdk':
+        specifier: 0.18.0
+        version: 0.18.0
       '@hugeicons/core-free-icons':
         specifier: 4.3.2
         version: 4.3.2
