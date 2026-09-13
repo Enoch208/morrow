@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "implementationCommit": "579bc0a1ebcd1905b6472dc2b5e3b554d497a40b",
+  "campaignManifests": [
+    {
+      "path": "evidence/manifests/gate-1789279209011.json",
+      "sha256": "9e4a6782a036e096ad5a595c1a2b8ba4804c8c3ae1a7d9570f2dba72face1971"
+    },
+    {
+      "path": "evidence/manifests/a-1789279123015.json",
+      "sha256": "1161a4e61affc86afa69ce6fa9ba6520c583d90ef2e32b61c1757ce6e9e66f0c"
+    },
+    {
+      "path": "evidence/manifests/b-1789279177757.json",
+      "sha256": "8a9f0f9a9bd4a034f5b7df3bdeface960cc09da03ad066523aed888c34eb2e52"
+    }
+  ]
+}
