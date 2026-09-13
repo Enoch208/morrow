@@ -1,0 +1,22 @@
+{
+  "name": "@morrow/worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "campaign": "node src/campaign-cli.ts"
+  },
+  "dependencies": {
+    "@morrow/sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@morrow/eslint-config": "workspace:*",
+    "@morrow/typescript-config": "workspace:*",
+    "@types/node": "24.13.4",
+    "eslint": "9.39.5",
+    "typescript": "5.9.3"
+  }
+}

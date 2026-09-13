@@ -1,0 +1,21 @@
+{
+  "name": "@morrow/protocol",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.ts",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@morrow/eslint-config": "workspace:*",
+    "@morrow/typescript-config": "workspace:*",
+    "@types/node": "24.13.4",
+    "eslint": "9.39.5",
+    "typescript": "5.9.3"
+  }
+}

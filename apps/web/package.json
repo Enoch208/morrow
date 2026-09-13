@@ -1,0 +1,36 @@
+{
+  "name": "@morrow/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@hugeicons/core-free-icons": "4.3.2",
+    "@hugeicons/react": "1.1.10",
+    "@morrow/protocol": "workspace:*",
+    "@morrow/ui": "workspace:*",
+    "chart.js": "4.5.1",
+    "ethers": "6.17.0",
+    "geist": "1.7.2",
+    "next": "16.3.5",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@morrow/eslint-config": "workspace:*",
+    "@morrow/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "24.13.4",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "eslint": "9.39.5",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3"
+  }
+}

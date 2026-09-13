@@ -1,0 +1,10 @@
+pnpm-lock.yaml
+.next
+.turbo
+dist
+out
+coverage
+*.md
+int.json
+i.json
+l.json
