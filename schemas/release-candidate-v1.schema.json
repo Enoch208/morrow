@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:morrow:release-candidate:v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "implementationCommit", "campaignManifests"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "implementationCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "campaignManifests": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": { "type": "string", "pattern": "^evidence/manifests/[A-Za-z0-9_-]+\\.json$" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    }
+  }
+}
