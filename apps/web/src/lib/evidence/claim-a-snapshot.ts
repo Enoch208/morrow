@@ -3,6 +3,7 @@ import { findRow, loadCampaignLog, type CampaignRow } from "./campaign-log";
 import { isHex, numberField, recordField, stringField } from "./json-fields";
 import { milestoneLabel } from "./milestone-labels";
 import { readReservationProof, type ReservationProof } from "./reservation-proof";
+import { recordedWithdrawal, type RecordedWithdrawal } from "./recorded-withdrawal";
 import { parseSaleTerms } from "./sale-terms";
 
 export interface Milestone {
@@ -21,10 +22,16 @@ export interface ClaimATransactions {
   readonly assign: string;
 }
 
+export interface ClaimAWithdrawals {
+  readonly seller: RecordedWithdrawal | undefined;
+  readonly fee: RecordedWithdrawal | undefined;
+}
+
 export interface ClaimASnapshot {
   readonly saleId: Hash;
   readonly transactions: ClaimATransactions;
   readonly terms: SaleTerms;
+  readonly withdrawals: ClaimAWithdrawals;
   readonly milestones: readonly Milestone[];
   readonly assignedAt: string;
   readonly currentBeneficiary: Address;
@@ -115,6 +122,10 @@ export function loadClaimAEvidence(): ClaimAEvidence {
       saleId,
       transactions,
       terms,
+      withdrawals: {
+        seller: recordedWithdrawal(findRow(rows, "a-withdraw", "withdrawal-verified")),
+        fee: recordedWithdrawal(findRow(rows, "withdraw-fee", "withdrawal-verified")),
+      },
       milestones: buildMilestones(rows),
       assignedAt: assigned.observedAt,
       currentBeneficiary: beneficiary,

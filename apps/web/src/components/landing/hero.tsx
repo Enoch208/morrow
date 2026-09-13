@@ -1,8 +1,10 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowRight02Icon } from "@hugeicons/core-free-icons";
+import type { ClaimAEvidence } from "@/lib/evidence/claim-a-snapshot";
+import { HeroFigures } from "./hero-figures";
 import { PulseDot } from "./pulse-dot";
 
-export function Hero() {
+export function Hero({ evidence }: { evidence: ClaimAEvidence }) {
   return (
     <div className="mx-auto mb-24 max-w-4xl text-center">
       <div className="animate-on-scroll [animation:fadeInUp_0.8s_ease-out_0.1s_both] mb-8 inline-flex items-center gap-2 rounded-full border border-red-500/20 bg-red-950/10 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-red-200 shadow-[0_0_15px_rgba(204,0,0,0.15)] animate">
@@ -34,6 +36,8 @@ export function Hero() {
           />
         </a>
       </div>
+
+      <HeroFigures evidence={evidence} />
     </div>
   );
 }

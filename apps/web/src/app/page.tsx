@@ -19,7 +19,7 @@ export default function HomePage() {
       <BackgroundEffects />
       <SiteNav />
       <main id="top" className="max-w-7xl mr-auto ml-auto pt-12 pr-6 pb-32 pl-6 relative">
-        <Hero />
+        <Hero evidence={evidence} />
         <HeroShowcase evidence={evidence} />
         <CategoryPills />
         <CuratedSelections evidence={evidence} />

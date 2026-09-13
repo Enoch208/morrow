@@ -1,7 +1,7 @@
 import type { SaleTerms } from "@morrow/protocol";
 import { feeFor, formatUnits } from "./token-units";
 
-const testTokenDecimals = 6;
+export const testTokenDecimals = 6;
 
 export interface SaleAmounts {
   readonly faceValue: string;
