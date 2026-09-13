@@ -1,0 +1,889 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "settlementToken",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "sourceVault",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "sourceToken",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "feeRecipient",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "feeBps",
+        "type": "uint16",
+        "internalType": "uint16"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "FEE_BPS",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint16",
+        "internalType": "uint16"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "FEE_RECIPIENT",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "SETTLEMENT_TOKEN",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IERC20"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "SOURCE_TOKEN",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "SOURCE_VAULT",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "consumed",
+    "inputs": [
+      {
+        "name": "",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "credits",
+    "inputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "fundReservation",
+    "inputs": [
+      {
+        "name": "proof",
+        "type": "tuple",
+        "internalType": "struct AttestcoinGate.ProofEnvelope",
+        "components": [
+          {
+            "name": "chainKey",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "blockHeight",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "encodedTransaction",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "merkleProof",
+            "type": "tuple",
+            "internalType": "struct INativeQueryVerifier.MerkleProof",
+            "components": [
+              {
+                "name": "root",
+                "type": "bytes32",
+                "internalType": "bytes32"
+              },
+              {
+                "name": "siblings",
+                "type": "tuple[]",
+                "internalType": "struct INativeQueryVerifier.MerkleProofEntry[]",
+                "components": [
+                  {
+                    "name": "hash",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                  },
+                  {
+                    "name": "isLeft",
+                    "type": "bool",
+                    "internalType": "bool"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "continuityProof",
+            "type": "tuple",
+            "internalType": "struct INativeQueryVerifier.ContinuityProof",
+            "components": [
+              {
+                "name": "lowerEndpointDigest",
+                "type": "bytes32",
+                "internalType": "bytes32"
+              },
+              {
+                "name": "roots",
+                "type": "bytes32[]",
+                "internalType": "bytes32[]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "logIndex",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "terms",
+        "type": "tuple",
+        "internalType": "struct SaleTermsLib.Terms",
+        "components": [
+          {
+            "name": "protocolVersion",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "sourceEvmChainId",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "sourceVault",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "claimId",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "round",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "destinationEvmChainId",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "destinationMarket",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "seller",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "buyer",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "sourceToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "sourceFaceValueRaw",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maturity",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "settlementToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "grossPurchasePriceRaw",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feeBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "feeRecipient",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "fundBefore",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "assignBefore",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getSale",
+    "inputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct MarketTypes.Sale",
+        "components": [
+          {
+            "name": "terms",
+            "type": "tuple",
+            "internalType": "struct SaleTermsLib.Terms",
+            "components": [
+              {
+                "name": "protocolVersion",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "sourceEvmChainId",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "sourceVault",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "claimId",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "round",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "destinationEvmChainId",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "destinationMarket",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "seller",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "buyer",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "sourceToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "sourceFaceValueRaw",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "maturity",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "settlementToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "grossPurchasePriceRaw",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "feeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "feeRecipient",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "fundBefore",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "assignBefore",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "state",
+            "type": "uint8",
+            "internalType": "enum MarketTypes.State"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "recognizeCancellation",
+    "inputs": [
+      {
+        "name": "proof",
+        "type": "tuple",
+        "internalType": "struct AttestcoinGate.ProofEnvelope",
+        "components": [
+          {
+            "name": "chainKey",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "blockHeight",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "encodedTransaction",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "merkleProof",
+            "type": "tuple",
+            "internalType": "struct INativeQueryVerifier.MerkleProof",
+            "components": [
+              {
+                "name": "root",
+                "type": "bytes32",
+                "internalType": "bytes32"
+              },
+              {
+                "name": "siblings",
+                "type": "tuple[]",
+                "internalType": "struct INativeQueryVerifier.MerkleProofEntry[]",
+                "components": [
+                  {
+                    "name": "hash",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                  },
+                  {
+                    "name": "isLeft",
+                    "type": "bool",
+                    "internalType": "bool"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "continuityProof",
+            "type": "tuple",
+            "internalType": "struct INativeQueryVerifier.ContinuityProof",
+            "components": [
+              {
+                "name": "lowerEndpointDigest",
+                "type": "bytes32",
+                "internalType": "bytes32"
+              },
+              {
+                "name": "roots",
+                "type": "bytes32[]",
+                "internalType": "bytes32[]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "logIndex",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "settleAssignment",
+    "inputs": [
+      {
+        "name": "proof",
+        "type": "tuple",
+        "internalType": "struct AttestcoinGate.ProofEnvelope",
+        "components": [
+          {
+            "name": "chainKey",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "blockHeight",
+            "type": "uint64",
+            "internalType": "uint64"
+          },
+          {
+            "name": "encodedTransaction",
+            "type": "bytes",
+            "internalType": "bytes"
+          },
+          {
+            "name": "merkleProof",
+            "type": "tuple",
+            "internalType": "struct INativeQueryVerifier.MerkleProof",
+            "components": [
+              {
+                "name": "root",
+                "type": "bytes32",
+                "internalType": "bytes32"
+              },
+              {
+                "name": "siblings",
+                "type": "tuple[]",
+                "internalType": "struct INativeQueryVerifier.MerkleProofEntry[]",
+                "components": [
+                  {
+                    "name": "hash",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                  },
+                  {
+                    "name": "isLeft",
+                    "type": "bool",
+                    "internalType": "bool"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "continuityProof",
+            "type": "tuple",
+            "internalType": "struct INativeQueryVerifier.ContinuityProof",
+            "components": [
+              {
+                "name": "lowerEndpointDigest",
+                "type": "bytes32",
+                "internalType": "bytes32"
+              },
+              {
+                "name": "roots",
+                "type": "bytes32[]",
+                "internalType": "bytes32[]"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "logIndex",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "totalBound",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "totalCredits",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "totalLiabilities",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "withdraw",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "AssignmentRecognized",
+    "inputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "eventKey",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "sellerNet",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "fee",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CancellationRecognized",
+    "inputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "eventKey",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "refund",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CreditWithdrawn",
+    "inputs": [
+      {
+        "name": "recipient",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "token",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "amount",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ReservationFunded",
+    "inputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "eventKey",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "buyer",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "grossPrice",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "ClaimRoundMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "EventAlreadyConsumed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "FailedReceipt",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "FundingClosed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidConfiguration",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidEventLayout",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "LogIndexOutOfRange",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NativeVerificationFailed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NoCredit",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotBuyer",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ReentrancyGuardReentrantCall",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "SafeERC20FailedOperation",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "SaleAlreadyExists",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "SaleIdMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "SaleNotBound",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TermsHashMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TransferDeltaMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UnsupportedTerms",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WrongChainKey",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WrongDeploymentDomain",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WrongEmitter",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "WrongEventSignature",
+    "inputs": []
+  }
+]
