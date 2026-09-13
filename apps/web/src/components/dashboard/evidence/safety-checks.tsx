@@ -2,6 +2,7 @@ import { CheckmarkCircle02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { CampaignCheck } from "@/lib/evidence/campaign-checks";
 import { utcDay, utcTime } from "@/lib/format/display";
+import { AttackReplay } from "./attack-replay";
 
 export function SafetyChecks({ checks }: { checks: readonly CampaignCheck[] }) {
   return (
@@ -33,6 +34,7 @@ export function SafetyChecks({ checks }: { checks: readonly CampaignCheck[] }) {
               <div className="rounded-lg border border-[#FF5A36]/20 bg-[#FF5A36]/5 px-3 py-2 font-mono text-xs text-[#FF5A36]">
                 Rejected · {check.actualError}
               </div>
+              {check.replay && <AttackReplay replay={check.replay} expected={check.actualError} />}
               <div className="mt-auto flex flex-col gap-0.5 font-mono text-[11px] text-neutral-500">
                 <span>{check.detail}</span>
                 <span>

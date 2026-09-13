@@ -1,12 +1,13 @@
-import { Interface, JsonRpcProvider } from "ethers";
+import { Interface } from "ethers";
 import {
   destinationStates,
   sourceRoundStates,
   type DestinationState,
   type SourceRoundState,
 } from "@morrow/protocol";
-import { chains, type ChainKey } from "@/lib/explorers";
+import type { ChainKey } from "@/lib/explorers";
 import { abis } from "./abis";
+import { providers } from "./providers";
 import { asBigInt, asBoolean, asString, resultField } from "./decoded";
 import { deployments } from "./deployments";
 
@@ -30,13 +31,6 @@ export interface LiveMarket {
 const interfaces = {
   vault: new Interface(abis.vault),
   market: new Interface(abis.market),
-};
-
-const providers: Record<ChainKey, JsonRpcProvider> = {
-  sepolia: new JsonRpcProvider(chains.sepolia.rpc, chains.sepolia.evmChainId, {
-    staticNetwork: true,
-  }),
-  cc3: new JsonRpcProvider(chains.cc3.rpc, chains.cc3.evmChainId, { staticNetwork: true }),
 };
 
 async function callView(
