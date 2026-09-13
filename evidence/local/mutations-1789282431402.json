@@ -1,0 +1,234 @@
+{
+  "observedAt": "2026-09-13T06:53:51.402Z",
+  "evidenceKind": "local-tested",
+  "scope": "12 selected mutations including six required classes and a combined outcome-binding mutation; not every safety guard",
+  "baseline": {
+    "command": [
+      "forge",
+      "test",
+      "--root",
+      "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts"
+    ],
+    "status": 0,
+    "output": "Compiling 44 files with Solc 0.8.28\nSolc 0.8.28 finished in 9.96s\nCompiler run successful!\n2026-09-13T06:53:26.138219Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/ProofIdentity.t.sol:ProofIdentityTest\n[PASS] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 774428)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.21ms (339.96µs CPU time)\n\nRan 6 tests for test/unit/TokenSafety.t.sol:TokenSafetyTest\n[PASS] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1327573)\n[PASS] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 1213500)\n[PASS] test_T48_creditedTokenCallbackCannotWithdrawTwice() (gas: 800853)\n[PASS] test_T48_fundingCallbackCannotReenter() (gas: 2471371)\n[PASS] test_T48_sourceRedemptionCallbackCannotRedeemTwice() (gas: 1547031)\n[PASS] test_T49_failedWithdrawalRetainsCredit() (gas: 746043)\nSuite result: ok. 6 passed; 0 failed; 0 skipped; finished in 3.57ms (2.79ms CPU time)\n\nRan 2 tests for test/unit/CanonicalTerms.t.sol:CanonicalTermsTest\n[PASS] test_T31_eachNumericAndActorFieldChangesIdentity() (gas: 9109)\n[PASS] test_T61_staticEncodingIsEighteenWords() (gas: 155295)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 3.72ms (500.75µs CPU time)\n\nRan 10 tests for test/unit/NativeSpike.t.sol:NativeSpikeTest\n[PASS] test_T21_nativeFalseRejected() (gas: 26279)\n[PASS] test_T22_wrongChainKeyRejected() (gas: 22696)\n[PASS] test_T24_nativeValidUnapprovedEmitterRejected() (gas: 41406)\n[PASS] test_T25_failedReceiptRejected() (gas: 38154)\n[PASS] test_T26_malformedEventLayoutRejected() (gas: 62753)\n[PASS] test_T26_wrongSignatureRejectedWithoutConsumption() (gas: 65012)\n[PASS] test_T27_outOfRangeRejected() (gas: 38126)\n[PASS] test_T28_correctLaterLogAndReplay() (gas: 119402)\n[PASS] test_changedCommitmentCanRetryAuthenticEvent() (gas: 142600)\n[PASS] test_wrongActorRejectedWithoutConsumption() (gas: 63589)\nSuite result: ok. 10 passed; 0 failed; 0 skipped; finished in 3.94ms (1.44ms CPU time)\n\nRan 8 tests for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[PASS] test_T20_fundingEntersBoundWithExactPrincipal() (gas: 630247)\n[PASS] test_T31_changedTermsRejectSameProofAndCanRetry() (gas: 680171)\n[PASS] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 686496)\n[PASS] test_T35_duplicateFundingDoesNotTakeMoney() (gas: 685929)\n[PASS] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 773975)\n[PASS] test_T38_cancellationRefundHasNoFee() (gas: 654428)\n[PASS] test_fundingCutoffIsStrictButNeverAnExit() (gas: 114937)\n[PASS] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 760474)\nSuite result: ok. 8 passed; 0 failed; 0 skipped; finished in 3.82ms (3.14ms CPU time)\n\nRan 12 tests for test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[PASS] test_T01_invalidCreationDoesNotMoveBacking() (gas: 38190)\n[PASS] test_T03_donationCannotCreateRedemptionRights() (gas: 95730)\n[PASS] test_T05_nonOwnerReservationRejected() (gas: 23896)\n[PASS] test_T06_reservedSoldRedeemedClaimsCannotReserve() (gas: 600949)\n[PASS] test_T07_sourceOwnedFieldsCannotBeSubstituted() (gas: 117299)\n[PASS] test_T08_cutoffMustPrecedeMaturity() (gas: 40143)\n[PASS] test_T09_assignmentBeforeDeadlineAndT55ManualBypass() (gas: 562887)\n[PASS] test_T10_T11_assignmentAndCancellationBoundary() (gas: 539842)\n[PASS] test_T12_earlyCancellationRejected() (gas: 537764)\n[PASS] test_T13_assignmentAfterCancellationRejected() (gas: 525445)\n[PASS] test_T15_T16_oldRoundCannotAffectNewReservation() (gas: 1033291)\n[PASS] test_T18_T19_redemptionPaysOnlyBeneficiaryOnce() (gas: 102730)\nSuite result: ok. 12 passed; 0 failed; 0 skipped; finished in 3.95ms (1.62ms CPU time)\n\nRan 2 tests for test/unit/RoundReplay.t.sol:RoundReplayTest\n[PASS] test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific() (gas: 3134828)\n[PASS] test_T46_twoCancellationRelayersAllocateAndWithdrawOnlyOnce() (gas: 1718433)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 5.28ms (3.59ms CPU time)\n\nRan 8 tests for test/unit/MarketRejections.t.sol:MarketRejectionsTest\n[PASS] testFuzz_T51_feeRoundingAndWithdrawalConservePrincipal(uint64) (runs: 256, μ: 734908, ~: 750144)\n[PASS] test_T26_noncanonicalReservationEncodingRejected() (gas: 681110)\n[PASS] test_T32_authenticOtherDestinationCannotFundHere() (gas: 169977)\n[PASS] test_T41_elapsedTimeExposesNoRefundOrAdminExit() (gas: 630701)\n[PASS] test_T42_oldCancellationCannotSettleNewRound() (gas: 1256467)\n[PASS] test_T43_T44_terminalProofBeforeFundingCanRetryAfterHistoricalFunding() (gas: 725667)\n[PASS] test_T45_sameSourceEventCannotUseAnotherProofNamespace() (gas: 686432)\n[PASS] test_T51_overlappingFeeSellerRolesAggregateOnce() (gas: 667902)\nSuite result: ok. 8 passed; 0 failed; 0 skipped; finished in 58.26ms (58.59ms CPU time)\n\nRan 1 test for test/invariant/LifecycleInvariant.t.sol:LifecycleInvariantTest\n[PASS] invariant_fundedOutcomesAndWithdrawalsConserveBacking() (runs: 64, calls: 2048, reverts: 0)\n\n╭------------------+----------+-------+---------+----------╮\n| Contract         | Selector | Calls | Reverts | Discards |\n+==========================================================+\n| LifecycleHandler | cycle    | 2048  | 0       | 0        |\n╰------------------+----------+-------+---------+----------╯\n\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.90s (2.90s CPU time)\n\nRan 9 test suites in 2.90s (2.99s CPU time): 50 tests passed, 0 failed, 0 skipped (50 total tests)\n"
+  },
+  "results": [
+    {
+      "name": "source incoming delta",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (SOURCE_TOKEN.balanceOf(address(this)) != balanceBefore + faceValueRaw) revert TransferDeltaMismatch();",
+      "test": "test_T02_sourceTaxCannotCreateUnbackedClaim",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T02_sourceTaxCannotCreateUnbackedClaim"
+      ],
+      "status": 1,
+      "output": "Compiling 2 files with Solc 0.8.28\nSolc 0.8.28 finished in 2.29s\nCompiler run successful with warnings:\nWarning (2072): Unused local variable.\n  --> src/source/FundedPaymentVault.sol:61:9:\n   |\n61 |         uint256 balanceBefore = SOURCE_TOKEN.balanceOf(address(this));\n   |         ^^^^^^^^^^^^^^^^^^^^^\n\n2026-09-13T06:53:31.466819Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/TokenSafety.t.sol:TokenSafetyTest\n[FAIL: next call did not revert as expected] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1441317)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 845.50µs (382.08µs CPU time)\n\nRan 1 test suite in 89.46ms (845.50µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/TokenSafety.t.sol:TokenSafetyTest\n[FAIL: next call did not revert as expected] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1441317)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "source assignment cutoff",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (block.timestamp >= round.terms.assignBefore) revert AssignmentExpired();",
+      "test": "test_T10_T11_assignmentAndCancellationBoundary",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T10_T11_assignmentAndCancellationBoundary"
+      ],
+      "status": 1,
+      "output": "Compiling 2 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.19s\nCompiler run successful!\n2026-09-13T06:53:32.854639Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[FAIL: next call did not revert as expected] test_T10_T11_assignmentAndCancellationBoundary() (gas: 569698)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 391.79µs (81.83µs CPU time)\n\nRan 1 test suite in 84.63ms (391.79µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[FAIL: next call did not revert as expected] test_T10_T11_assignmentAndCancellationBoundary() (gas: 569698)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "source cancellation cutoff",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (block.timestamp < round.terms.assignBefore) revert CancellationTooEarly();",
+      "test": "test_T12_earlyCancellationRejected",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T12_earlyCancellationRejected"
+      ],
+      "status": 1,
+      "output": "Compiling 2 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.19s\nCompiler run successful!\n2026-09-13T06:53:34.239261Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[FAIL: next call did not revert as expected] test_T12_earlyCancellationRejected() (gas: 543147)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 392.25µs (82.50µs CPU time)\n\nRan 1 test suite in 84.91ms (392.25µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[FAIL: next call did not revert as expected] test_T12_earlyCancellationRejected() (gas: 543147)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "buyer authority",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (msg.sender != terms.buyer) revert NotBuyer();",
+      "test": "test_T33_T36_nonBuyerCannotConsumeReservation",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T33_T36_nonBuyerCannotConsumeReservation"
+      ],
+      "status": 1,
+      "output": "Compiling 4 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.82s\nCompiler run successful!\n2026-09-13T06:53:36.263259Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: Error != expected error: ERC20InsufficientAllowance(0x2e234DAe75C793f67A35089C9d99245E1C58470b, 0, 9410) != NotBuyer()] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 584476)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.22ms (435.17µs CPU time)\n\nRan 1 test suite in 86.81ms (1.22ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: Error != expected error: ERC20InsufficientAllowance(0x2e234DAe75C793f67A35089C9d99245E1C58470b, 0, 9410) != NotBuyer()] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 584476)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "destination incoming delta",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (SETTLEMENT_TOKEN.balanceOf(address(this)) != beforeBalance + price) revert TransferDeltaMismatch();",
+      "test": "test_T34_taxedFundingRollsBackMoneyStateAndConsumption",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T34_taxedFundingRollsBackMoneyStateAndConsumption"
+      ],
+      "status": 1,
+      "output": "Compiling 3 files with Solc 0.8.28\nSolc 0.8.28 finished in 2.26s\nCompiler run successful with warnings:\nWarning (2072): Unused local variable.\n  --> src/destination/MorrowMarket.sol:81:9:\n   |\n81 |         uint256 beforeBalance = SETTLEMENT_TOKEN.balanceOf(address(this));\n   |         ^^^^^^^^^^^^^^^^^^^^^\n\n2026-09-13T06:53:38.735891Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/TokenSafety.t.sol:TokenSafetyTest\n[FAIL: next call did not revert as expected] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 650530)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 614.04µs (153.00µs CPU time)\n\nRan 1 test suite in 85.68ms (614.04µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/TokenSafety.t.sol:TokenSafetyTest\n[FAIL: next call did not revert as expected] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 650530)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "funding admission cutoff",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (block.timestamp >= terms.fundBefore) revert FundingClosed();",
+      "test": "test_fundingCutoffIsStrictButNeverAnExit",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_fundingCutoffIsStrictButNeverAnExit"
+      ],
+      "status": 1,
+      "output": "Compiling 3 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.47s\nCompiler run successful!\n2026-09-13T06:53:40.401062Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: next call did not revert as expected] test_fundingCutoffIsStrictButNeverAnExit() (gas: 616319)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 521.42µs (148.21µs CPU time)\n\nRan 1 test suite in 84.51ms (521.42µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: next call did not revert as expected] test_fundingCutoffIsStrictButNeverAnExit() (gas: 616319)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "approved source emitter",
+      "file": "src/libraries/AttestcoinGate.sol",
+      "guard": "if (entry.address_ != expectedEmitter) revert WrongEmitter();",
+      "test": "test_T24_nativeValidUnapprovedEmitterRejected",
+      "originalSha256": "cf598f9a66828f11f5623670521665ad08c0e6901fa7515bc26754a9c2a408f3",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T24_nativeValidUnapprovedEmitterRejected"
+      ],
+      "status": 1,
+      "output": "Compiling 5 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.28s\nCompiler run successful with warnings:\nWarning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.\n  --> src/libraries/AttestcoinGate.sol:30:9:\n   |\n30 |         address expectedEmitter,\n   |         ^^^^^^^^^^^^^^^^^^^^^^^\n\n2026-09-13T06:53:41.882948Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/NativeSpike.t.sol:NativeSpikeTest\n[FAIL: next call did not revert as expected] test_T24_nativeValidUnapprovedEmitterRejected() (gas: 87503)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.66ms (1.17ms CPU time)\n\nRan 1 test suite in 89.89ms (1.66ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/NativeSpike.t.sol:NativeSpikeTest\n[FAIL: next call did not revert as expected] test_T24_nativeValidUnapprovedEmitterRejected() (gas: 87503)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "withdrawal credit consumption",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "credits[msg.sender] = 0;",
+      "test": "test_withdrawalOnlyPaysCallerAndCannotRepeat",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_withdrawalOnlyPaysCallerAndCannotRepeat"
+      ],
+      "status": 1,
+      "output": "Compiling 6 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.66s\nCompiler run successful!\n2026-09-13T06:53:43.758548Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: EvmError: Revert] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 798971)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 815.54µs (435.71µs CPU time)\n\nRan 1 test suite in 84.68ms (815.54µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: EvmError: Revert] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 798971)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "claim and round binding",
+      "file": "src/libraries/ProofBindingLib.sol",
+      "guard": "if (entry.topics[2] != bytes32(terms.claimId) || entry.topics[3] != bytes32(terms.round)) {\n            revert ClaimRoundMismatch();\n        }",
+      "test": "test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash",
+      "originalSha256": "dfecdf5f46eb2df6fe84245a22d71609018fc613139006b4f9b4b2701b53d404",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash"
+      ],
+      "status": 1,
+      "output": "Compiling 4 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.25s\nCompiler run successful!\n2026-09-13T06:53:45.217335Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/ProofIdentity.t.sol:ProofIdentityTest\n[FAIL: next call did not revert as expected] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 632461)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 540.96µs (178.42µs CPU time)\n\nRan 1 test suite in 86.88ms (540.96µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/ProofIdentity.t.sol:ProofIdentityTest\n[FAIL: next call did not revert as expected] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 632461)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "destination deployment binding",
+      "file": "src/destination/MarketTerms.sol",
+      "guard": "|| terms.destinationEvmChainId != block.chainid || terms.destinationMarket != address(this)",
+      "test": "test_T32_authenticOtherDestinationCannotFundHere",
+      "originalSha256": "030cf5549a94e2e8c6c183423463bf67903203b83092f5ec9f946591a23b576a",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T32_authenticOtherDestinationCannotFundHere"
+      ],
+      "status": 1,
+      "output": "Compiling 5 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.49s\nCompiler run successful with warnings:\nWarning (2018): Function state mutability can be restricted to pure\n  --> src/destination/MarketTerms.sol:10:5:\n   |\n10 |     function validate(\n   |     ^ (Relevant source part starts here and spans across multiple lines).\n\n2026-09-13T06:53:46.907519Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/MarketRejections.t.sol:MarketRejectionsTest\n[FAIL: next call did not revert as expected] test_T32_authenticOtherDestinationCannotFundHere() (gas: 616365)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 501.13µs (140.33µs CPU time)\n\nRan 1 test suite in 84.85ms (501.13µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketRejections.t.sol:MarketRejectionsTest\n[FAIL: next call did not revert as expected] test_T32_authenticOtherDestinationCannotFundHere() (gas: 616365)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "terminal state guard",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (sale.state != MarketTypes.State.BOUND) revert SaleNotBound();",
+      "test": "test_T37_T39_lateAssignmentAllocatesExactlyOnce",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T37_T39_lateAssignmentAllocatesExactlyOnce"
+      ],
+      "status": 1,
+      "output": "Compiling 4 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.45s\nCompiler run successful!\n2026-09-13T06:53:48.566298Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: Error != expected error: EventAlreadyConsumed() != SaleNotBound()] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 813241)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.12ms (363.21µs CPU time)\n\nRan 1 test suite in 86.47ms (1.12ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: Error != expected error: EventAlreadyConsumed() != SaleNotBound()] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 813241)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "combined outcome identity and terms binding",
+      "file": "src/libraries/ProofBindingLib.sol",
+      "guard": "bindIdentity(entry, terms);\n        if (entry.data.length != 32) revert InvalidEventLayout();\n        if (abi.decode(entry.data, (bytes32)) != SaleTermsLib.termsHash(terms)) revert TermsHashMismatch();",
+      "replacement": "if (entry.data.length != 32) revert InvalidEventLayout();",
+      "test": "test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific",
+      "originalSha256": "dfecdf5f46eb2df6fe84245a22d71609018fc613139006b4f9b4b2701b53d404",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-EVRHPv/contracts",
+        "--match-test",
+        "test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific"
+      ],
+      "status": 1,
+      "output": "Compiling 5 files with Solc 0.8.28\nSolc 0.8.28 finished in 2.53s\nCompiler run successful with warnings:\nWarning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.\n  --> src/libraries/ProofBindingLib.sol:36:9:\n   |\n36 |         SaleTermsLib.Terms memory terms,\n   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n2026-09-13T06:53:51.308462Z  WARN evm::traces::external: etherscan config not found\n\nRan 1 test for test/unit/RoundReplay.t.sol:RoundReplayTest\n[FAIL: next call did not revert as expected] test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific() (gas: 2656748)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.20ms (764.42µs CPU time)\n\nRan 1 test suite in 90.18ms (1.20ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/RoundReplay.t.sol:RoundReplayTest\n[FAIL: next call did not revert as expected] test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific() (gas: 2656748)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "observedAt": "2026-09-13T00:05:56.549Z",
+  "evidenceKind": "local-tested",
+  "scope": "Owned backend workspaces; not a full release check",
+  "results": [
+    {
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "contracts"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 3010,
+      "stdout": "No files changed, compilation skipped\n2026-09-13T00:05:42.048912Z  WARN evm::traces::external: etherscan config not found\n\nRan 2 tests for test/unit/CanonicalTerms.t.sol:CanonicalTermsTest\n[PASS] test_T31_eachNumericAndActorFieldChangesIdentity() (gas: 9109)\n[PASS] test_T61_staticEncodingIsEighteenWords() (gas: 155295)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 3.97ms (1.21ms CPU time)\n\nRan 1 test for test/unit/ProofIdentity.t.sol:ProofIdentityTest\n[PASS] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 774428)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 5.26ms (781.46µs CPU time)\n\nRan 10 tests for test/unit/NativeSpike.t.sol:NativeSpikeTest\n[PASS] test_T21_nativeFalseRejected() (gas: 26279)\n[PASS] test_T22_wrongChainKeyRejected() (gas: 22696)\n[PASS] test_T24_nativeValidUnapprovedEmitterRejected() (gas: 41406)\n[PASS] test_T25_failedReceiptRejected() (gas: 38154)\n[PASS] test_T26_malformedEventLayoutRejected() (gas: 62753)\n[PASS] test_T26_wrongSignatureRejectedWithoutConsumption() (gas: 65012)\n[PASS] test_T27_outOfRangeRejected() (gas: 38126)\n[PASS] test_T28_correctLaterLogAndReplay() (gas: 119402)\n[PASS] test_changedCommitmentCanRetryAuthenticEvent() (gas: 142600)\n[PASS] test_wrongActorRejectedWithoutConsumption() (gas: 63589)\nSuite result: ok. 10 passed; 0 failed; 0 skipped; finished in 5.77ms (849.42µs CPU time)\n\nRan 8 tests for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[PASS] test_T20_fundingEntersBoundWithExactPrincipal() (gas: 630247)\n[PASS] test_T31_changedTermsRejectSameProofAndCanRetry() (gas: 680171)\n[PASS] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 686496)\n[PASS] test_T35_duplicateFundingDoesNotTakeMoney() (gas: 685929)\n[PASS] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 773975)\n[PASS] test_T38_cancellationRefundHasNoFee() (gas: 654428)\n[PASS] test_fundingCutoffIsStrictButNeverAnExit() (gas: 114937)\n[PASS] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 760474)\nSuite result: ok. 8 passed; 0 failed; 0 skipped; finished in 6.03ms (3.84ms CPU time)\n\nRan 6 tests for test/unit/TokenSafety.t.sol:TokenSafetyTest\n[PASS] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1327573)\n[PASS] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 1213500)\n[PASS] test_T48_creditedTokenCallbackCannotWithdrawTwice() (gas: 800853)\n[PASS] test_T48_fundingCallbackCannotReenter() (gas: 2471371)\n[PASS] test_T48_sourceRedemptionCallbackCannotRedeemTwice() (gas: 1547031)\n[PASS] test_T49_failedWithdrawalRetainsCredit() (gas: 746043)\nSuite result: ok. 6 passed; 0 failed; 0 skipped; finished in 6.03ms (2.63ms CPU time)\n\nRan 12 tests for test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[PASS] test_T01_invalidCreationDoesNotMoveBacking() (gas: 38190)\n[PASS] test_T03_donationCannotCreateRedemptionRights() (gas: 95730)\n[PASS] test_T05_nonOwnerReservationRejected() (gas: 23896)\n[PASS] test_T06_reservedSoldRedeemedClaimsCannotReserve() (gas: 600949)\n[PASS] test_T07_sourceOwnedFieldsCannotBeSubstituted() (gas: 117299)\n[PASS] test_T08_cutoffMustPrecedeMaturity() (gas: 40143)\n[PASS] test_T09_assignmentBeforeDeadlineAndT55ManualBypass() (gas: 562887)\n[PASS] test_T10_T11_assignmentAndCancellationBoundary() (gas: 539842)\n[PASS] test_T12_earlyCancellationRejected() (gas: 537764)\n[PASS] test_T13_assignmentAfterCancellationRejected() (gas: 525445)\n[PASS] test_T15_T16_oldRoundCannotAffectNewReservation() (gas: 1033291)\n[PASS] test_T18_T19_redemptionPaysOnlyBeneficiaryOnce() (gas: 102730)\nSuite result: ok. 12 passed; 0 failed; 0 skipped; finished in 6.04ms (2.30ms CPU time)\n\nRan 8 tests for test/unit/MarketRejections.t.sol:MarketRejectionsTest\n[PASS] testFuzz_T51_feeRoundingAndWithdrawalConservePrincipal(uint64) (runs: 256, μ: 734908, ~: 750144)\n[PASS] test_T26_noncanonicalReservationEncodingRejected() (gas: 681110)\n[PASS] test_T32_authenticOtherDestinationCannotFundHere() (gas: 169977)\n[PASS] test_T41_elapsedTimeExposesNoRefundOrAdminExit() (gas: 630701)\n[PASS] test_T42_oldCancellationCannotSettleNewRound() (gas: 1256467)\n[PASS] test_T43_T44_terminalProofBeforeFundingCanRetryAfterHistoricalFunding() (gas: 725667)\n[PASS] test_T45_sameSourceEventCannotUseAnotherProofNamespace() (gas: 686432)\n[PASS] test_T51_overlappingFeeSellerRolesAggregateOnce() (gas: 667902)\nSuite result: ok. 8 passed; 0 failed; 0 skipped; finished in 60.75ms (58.24ms CPU time)\n\nRan 1 test for test/invariant/LifecycleInvariant.t.sol:LifecycleInvariantTest\n[PASS] invariant_fundedOutcomesAndWithdrawalsConserveBacking() (runs: 64, calls: 2048, reverts: 0)\n\n╭------------------+----------+-------+---------+----------╮\n| Contract         | Selector | Calls | Reverts | Discards |\n+==========================================================+\n| LifecycleHandler | cycle    | 2048  | 0       | 0        |\n╰------------------+----------+-------+---------+----------╯\n\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.84s (2.83s CPU time)\n\nRan 8 test suites in 2.84s (2.93s CPU time): 48 tests passed, 0 failed, 0 skipped (48 total tests)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/protocol",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 205,
+      "stdout": "\n> @morrow/protocol@0.1.0 test /Users/enoch/Developer/personal/morrow/packages/protocol\n> node --test test/*.test.ts\n\n✔ T61 canonical terms retain every field in frozen order (0.463041ms)\n✔ T41 destination state has no timeout exit or withdrawal outcome alias (0.058917ms)\n✔ T58 unavailable evidence remains distinct from paid and refunded (0.055125ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 52.319792\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/protocol",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 382,
+      "stdout": "\n> @morrow/protocol@0.1.0 typecheck /Users/enoch/Developer/personal/morrow/packages/protocol\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/protocol",
+        "lint"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 1004,
+      "stdout": "\n> @morrow/protocol@0.1.0 lint /Users/enoch/Developer/personal/morrow/packages/protocol\n> eslint . --max-warnings 0\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/sdk",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 459,
+      "stdout": "\n> @morrow/sdk@0.1.0 test /Users/enoch/Developer/personal/morrow/packages/sdk\n> node --test test/*.test.ts\n\n✔ approved campaign freezes exact quantities and wall-clock deadlines (0.799667ms)\n✔ campaign gas caps aggregate every role and refuse duplicate submission (0.5635ms)\n✔ campaign cancellation respects exact source deadline and never cancels A (0.373667ms)\n✔ A proof remains held until maturity and independently verified redemption (0.165042ms)\n✔ redemption never anticipates the approved maturity (0.270792ms)\n✔ T61 canonical SDK encoding has exactly eighteen words (9.919667ms)\n✔ T31 every canonical field affects the sale identity (21.452958ms)\n✔ T51 gross price, fee and seller net remain distinct exact integers (0.337333ms)\n✔ T61 SDK ABI encoder matches independent word encoding and economics (20.253ms)\n✔ custody approval allows only four matching testnet deployments (0.7305ms)\n✔ custody gas caps count pending commitments without double counting submission (0.123125ms)\n✔ missing local role key fails without exposing supplied content (0.39775ms)\n✔ artifact loader is rooted in this repository and rejects traversal (6.196ms)\n✔ seller preflight prepares exact round/hash only after repeated live checks (29.212166ms)\n✔ T53 destination empty, unfinalized or reverted funding blocks signature preparation (4.861958ms)\n✔ T54 mismatched price, buyer, runtime or insufficient backing fails closed (5.23425ms)\n✔ T54 source cancellation during preflight and RPC failure cannot prepare a signature (1.5165ms)\n✔ T30 prover-supplied transaction index never enters the native envelope (0.293458ms)\n✔ T21 malformed proof transport fields fail before encoding (0.132708ms)\n✔ runtime provenance masks only compiler-declared immutable ranges (1.402333ms)\n✔ compiler artifacts without immutables retain their entire runtime for comparison (2.620834ms)\n✔ T56 an already-submitted action blocks duplicate sending (0.426875ms)\n✔ Stage A total gas budget includes previous pending submissions (0.275666ms)\nℹ tests 23\nℹ suites 0\nℹ pass 23\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 312.06725\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/sdk",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 602,
+      "stdout": "\n> @morrow/sdk@0.1.0 typecheck /Users/enoch/Developer/personal/morrow/packages/sdk\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/sdk",
+        "lint"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 1415,
+      "stdout": "\n> @morrow/sdk@0.1.0 lint /Users/enoch/Developer/personal/morrow/packages/sdk\n> eslint . --max-warnings 0\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/reference",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 4321,
+      "stdout": "\n> @morrow/reference@0.1.0 test /Users/enoch/Developer/personal/morrow/packages/reference\n> node --test test/*.test.ts\n\n✔ EVD-001 real A manifest validates without asserting settlement or redemption (3.221583ms)\n✔ T59 schema rejects unknown fields, wrong token units and omitted blockers (0.57475ms)\n✔ T59 canonical hash, round and native coordinate tampering is detected (0.545917ms)\n✔ T59 a funding receipt cannot be relabeled as an actual withdrawal (3.020125ms)\n✔ T59 false redemption and uncovered balance snapshots are rejected (1.493292ms)\n✔ T59 evidence references cannot substitute a secret path or duplicate a domain (0.48775ms)\n✔ EVD-001 incomplete evidence never validates as a campaign manifest (1.532875ms)\n✔ T59 evidence paths cannot read secrets, leave the repository or disguise traversal (0.172542ms)\n✔ T59 content-addressed evidence refuses altered proof bytes (0.226958ms)\n✔ independent identity cannot be replaced by a caller's hash (0.066125ms)\n✔ receipt comparison uses serialized log data while retaining every published field (4.707792ms)\n✔ public evidence rejects nested secret-bearing fields before writing files (0.21725ms)\n✔ Continuity comparison never permits changed authenticated source components (6.586334ms)\n✔ Continuity comparison is not native verification or automatic delivery permission (0.081916ms)\n✔ T61 independent canonical words match the published Solidity/SDK vector (2.546083ms)\n✔ independent economics checks limits without production outcome routines (0.227917ms)\n✔ a transient transport failure can recover without hiding the failed attempt (1005.481708ms)\n✔ proof/data rejection is terminal and cannot be retried into success (0.691125ms)\n✔ unavailable transport exhausts three attempts and never returns verified (3002.798834ms)\nℹ tests 19\nℹ suites 0\nℹ pass 19\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 4150.585916\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/reference",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 587,
+      "stdout": "\n> @morrow/reference@0.1.0 typecheck /Users/enoch/Developer/personal/morrow/packages/reference\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/reference",
+        "lint"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 1156,
+      "stdout": "\n> @morrow/reference@0.1.0 lint /Users/enoch/Developer/personal/morrow/packages/reference\n> eslint . --max-warnings 0\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/worker",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 245,
+      "stdout": "\n> @morrow/worker@0.1.0 test /Users/enoch/Developer/personal/morrow/apps/worker\n> node --test test/*.test.ts\n\n✔ campaign job does not run before dependency or approved deadline (0.2835ms)\n✔ restart never blindly rebroadcasts prepared, submitted, mined or reverted work (0.054458ms)\n✔ late settlement requires archived proof and verified redemption, not just time (0.060583ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 94.978292\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/worker",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 426,
+      "stdout": "\n> @morrow/worker@0.1.0 typecheck /Users/enoch/Developer/personal/morrow/apps/worker\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow/worker",
+        "lint"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 848,
+      "stdout": "\n> @morrow/worker@0.1.0 lint /Users/enoch/Developer/personal/morrow/apps/worker\n> eslint . --max-warnings 0\n\n",
+      "stderr": ""
+    }
+  ]
+}
