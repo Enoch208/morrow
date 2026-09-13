@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ClaimCard } from "@/components/dashboard/claims/claim-card";
+import { SellerPreflightCard } from "@/components/dashboard/preflight/seller-preflight-card";
 import { dashboardRoutes } from "@/lib/dashboard-routes";
 import { campaignClaims, loadCampaignLedger } from "@/lib/evidence/claim-ledger";
 
@@ -36,7 +37,16 @@ export default async function ClaimPage({ params }: PageProps<"/dashboard/claims
         <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
         All claims
       </Link>
-      <ClaimCard claim={claim} />
+      <div className="flex flex-col gap-4">
+        <ClaimCard claim={claim} />
+        {claim.fundingHash && (
+          <SellerPreflightCard
+            terms={claim.terms}
+            fundingHash={claim.fundingHash}
+            saleId={claim.saleId}
+          />
+        )}
+      </div>
     </section>
   );
 }

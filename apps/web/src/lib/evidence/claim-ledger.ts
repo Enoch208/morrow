@@ -29,6 +29,7 @@ export interface LedgerClaim {
   readonly outcome: "assignment" | "cancellation";
   readonly claimId: string;
   readonly saleId: Hash;
+  readonly fundingHash: string | undefined;
   readonly terms: SaleTerms;
   readonly milestones: readonly LedgerMilestone[];
   readonly complete: boolean;
@@ -98,7 +99,7 @@ function buildClaim(
   const termsRecord = funded ? recordField(funded.fields, "terms") : undefined;
   const terms = termsRecord ? parseSaleTerms(termsRecord) : undefined;
   const saleId = funded ? stringField(funded.fields, "saleId") : undefined;
-  if (!terms || !isHex(saleId)) {
+  if (!funded || !terms || !isHex(saleId)) {
     return undefined;
   }
   const milestones = latestPerLabel(
@@ -116,6 +117,7 @@ function buildClaim(
     outcome: entry.outcome,
     claimId: terms.claimId.toString(),
     saleId,
+    fundingHash: stringField(funded.fields, "transactionHash"),
     terms,
     milestones,
     complete: settled !== undefined && redeemed !== undefined,

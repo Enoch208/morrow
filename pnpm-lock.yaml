@@ -29,6 +29,9 @@ importers:
       '@morrow/protocol':
         specifier: workspace:*
         version: link:../../packages/protocol
+      '@morrow/sdk':
+        specifier: workspace:*
+        version: link:../../packages/sdk
       '@morrow/ui':
         specifier: workspace:*
         version: link:../../packages/ui
