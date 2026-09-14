@@ -1,10 +1,17 @@
 # Claims ledger
 
+## Direct presentation release — 14 September 2026
+
+The Proof Room live-health report has 17 checks, separately scoped from the archived 26-check submission report. The deployed browser and API observed 15 PASS, 0 FAIL and 2 UNVERIFIED; both recorded-block attacks passed and both current native-continuity checks remained unavailable. Public API claim/sale/settlement reads returned 200, health returned 503, and a public browser refresh test passed without wallet access. This is not a new trade, an audit or a fresh 26/26 claim. The reviewed local implementation and pin were deployed to Vercel without a GitHub push; new CI and npm publication are still pending.
+
 Every public claim Morrow makes, with its evidence label, where the evidence lives, and what it does not prove. Evidence labels are limited to: `proposed`, `local-tested`, `abstract-model`, `fork-tested`, `live-read-verified`, `live-testnet-mined`, `historical-replay`, `user-observed`, `blocked`.
 
 Sepolia (EVM 11155111) transaction hashes resolve on `https://sepolia.etherscan.io/tx/<hash>`; Creditcoin CC3 testnet (EVM 102031) hashes resolve on `https://creditcoin-testnet.blockscout.com/tx/<hash>`. All amounts are raw token units. All times are UTC.
 
 ## Standing caveats
+
+- New live health is a 17-check subset plus selected replays, not a fresh 26/26 full release claim. The [14 September observation](../evidence/blobs/b62f3fa8d459e3ebbfa1216556d4197c7b91451518e74deb9b099a906da15425.json) is 15 PASS and 2 UNVERIFIED. Current proof continuity remains unverified for the archived attack envelopes.
+- Local HTTP API responses, SDK tarballs and CI definitions are not evidence of public hosting, npm publication or passing remote CI. Those release steps remain separate.
 
 - All campaigns run on public testnets with test tokens. No test token has monetary value, and no amount here is revenue or buyer principal in any real currency.
 - The payer, seller and buyer are three distinct addresses, all operated by the Morrow team. No third party has traded.

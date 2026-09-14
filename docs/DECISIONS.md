@@ -1,6 +1,20 @@
 # Decisions
 
+## Live health and public integration — 14 September 2026
+
+Keep live health separate from the 26-check submission verifier. Recheck fixed addresses, full runtime hashes, accounting and block identity, then replay identical native/application proof bytes at both the recorded and current blocks. An aged envelope is unverified at the current block even when historical replay passes. A matching-sale `SaleAlreadyExists` is a reached guard, not a newly successful purchase. Transport failure never substitutes archived success; missing proof inputs retain their check lines.
+
+Use two verified Sepolia endpoints and disclose the lack of an independent second CC3 endpoint. The USC testnet is a different chain and cannot be used as a CC3 fallback. Public endpoints are availability dependencies, not a light-client consensus proof.
+
+Expose only GET claim/sale/settlement/health resources, with pinned deployments, decimal-string raw amounts, no arbitrary RPC forwarding, bounded concurrency and no-store responses. Keep custody unchanged. A payout registrar can fund the existing vault through `createClaim`; it cannot register arbitrary external vaults with the immutable destination market. Public npm distribution requires authenticated scope access; do not invent a successful publication or license grant.
+
+CI uses pinned actions and tools, preserves lower-severity static-analysis findings, and narrowly distinguishes verified public commitment fields from credentials. Build artifacts and changed lockfiles remain subject to the existing pinned-release checks. No weakening of provenance checks is permitted to make an in-progress checkout green.
+
 This record lists the design and verification decisions behind Morrow, with the reason for each and the limit of what it proves. Protocol details are in [PROTOCOL.md](PROTOCOL.md), requirement status in [REQUIREMENTS_MATRIX.md](REQUIREMENTS_MATRIX.md) and open gaps in [KNOWN_LIMITATIONS.md](KNOWN_LIMITATIONS.md).
+
+## Public frontend release
+
+The 14 September 2026 Vercel deployment uses a clean archive of committed `main` at `bec5ef0093f2e73cb9d9585ff1219679ddaca3a2`, not the concurrent working directory. Its project root is `apps/web`, with outside-root workspace and campaign evidence access enabled. No application secrets or signing keys are configured. Git integration is not configured, so pushing unrelated changes does not redeploy the public demo. The immutable build URL and verification scope are recorded in [hosting provenance](../deployments/web/README.md).
 
 ## Protocol identity
 

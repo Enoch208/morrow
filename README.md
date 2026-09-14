@@ -4,6 +4,12 @@
 
 ### Sell a locked payout before it unlocks.
 
+[![CI status](https://github.com/Enoch208/morrow/actions/workflows/ci.yml/badge.svg)](https://github.com/Enoch208/morrow/actions/workflows/ci.yml)
+[![Archived backend tests: 282 passing](https://img.shields.io/badge/archived_backend_tests-282_passing-555555)](evidence/local/backend-check-1789308979675.json)
+[![Archived submission verification: 26 of 26](https://img.shields.io/badge/archived_verification-26%2F26-555555)](evidence/blobs/954be668fd213574fb3790563b6c02d684a79f309bb761029354ea8aa362cbd0.json)
+[![Selected mutations: 26 of 26 killed](https://img.shields.io/badge/selected_mutations-26%2F26_killed-555555)](evidence/local/mutations-1789292743489.json)
+[![Deployed: Sepolia and CC3 testnets](https://img.shields.io/badge/deployed-Sepolia_%2B_CC3_testnets-555555)](#deployments)
+
 Morrow is a cross-chain market for **already-funded, fixed-maturity payouts**. A recipient sells their right to a future payment on Sepolia to a buyer who pays on Creditcoin. The backing stays on Sepolia. The purchase capital stays on Creditcoin. Native Attestcoin proofs connect the two.
 
 **Reserve first. Fund second. Settle from the proven outcome.**
@@ -390,6 +396,40 @@ The [mutation report](evidence/local/mutations-1789292743489.json) records **26 
 | Can unsupported token behavior break accounting?          | [Token safety](contracts/test/unit/TokenSafety.t.sol), [outgoing balance deltas](contracts/test/unit/OutgoingDelta.t.sol)                |
 | Do lifecycle tests reach funded outcomes and withdrawals? | [Invariant campaign](contracts/test/invariant/LifecycleInvariant.t.sol) and its [handler](contracts/test/invariant/LifecycleHandler.sol) |
 | Do removed guards get detected?                           | [Mutation definitions](scripts/mutation-cases.mjs) and [runner](scripts/test-mutations.mjs)                                              |
+
+## Live health, CI and integration surfaces
+
+The direct Vercel release is snapshot `56fc9b9f6ae1035b394a25872f727696478ced09`, with implementation `bf9296ba306f9acdd63f3d103ccdd3d61b8c6f5e`. These commits are local and have **not been pushed to GitHub**; the new workflow has not run remotely. npm publication remains blocked on account/scope access and the public SDK license decision. The existing custody deployments are unchanged.
+
+The frozen release passed `pnpm verify:submission` on **14 September 2026 at 07:52 UTC: 26 PASS, 0 FAIL, 0 UNVERIFIED; exit 0**. [Public raw report](https://morrow-whitepaper.vercel.app/evidence/ca6018650e557daa9193ce783d27acd2abc7bcf8b6b6823b018a008d6c782dca.json). This rechecks recorded campaign evidence and current state using the labels in each line; it is not 26 current-block attacks or a new trade. The live health panel below has a separate 17-check scope.
+
+The [14 September local backend run](evidence/local/backend-check-1789371508462.json) passed all 13 commands and **299 tests** (85 contract, 3 protocol, 90 internal SDK, 93 reference, 28 worker). The separately scoped SDK/registrar check passed **11 SDK tests and 4 contract tests**. Workspace build, lint and typecheck passed. The earlier badges above remain linked to their archived public measurements.
+
+```sh
+pnpm verify:health
+node scripts/check-evidence-integrity.mjs
+pnpm --filter @morrow-protocol/sdk build
+pnpm --filter @morrow/worker api
+```
+
+The [live health reader](packages/reference/src/health-report.ts) performs **17 checks**: three public RPC probes; pinned addresses and full runtime hashes for both custody contracts and both tokens; exact dispatcher/opcode checks; source backing and destination liability/balance checks; canonical observation blocks; and two attack cases at both recorded and current blocks. It runs without keys, emits per-check timestamps and explicit `PASS`, `FAIL` or `UNVERIFIED`, and never substitutes an archived result. Sepolia has two public endpoints; a second independently operated CC3 endpoint is still needed. This is a focused health surface, **not a relabeling of the separate 26-check submission verifier**.
+
+The latest [health observation](evidence/blobs/b84f560862f928abedd69806eb5883a999d423f5679bb38c15c265f6c7f43fe7.json) recorded **15 PASS, 0 FAIL, 2 UNVERIFIED**. Both historical attacks reproduced with native verification accepted. The archived envelopes did not establish current continuity, so their current-block checks remain unverified. The matching-sale replay returns `SaleAlreadyExists` because that sale was already funded; this is not a new successful deposit. No "26/26 independently rechecked" headline is warranted by this health run.
+
+The [CI workflow](.github/workflows/ci.yml) runs Foundry unit/fuzz/invariant tests, all backend and public SDK tests, build/lint/typecheck, the selected mutation suite, offline evidence integrity, full-history secret scanning, and contract static analysis. The status badge reflects GitHub's actual workflow status—not a hardcoded green result. Archived measurement badges retain their dates and report links. Offline evidence integrity verifies committed content and canonical commitments; it does not establish live chain state or native proof validity.
+
+The [public SDK package](packages/public-sdk) provides typed claim, sale and settlement reads plus a narrow `PayoutSourceAdapter` registration interface. Publishing to npm is **pending authenticated access to the `morrow-protocol` scope**; do not assume `npm install @morrow-protocol/sdk` is available yet. The existing market recognizes only its pinned reference vault. An integration can fund a new claim through that vault's `createClaim`; the interface does not make arbitrary external custody contracts supported.
+
+The [Proof Room](https://morrow-inky.vercel.app/dashboard/evidence) runs these health checks directly in the browser on load and refresh, clearing the previous report and displaying checked-ago timestamps. The [GET-only API](apps/worker/src/read-api-server.ts) is deployed at `https://morrow-inky.vercel.app/api/v1` and remains available locally at `http://127.0.0.1:4180`. It has no signer, rejects caller-supplied RPC overrides, uses `Cache-Control: no-store`, and returns `503` for unverifiable dependencies. Raw integer amounts are decimal strings, not floating-point values. Claim, sale and settlement reads returned HTTP 200; health returned HTTP 503 with the explicit 15 PASS / 0 FAIL / 2 UNVERIFIED report. These are read-only observations, not new trades.
+
+| Resource                         | Endpoint                           |
+| -------------------------------- | ---------------------------------- |
+| Claim state                      | `GET /api/v1/claims/2`             |
+| Sale state                       | `GET /api/v1/sales/{saleId}`       |
+| Settlement and credits           | `GET /api/v1/settlements/{saleId}` |
+| Live health and selected replays | `GET /api/v1/health`               |
+
+Reads carry their observation block/hash and time. A completed campaign is historical activity even when its state is freshly queried. API throttling returns `429`, never a cached green response.
 
 ## Engineering decisions
 

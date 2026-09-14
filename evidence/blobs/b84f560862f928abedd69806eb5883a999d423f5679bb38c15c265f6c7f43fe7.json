@@ -1,0 +1,162 @@
+{
+  "counts": {
+    "PASS": 15,
+    "FAIL": 0,
+    "UNVERIFIED": 2
+  },
+  "verdict": "UNVERIFIED",
+  "checkedAt": "2026-09-14T07:36:59.726Z",
+  "checks": [
+    {
+      "id": "source-rpc-0",
+      "name": "source RPC: https://ethereum-sepolia-rpc.publicnode.com",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "Chain 11155111, block 11701480 · 1944 ms",
+      "checkedAt": "2026-09-14T07:36:56.174Z"
+    },
+    {
+      "id": "source-rpc-1",
+      "name": "source RPC: https://1rpc.io/sepolia",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "Chain 11155111, block 11701480 · 4494 ms",
+      "checkedAt": "2026-09-14T07:36:56.174Z"
+    },
+    {
+      "id": "vault-runtime",
+      "name": "vault: address and full runtime hash",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583 · keccak256 0x0d92b51fec0c1d28e34b701b0f41a56675b2fa2c52ec6097c5100660f31a4560 · block 11701480",
+      "checkedAt": "2026-09-14T07:36:56.353Z"
+    },
+    {
+      "id": "vault-surface",
+      "name": "vault: exact ABI dispatcher and forbidden opcodes",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "10 exact ABI selectors; zero DELEGATECALL, CALLCODE, SELFDESTRUCT, CREATE or CREATE2",
+      "checkedAt": "2026-09-14T07:36:56.358Z"
+    },
+    {
+      "id": "source-token-runtime",
+      "name": "source-token: address and full runtime hash",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9 · keccak256 0x2ebb03f50ccc7b228f8b7eaa868e81f7edbdd47cf4dd98f1dff2655a683ef65e · block 11701480",
+      "checkedAt": "2026-09-14T07:36:56.539Z"
+    },
+    {
+      "id": "source-accounting",
+      "name": "source: current backing and liabilities",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "0 balance covers 0 backing, raw units",
+      "checkedAt": "2026-09-14T07:36:56.720Z"
+    },
+    {
+      "id": "source-canonical",
+      "name": "source: observation block remains canonical",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "11701480 · 0x02728cc7d05e205cd2053b31b2a0849565201b5382b7c8866e94e9604d5ad4b7",
+      "checkedAt": "2026-09-14T07:36:56.903Z"
+    },
+    {
+      "id": "destination-rpc-0",
+      "name": "destination RPC: https://rpc.cc3-testnet.creditcoin.network",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "Chain 102031, block 5485328 · 2692 ms",
+      "checkedAt": "2026-09-14T07:36:54.372Z"
+    },
+    {
+      "id": "market-runtime",
+      "name": "market: address and full runtime hash",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "0x7c3310280083eE63e32427D11d0A7C2CAf584474 · keccak256 0x8104de85a27582fa15cea674c7f19e19a69041586f509b982413b9dead287751 · block 5485328",
+      "checkedAt": "2026-09-14T07:36:54.815Z"
+    },
+    {
+      "id": "market-surface",
+      "name": "market: exact ABI dispatcher and forbidden opcodes",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "15 exact ABI selectors; zero DELEGATECALL, CALLCODE, SELFDESTRUCT, CREATE or CREATE2",
+      "checkedAt": "2026-09-14T07:36:54.828Z"
+    },
+    {
+      "id": "settlement-token-runtime",
+      "name": "settlement-token: address and full runtime hash",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0 · keccak256 0x2ebb03f50ccc7b228f8b7eaa868e81f7edbdd47cf4dd98f1dff2655a683ef65e · block 5485328",
+      "checkedAt": "2026-09-14T07:36:55.072Z"
+    },
+    {
+      "id": "destination-accounting",
+      "name": "destination: current backing and liabilities",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "0 liabilities = 0 bound + 0 credits; balance 0 raw units",
+      "checkedAt": "2026-09-14T07:36:57.294Z"
+    },
+    {
+      "id": "destination-canonical",
+      "name": "destination: observation block remains canonical",
+      "status": "PASS",
+      "evidenceKind": "live-read-verified",
+      "detail": "5485328 · 0xfc0d231ba5688bb5aa23437c846c75c402104ec30eb8abbbadd9e1d0f56a2d8a",
+      "checkedAt": "2026-09-14T07:36:57.511Z"
+    },
+    {
+      "id": "wrong-sale-historical",
+      "name": "Same proof against matching and wrong sale · recorded block re-query",
+      "status": "PASS",
+      "evidenceKind": "historical-replay",
+      "detail": "Native true; market SaleIdMismatch; matching sale SaleAlreadyExists (already funded, not a new successful deposit); proof 0xc5c1c713b58ae1a754415702539393c46d7af0e0160dc1a61ab4edaa1c91343b; block 5477528",
+      "checkedAt": "2026-09-14T07:36:59.726Z"
+    },
+    {
+      "id": "wrong-sale-current",
+      "name": "Same proof against matching and wrong sale · current block",
+      "status": "UNVERIFIED",
+      "evidenceKind": "live-read-verified",
+      "detail": "Native verifier rejected this envelope at this block; current proof continuity is not established",
+      "checkedAt": "2026-09-14T07:36:57.798Z"
+    },
+    {
+      "id": "stale-round-historical",
+      "name": "Old-round proof against later sale round · recorded block re-query",
+      "status": "PASS",
+      "evidenceKind": "historical-replay",
+      "detail": "Native true; market SaleIdMismatch; proof 0x08211d420bbcbed3fa39b433ee31470953f6792e922832d8ac64069f2cdf45a3; block 5480530",
+      "checkedAt": "2026-09-14T07:36:58.762Z"
+    },
+    {
+      "id": "stale-round-current",
+      "name": "Old-round proof against later sale round · current block",
+      "status": "UNVERIFIED",
+      "evidenceKind": "live-read-verified",
+      "detail": "Native verifier rejected this envelope at this block; current proof continuity is not established",
+      "checkedAt": "2026-09-14T07:36:58.054Z"
+    }
+  ],
+  "scope": "Live health and selected proof replays. Not the separate 26-check submission verifier, an audit, or a new trade.",
+  "sourceBlock": {
+    "number": "0xb28ce8",
+    "hash": "0x02728cc7d05e205cd2053b31b2a0849565201b5382b7c8866e94e9604d5ad4b7",
+    "timestamp": 1789371408
+  },
+  "destinationBlock": {
+    "number": "0x53b310",
+    "hash": "0xfc0d231ba5688bb5aa23437c846c75c402104ec30eb8abbbadd9e1d0f56a2d8a",
+    "timestamp": 1789371405
+  },
+  "endpoints": {
+    "source": "https://ethereum-sepolia-rpc.publicnode.com",
+    "destination": "https://rpc.cc3-testnet.creditcoin.network"
+  }
+}

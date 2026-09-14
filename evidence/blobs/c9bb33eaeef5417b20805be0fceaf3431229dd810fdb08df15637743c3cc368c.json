@@ -1,0 +1,67 @@
+{
+  "observedAt": "2026-09-14T07:39:07.028Z",
+  "evidenceKind": "local-tested",
+  "scope": "Public SDK build/tests/lint/types and local contract-payer registration; not npm publication, live registration or an audit",
+  "results": [
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow-protocol/sdk",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 1039,
+      "stdout": "\n> @morrow-protocol/sdk@0.1.0 build packages/public-sdk\n> tsup\n\nCLI Building entry: src/index.ts\nCLI Using tsconfig: tsconfig.json\nCLI tsup v8.5.1\nCLI Using tsup config: packages/public-sdk/tsup.config.ts\nCLI Target: es2022\nCLI Cleaning output folder\nESM Build start\nESM dist/index.js 24.87 KB\nESM ⚡️ Build success in 8ms\nDTS Build start\nDTS ⚡️ Build success in 490ms\nDTS dist/index.d.ts 6.21 KB\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow-protocol/sdk",
+        "test"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 272,
+      "stdout": "\n> @morrow-protocol/sdk@0.1.0 test packages/public-sdk\n> node --test test/*.test.ts\n\n✔ public read client fails closed on wrong-chain (2.124708ms)\n✔ public read client fails closed on missing-finality (0.174667ms)\n✔ public read client fails closed on wrong-runtime (0.606291ms)\n✔ public read client fails closed on transport (0.152166ms)\n✔ public client rejects malformed sale and nonpositive claim identities before RPC (0.24725ms)\n✔ claim decoder preserves raw bigint values and distinguishes redeemed state (2.642416ms)\n✔ malformed result cannot turn into an available claim or sale (0.368916ms)\n✔ registration encodes the deployed createClaim selector without sending (0.435583ms)\n✔ registration refuses unsupported backing, past maturity, and empty principal (0.153541ms)\n✔ built JavaScript and declarations have no private workspace or source-file dependencies (1.941542ms)\n✔ package exports built files and whitelists only distributable assets (1.108042ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 117.817833\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow-protocol/sdk",
+        "lint"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 1660,
+      "stdout": "\n> @morrow-protocol/sdk@0.1.0 lint packages/public-sdk\n> eslint . --max-warnings 0\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@morrow-protocol/sdk",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 517,
+      "stdout": "\n> @morrow-protocol/sdk@0.1.0 typecheck packages/public-sdk\n> tsc --noEmit\n\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "examples/payout-registrar"
+      ],
+      "exitCode": 0,
+      "elapsedMs": 228,
+      "stdout": "No files changed, compilation skipped\n2026-09-14T07:39:06.926918Z  WARN evm::traces::external: etherscan config not found\n\nRan 4 tests for test/PayoutRegistrar.t.sol:PayoutRegistrarTest\n[PASS] testFuzz_registrationLocksExactPrincipal(uint96) (runs: 256, μ: 229616, ~: 229616)\n[PASS] test_invalidPayoutRollsBackBothTransfers() (gas: 100699)\n[PASS] test_registrationDoesNotGivePayerDispositionRights() (gas: 264271)\n[PASS] test_unfundedCallerCannotRegister() (gas: 29886)\nSuite result: ok. 4 passed; 0 failed; 0 skipped; finished in 15.20ms (14.55ms CPU time)\n\nRan 1 test suite in 96.73ms (15.20ms CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)\n",
+      "stderr": ""
+    }
+  ]
+}
