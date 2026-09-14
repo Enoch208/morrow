@@ -7,7 +7,7 @@ const directory = new URL("schemas/abi/", root);
 await mkdir(directory, { recursive: true });
 const hashes = {};
 const require = createRequire(new URL("../packages/sdk/package.json", import.meta.url));
-for (const name of ["FundedPaymentVault", "MorrowMarket", "MorrowTestToken"]) {
+for (const name of ["FundedPaymentVault", "MorrowMarket", "MorrowTestToken", "MorrowTestFaucet"]) {
   const artifact = JSON.parse(
     await readFile(new URL(`contracts/out/${name}.sol/${name}.json`, root), "utf8"),
   );
