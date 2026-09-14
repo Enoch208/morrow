@@ -3,6 +3,7 @@ import type { SaleTerms } from "@morrow/protocol";
 import { prepareAssignment } from "./preflight.ts";
 import { livePreflightReaders } from "./preflight-rpc.ts";
 import { ConfigurationError } from "./errors.ts";
+import { actionAddress } from "./browser-action-policy.ts";
 
 export { prepareAssignment } from "./preflight.ts";
 export type {
@@ -12,6 +13,16 @@ export type {
 } from "./preflight.ts";
 export { livePreflightReaders } from "./preflight-rpc.ts";
 export { ConfigurationError } from "./errors.ts";
+export { prepareBrowserReservation } from "./browser-reservation.ts";
+export { prepareBrowserFundingApproval } from "./browser-approval.ts";
+export { prepareBrowserFunding } from "./browser-funding.ts";
+export { prepareBrowserSettlement } from "./browser-settlement.ts";
+export { prepareBrowserWithdrawal } from "./browser-withdrawal.ts";
+export { prepareBrowserSaleProof } from "./browser-proof.ts";
+export { confirmPreparedWallet } from "./browser-action-policy.ts";
+export type { WalletIdentityProvider } from "./browser-action-policy.ts";
+export type { BrowserActionOptions } from "./browser-action-context.ts";
+export type { BrowserProofInput } from "./browser-proof.ts";
 
 export interface BrowserPreflightOptions {
   readonly sourceRpcUrl: string;
@@ -37,12 +48,21 @@ export async function prepareBrowserAssignment(
   try {
     const destination = preflightProvider(options.destinationRpcUrl);
     try {
-      return await prepareAssignment(
+      const prepared = await prepareAssignment(
         terms,
         sellerAddress,
         connectedSourceChain,
         livePreflightReaders(source, destination, terms, options.fundingHash),
       );
+      return {
+        ...prepared,
+        action: "assign" as const,
+        expectedSigner: actionAddress(sellerAddress),
+        checkedAt: new Date().toISOString(),
+        checkedBlock: prepared.sourceBlock,
+        checkedBlockHash: prepared.sourceBlockHash as `0x${string}`,
+        validBefore: terms.assignBefore,
+      };
     } finally {
       destination.destroy();
     }

@@ -1,4 +1,4 @@
-import { proofProvider } from "@gluwa/usc-sdk";
+import { ProofBuilder } from "@gluwa/usc-sdk/dist/proof-provider/service/index.js";
 import type { Hex, ProofEnvelope } from "@morrow/protocol";
 import type { JsonRpcProvider } from "ethers";
 import { readNative } from "./native.ts";
@@ -57,9 +57,7 @@ export async function obtainProof(
   endpoint: string,
 ): Promise<{ proof: ProofEnvelope; raw: unknown }> {
   hex(transactionHash, 32);
-  const result = await new proofProvider.service.ProofBuilder(1, endpoint, 12_000).getProof(
-    transactionHash,
-  );
+  const result = await new ProofBuilder(1, endpoint, 12_000).getProof(transactionHash);
   if (!result.success || !result.data)
     throw new Error(result.error ?? "Proof service returned no proof");
   const proof = parseProof(result.data, transactionHash);

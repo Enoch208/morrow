@@ -27,6 +27,15 @@ await test("public SDK bundles for browsers without Node resolution or external 
   for (const output of Object.values(result.metafile.outputs)) {
     assert.equal(output.imports.length, 0);
     assert.ok(output.exports.includes("prepareBrowserAssignment"));
+    for (const name of [
+      "prepareBrowserReservation",
+      "prepareBrowserFunding",
+      "prepareBrowserSettlement",
+      "prepareBrowserWithdrawal",
+      "prepareBrowserSaleProof",
+      "confirmPreparedWallet",
+    ])
+      assert.ok(output.exports.includes(name));
   }
 });
 

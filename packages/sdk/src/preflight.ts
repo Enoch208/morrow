@@ -57,7 +57,11 @@ function fresh(read: BlockRead, now: bigint): void {
     throw new ConfigurationError("Stale or inconsistent chain timestamp");
 }
 
-function validateSource(read: SourcePreflightRead, terms: SaleTerms, now: bigint): void {
+export function validateReservedSource(
+  read: SourcePreflightRead,
+  terms: SaleTerms,
+  now: bigint,
+): void {
   fresh(read, now);
   const identity = saleIdentity(terms);
   if (
@@ -115,14 +119,10 @@ export async function prepareAssignment(
   )
     throw new ConfigurationError("Sale differs from pinned deployment manifest");
   const sourceBefore = await readers.source();
-  validateSource(sourceBefore, terms, clock());
+  validateReservedSource(sourceBefore, terms, clock());
   const destination = await readers.destination();
   fresh(destination, clock());
-  if (
-    !destination.finalized ||
-    destination.fundingStatus !== 1 ||
-    !destination.fundingMatches
-  )
+  if (!destination.finalized || destination.fundingStatus !== 1 || !destination.fundingMatches)
     throw new ConfigurationError(
       "Funding transaction is missing, reverted, unfinalized or mismatched",
     );
@@ -144,7 +144,7 @@ export async function prepareAssignment(
     throw new ConfigurationError("Destination liabilities are not covered");
   const sourceAfter = await readers.source();
   const signingTime = clock();
-  validateSource(sourceAfter, terms, signingTime);
+  validateReservedSource(sourceAfter, terms, signingTime);
   fresh(destination, signingTime);
   if (
     sourceAfter.blockNumber < sourceBefore.blockNumber ||

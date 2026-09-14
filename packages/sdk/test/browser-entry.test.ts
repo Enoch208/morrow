@@ -37,7 +37,16 @@ await test("browser entry exposes preparation without Node or wallet-key modules
       assert.ok(!dependency.startsWith("node:"), dependency);
       if (dependency.startsWith(".")) pending.push(new URL(dependency, url).href);
       else if (dependency === "@morrow/protocol") pending.push(import.meta.resolve(dependency));
-      else assert.equal(dependency, "ethers");
+      else
+        assert.ok(
+          [
+            "ethers",
+            "@gluwa/usc-sdk/dist/block-prover/block_prover.json",
+            "@gluwa/usc-sdk/dist/chain-info/chain_info.json",
+            "@gluwa/usc-sdk/dist/proof-provider/service/index.js",
+          ].includes(dependency),
+          dependency,
+        );
     }
   }
   const browser: unknown = await import("@morrow/sdk/browser");
