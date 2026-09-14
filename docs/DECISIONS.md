@@ -14,7 +14,7 @@ This record lists the design and verification decisions behind Morrow, with the 
 
 ## Public frontend release
 
-The 14 September 2026 Vercel deployment uses a clean archive of committed `main` at `bec5ef0093f2e73cb9d9585ff1219679ddaca3a2`, not the concurrent working directory. Its project root is `apps/web`, with outside-root workspace and campaign evidence access enabled. No application secrets or signing keys are configured. Git integration is not configured, so pushing unrelated changes does not redeploy the public demo. The immutable build URL and verification scope are recorded in [hosting provenance](../deployments/web/README.md).
+The 14 September 2026 Vercel deployment uses a clean archive of release snapshot `56fc9b9f6ae1035b394a25872f727696478ced09`, not the concurrent working directory. Its project root is `apps/web`, with outside-root workspace and campaign evidence access enabled. No application secrets or signing keys are configured. Git integration is not configured, so pushing unrelated changes does not redeploy the public demo. The immutable build is `https://morrow-4btjgvpz2-tekcify.vercel.app` and the stable alias is `https://morrow-inky.vercel.app`.
 
 ## Protocol identity
 

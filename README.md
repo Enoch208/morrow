@@ -399,7 +399,7 @@ The [mutation report](evidence/local/mutations-1789292743489.json) records **26 
 
 ## Live health, CI and integration surfaces
 
-The direct Vercel release is snapshot `56fc9b9f6ae1035b394a25872f727696478ced09`, with implementation `bf9296ba306f9acdd63f3d103ccdd3d61b8c6f5e`. These commits are local and have **not been pushed to GitHub**; the new workflow has not run remotely. npm publication remains blocked on account/scope access and the public SDK license decision. The existing custody deployments are unchanged.
+The direct Vercel release is snapshot `56fc9b9f6ae1035b394a25872f727696478ced09`, with implementation `bf9296ba306f9acdd63f3d103ccdd3d61b8c6f5e`. Both commits are published in this repository. GitHub CI passed all four jobs for follow-up commit `d0a2a9d6997c489aff54dd37814593541e38157d`; npm publication remains blocked on account/scope access and the public SDK license decision. The existing custody deployments are unchanged.
 
 The frozen release passed `pnpm verify:submission` on **14 September 2026 at 07:52 UTC: 26 PASS, 0 FAIL, 0 UNVERIFIED; exit 0**. [Public raw report](https://morrow-whitepaper.vercel.app/evidence/ca6018650e557daa9193ce783d27acd2abc7bcf8b6b6823b018a008d6c782dca.json). This rechecks recorded campaign evidence and current state using the labels in each line; it is not 26 current-block attacks or a new trade. The live health panel below has a separate 17-check scope.
 
