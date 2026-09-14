@@ -15,6 +15,7 @@ const targets = [
   "contracts/src/destination/MorrowMarket.sol",
   "contracts/src/testnet/MorrowTestToken.sol",
   "contracts/src/testnet/MorrowTestFaucet.sol",
+  "contracts/src/source/StreamPaymentVault.sol",
 ];
 
 function portableJson(value) {

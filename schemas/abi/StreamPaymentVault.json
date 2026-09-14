@@ -1,0 +1,811 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "lockup",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "LOCKUP",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IStreamLockup"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "SOURCE_TOKEN",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IERC20"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "assignSale",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "expectedRound",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "expectedTermsHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "cancelExpiredSale",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "expectedRound",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "claimStream",
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getClaim",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct SourceTypes.Claim",
+        "components": [
+          {
+            "name": "sourceToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "sourceFaceValueRaw",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maturity",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "originalBeneficiary",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "currentBeneficiary",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "activeRound",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "latestRound",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "successfulSale",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "redeemed",
+            "type": "bool",
+            "internalType": "bool"
+          },
+          {
+            "name": "referenceHash",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRound",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "round",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct SourceTypes.Round",
+        "components": [
+          {
+            "name": "terms",
+            "type": "tuple",
+            "internalType": "struct SaleTermsLib.Terms",
+            "components": [
+              {
+                "name": "protocolVersion",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "sourceEvmChainId",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "sourceVault",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "claimId",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "round",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "destinationEvmChainId",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "destinationMarket",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "seller",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "buyer",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "sourceToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "sourceFaceValueRaw",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "maturity",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "settlementToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "grossPurchasePriceRaw",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "feeBps",
+                "type": "uint16",
+                "internalType": "uint16"
+              },
+              {
+                "name": "feeRecipient",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "fundBefore",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "assignBefore",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "state",
+            "type": "uint8",
+            "internalType": "enum SourceTypes.RoundState"
+          },
+          {
+            "name": "saleId",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "termsHash",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "nextClaimId",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "redeem",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "payable"
+  },
+  {
+    "type": "function",
+    "name": "reserveSale",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "supplied",
+        "type": "tuple",
+        "internalType": "struct SaleTermsLib.Terms",
+        "components": [
+          {
+            "name": "protocolVersion",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "sourceEvmChainId",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "sourceVault",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "claimId",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "round",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "destinationEvmChainId",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "destinationMarket",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "seller",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "buyer",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "sourceToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "sourceFaceValueRaw",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maturity",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "settlementToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "grossPurchasePriceRaw",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feeBps",
+            "type": "uint16",
+            "internalType": "uint16"
+          },
+          {
+            "name": "feeRecipient",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "fundBefore",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "assignBefore",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "totalBacking",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "withdrawnAtWrap",
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint128",
+        "internalType": "uint128"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "wrapStream",
+    "inputs": [
+      {
+        "name": "streamId",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "referenceHash",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "ClaimFunded",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "payer",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "beneficiary",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "token",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "faceValueRaw",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "maturity",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      },
+      {
+        "name": "referenceHash",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ClaimRedeemed",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "beneficiary",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "token",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      },
+      {
+        "name": "faceValueRaw",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SaleAssigned",
+    "inputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "round",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "termsHash",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SaleCancelled",
+    "inputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "round",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "termsHash",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SaleReserved",
+    "inputs": [
+      {
+        "name": "saleId",
+        "type": "bytes32",
+        "indexed": true,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "round",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "termsHash",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      },
+      {
+        "name": "canonicalTerms",
+        "type": "bytes",
+        "indexed": false,
+        "internalType": "bytes"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "StreamWrapped",
+    "inputs": [
+      {
+        "name": "claimId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "streamId",
+        "type": "uint256",
+        "indexed": true,
+        "internalType": "uint256"
+      },
+      {
+        "name": "withdrawnAtWrap",
+        "type": "uint128",
+        "indexed": false,
+        "internalType": "uint128"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "AssignmentExpired",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "CancellationTooEarly",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "EntitlementMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidClaim",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidSaleTerms",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotBeneficiary",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotRedeemable",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotReservable",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotStreamOwner",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "ReentrancyGuardReentrantCall",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "RoundMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "SafeERC20FailedOperation",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "TermsHashMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TermsMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "TransferDeltaMismatch",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UnexpectedFee",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UnsupportedStream",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "UnsupportedToken",
+    "inputs": []
+  }
+]
