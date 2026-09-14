@@ -117,8 +117,6 @@ jobs:
     name: Contract static analysis
     runs-on: ubuntu-24.04
     timeout-minutes: 15
-    env:
-      MORROW_SOLC_BINARY: ${{ runner.temp }}/solc-0.8.28
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -141,11 +139,13 @@ jobs:
           "$RUNNER_TEMP/slither-venv/bin/pip" install slither-analyzer==0.11.6
       - name: Install and build with the pinned Solidity compiler
         run: |
-          curl --fail --silent --show-error --location --retry 3 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.28+commit.7893614a --output "$MORROW_SOLC_BINARY"
-          printf '%s  %s\n' '9a0fb7e0db2c0641dbae1c5cc645dc686820c83af516226abb1c0a2f76636f25' "$MORROW_SOLC_BINARY" | sha256sum --check --strict
-          chmod 0755 "$MORROW_SOLC_BINARY"
+          curl --fail --silent --show-error --location --retry 3 https://binaries.soliditylang.org/linux-amd64/solc-linux-amd64-v0.8.28+commit.7893614a --output "$RUNNER_TEMP/solc-0.8.28"
+          printf '%s  %s\n' '9a0fb7e0db2c0641dbae1c5cc645dc686820c83af516226abb1c0a2f76636f25' "$RUNNER_TEMP/solc-0.8.28" | sha256sum --check --strict
+          chmod 0755 "$RUNNER_TEMP/solc-0.8.28"
           forge build --root contracts
       - name: Analyze application contracts and retain all reported severities
+        env:
+          MORROW_SOLC_BINARY: ${{ runner.temp }}/solc-0.8.28
         run: 'node scripts/check-static-analysis.mjs "$RUNNER_TEMP/slither-venv/bin/slither" "$RUNNER_TEMP/static-analysis"'
       - name: Preserve static analysis findings
         if: always()
