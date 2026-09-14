@@ -1,4 +1,4 @@
-import { AbiCoder, keccak256, toUtf8Bytes } from "ethers";
+import { AbiCoder, getAddress, keccak256, toUtf8Bytes } from "ethers";
 import { protocolDomainText, saleTermsFields } from "@morrow/protocol";
 import type { Hex, SaleIdentity, SaleTerms } from "@morrow/protocol";
 
@@ -34,4 +34,20 @@ export function quoteEconomics(grossPurchasePriceRaw: bigint, feeBps: bigint) {
     throw new Error("Unsupported gross price or fee");
   const feeRaw = (grossPurchasePriceRaw * feeBps) / 10000n;
   return { grossPurchasePriceRaw, feeRaw, sellerNetRaw: grossPurchasePriceRaw - feeRaw };
+}
+
+export function decodeCanonicalTerms(encoded: string): SaleTerms {
+  const values = coder.decode(
+    saleTermsFields.map((field) => field.type),
+    encoded,
+  );
+  const terms = Object.fromEntries(
+    saleTermsFields.map((field, index) => [
+      field.name,
+      field.type === "address" ? getAddress(String(values[index])) : BigInt(String(values[index])),
+    ]),
+  ) as SaleTerms;
+  if (encodeTerms(terms) !== encoded.toLowerCase())
+    throw new Error("Canonical terms are not in their unique encoding");
+  return terms;
 }

@@ -5,6 +5,7 @@ import { build } from "esbuild";
 import { contractArtifact } from "../src/artifact.ts";
 import { contractInterfaces } from "../src/contract-reads.ts";
 import { campaignContracts } from "../src/campaign-config.ts";
+import { faucetInterface } from "../src/faucet-pins.ts";
 
 await test("public SDK bundles for browsers without Node resolution or external shims", async () => {
   const result = await build({
@@ -34,6 +35,13 @@ await test("public SDK bundles for browsers without Node resolution or external 
       "prepareBrowserWithdrawal",
       "prepareBrowserSaleProof",
       "confirmPreparedWallet",
+      "prepareBrowserFaucetDrip",
+      "prepareBrowserClaimApproval",
+      "prepareBrowserClaim",
+      "prepareBrowserCancellation",
+      "prepareBrowserCancellationRecognition",
+      "prepareBrowserRedemption",
+      "readWalletActivity",
     ])
       assert.ok(output.exports.includes(name));
   }
@@ -44,4 +52,11 @@ await test("browser contract interfaces match compiler-derived contract ABIs", (
     const compiled = contractArtifact(campaignContracts[key].name).abi;
     assert.deepEqual(contractInterfaces[key].format(true), compiled.format(true));
   }
+});
+
+await test("browser faucet interface matches the compiled faucet ABI", () => {
+  assert.deepEqual(
+    faucetInterface.format(true),
+    contractArtifact("MorrowTestFaucet").abi.format(true),
+  );
 });

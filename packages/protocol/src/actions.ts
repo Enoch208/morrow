@@ -1,6 +1,18 @@
 import type { Address, Hash } from "./terms.ts";
 
-export type PreparedAction = "reserve" | "approve" | "fund" | "assign" | "settle" | "withdraw";
+export type PreparedAction =
+  | "drip"
+  | "approve-claim"
+  | "create"
+  | "reserve"
+  | "approve"
+  | "fund"
+  | "assign"
+  | "settle"
+  | "cancel"
+  | "recognize"
+  | "redeem"
+  | "withdraw";
 
 export interface PreparedTransaction {
   readonly action: PreparedAction;

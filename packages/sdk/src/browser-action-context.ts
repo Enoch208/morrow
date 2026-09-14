@@ -79,7 +79,12 @@ export async function checkMarketConfiguration(
     throw new ConfigurationError("Terms differ from immutable market fee rules");
 }
 
-export async function finishPreparation(
+export interface PreparationTarget {
+  readonly address: string;
+  readonly chainId: bigint;
+}
+
+export function finishPreparation(
   rpc: JsonRpcProvider,
   block: Block,
   action: PreparedAction,
@@ -88,7 +93,18 @@ export async function finishPreparation(
   data: string,
   cutoff?: bigint,
 ): Promise<PreparedTransaction> {
-  const target = campaignContracts[key];
+  return finishPreparationFor(rpc, block, action, actor, campaignContracts[key], data, cutoff);
+}
+
+export async function finishPreparationFor(
+  rpc: JsonRpcProvider,
+  block: Block,
+  action: PreparedAction,
+  actor: string,
+  target: PreparationTarget,
+  data: string,
+  cutoff?: bigint,
+): Promise<PreparedTransaction> {
   assertFreshTimestamp(BigInt(block.timestamp), cutoff);
   await rpc.call({ to: target.address, from: actor, data, blockTag: block.number });
   if ((await rpc.getBlock(block.number))?.hash !== block.hash || !block.hash)
@@ -98,7 +114,7 @@ export async function finishPreparation(
     action,
     expectedSigner: actionAddress(actor),
     chainId: target.chainId,
-    to: target.address,
+    to: actionAddress(target.address),
     data,
     checkedAt: new Date().toISOString(),
     checkedBlock: block.number,

@@ -19,6 +19,26 @@ export { prepareBrowserFunding } from "./browser-funding.ts";
 export { prepareBrowserSettlement } from "./browser-settlement.ts";
 export { prepareBrowserWithdrawal } from "./browser-withdrawal.ts";
 export { prepareBrowserSaleProof } from "./browser-proof.ts";
+export { prepareBrowserFaucetDrip, assertDripAvailable } from "./browser-faucet.ts";
+export type { FaucetStatus } from "./browser-faucet.ts";
+export { faucetContracts } from "./faucet-pins.ts";
+export type { FaucetSide } from "./faucet-pins.ts";
+export {
+  prepareBrowserClaimApproval,
+  prepareBrowserClaim,
+  assertClaimRequest,
+  minimumMaturityLeadSeconds,
+} from "./browser-claim.ts";
+export type { ClaimRequest } from "./browser-claim.ts";
+export {
+  prepareBrowserCancellation,
+  prepareBrowserCancellationRecognition,
+} from "./browser-cancellation.ts";
+export { prepareBrowserRedemption, assertRedeemable } from "./browser-redemption.ts";
+export { readWalletActivity } from "./browser-sales.ts";
+export type { WalletClaim, WalletSale } from "./browser-sales.ts";
+export { campaignContracts } from "./campaign-config.ts";
+export { quoteEconomics, saleIdentity } from "./canonical.ts";
 export { confirmPreparedWallet } from "./browser-action-policy.ts";
 export type { WalletIdentityProvider } from "./browser-action-policy.ts";
 export type { BrowserActionOptions } from "./browser-action-context.ts";
