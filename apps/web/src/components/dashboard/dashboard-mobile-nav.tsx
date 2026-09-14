@@ -7,6 +7,7 @@ import { dashboardRoutes, isActiveRoute } from "@/lib/dashboard-routes";
 const items = [
   { label: "Live state", href: dashboardRoutes.overview, exact: true },
   { label: "Position", href: dashboardRoutes.position, exact: true },
+  { label: "Trade", href: dashboardRoutes.trade, exact: true },
   { label: "Claims", href: dashboardRoutes.claims, exact: false },
   { label: "Proof Room", href: dashboardRoutes.evidence, exact: true },
 ] as const;

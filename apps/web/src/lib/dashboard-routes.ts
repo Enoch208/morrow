@@ -3,6 +3,7 @@ import type { CampaignPrefix } from "@/lib/evidence/claim-ledger";
 export const dashboardRoutes = {
   overview: "/dashboard",
   position: "/dashboard/position",
+  trade: "/dashboard/trade",
   claims: "/dashboard/claims",
   evidence: "/dashboard/evidence",
 } as const;

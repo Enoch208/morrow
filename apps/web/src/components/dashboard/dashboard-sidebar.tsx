@@ -4,6 +4,7 @@ import {
   ArrowLeft01Icon,
   CheckmarkBadge01Icon,
   DashboardSquare01Icon,
+  Exchange01Icon,
   Folder01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -28,6 +29,12 @@ export function DashboardSidebar({ claims }: { claims: readonly LedgerClaim[] })
             { label: "Live state", href: dashboardRoutes.overview },
             { label: "Your position", href: dashboardRoutes.position },
           ]}
+        />
+        <SidebarSection
+          label="Trade"
+          href={dashboardRoutes.trade}
+          icon={Exchange01Icon}
+          items={[]}
         />
         <SidebarSection
           label="Claims"
