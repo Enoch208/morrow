@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-09-13T11:13:47.728Z",
+  "evidenceKind": "blocked",
+  "command": [
+    "node",
+    "packages/reference/src/c5-verify-cli.ts"
+  ],
+  "exitCode": 1,
+  "status": "UNVERIFIABLE",
+  "fullReleaseVerified": false,
+  "error": "80A140F201000000:error:0A0003FC:SSL routines:ssl3_read_bytes:ssl/tls alert bad record mac:../deps/openssl/openssl/ssl/record/rec_layer_s3.c:918:SSL alert number 20\n",
+  "scope": "First independent C5 check after funding recovery; transport failure retained before bounded retry"
+}

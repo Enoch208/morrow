@@ -1,0 +1,58 @@
+{
+  "observedAt": "2026-09-13T11:15:07.903Z",
+  "evidenceKind": "live-read-verified",
+  "scope": "C5 native-frontier and TLS recovery; not full release",
+  "sourceFiles": [
+    {
+      "path": "apps/worker/src/c5-frontier.ts",
+      "sha256": "a51124003680ae7d2c78d6a101d7627259dee306700d20093221b627f65e7e80"
+    },
+    {
+      "path": "apps/worker/src/c5-retry.ts",
+      "sha256": "b117f00023ec75589115db795ed1e0158f975e1ae84a7c4fa861a0fa2fcaa171"
+    },
+    {
+      "path": "apps/worker/test/c5-frontier.test.ts",
+      "sha256": "6f84fe439806d298f424a849cafc0fda5f601c158322317d5dc4305d8f5ab6b7"
+    },
+    {
+      "path": "apps/worker/test/c5-runtime.test.ts",
+      "sha256": "a045d1a8d60072896abc5438ada0b49abbc1ca70ec41a2cd47eaca4c2853a039"
+    }
+  ],
+  "backendCheck": {
+    "path": "evidence/local/backend-check-1789297879343.json",
+    "sha256": "22b23dacce7cd87e5bb9737650453f26596be5bc2ed8ffdd4a32685ca7ff1ee8"
+  },
+  "backendTests": 262,
+  "workerTests": 23,
+  "backendCommandsPassed": 13,
+  "independentCheck": {
+    "path": "evidence/blobs/6a2bcf0c622148c68c0ef321838eb63fb4fb65ef422847fa1c4b14faf9e56c20.json",
+    "sha256": "6a2bcf0c622148c68c0ef321838eb63fb4fb65ef422847fa1c4b14faf9e56c20"
+  },
+  "retainedFirstVerificationFailure": {
+    "path": "evidence/blobs/6adc74f76deeb22d9b7d96bd7f88c8a841129ea76374cc5d11a76e637c181cd1.json",
+    "sha256": "6adc74f76deeb22d9b7d96bd7f88c8a841129ea76374cc5d11a76e637c181cd1"
+  },
+  "fundingReconciliation": {
+    "path": "evidence/blobs/f038f20e31387cf09968c81f745edf1c1e709872fee75f37d5146d06a136a02d.json",
+    "sha256": "f038f20e31387cf09968c81f745edf1c1e709872fee75f37d5146d06a136a02d"
+  },
+  "verifiedTransactions": 8,
+  "verifiedProofs": 3,
+  "missing": [
+    "c5-r2-assign-proof",
+    "c5-refusal",
+    "c5-r2-settle",
+    "c5-withdraw-seller",
+    "c5-withdraw-fee",
+    "c5-redeem"
+  ],
+  "activeWorkerPid": 63681,
+  "deadlinesChanged": false,
+  "budgetsChanged": false,
+  "committed": false,
+  "pushed": false,
+  "fullReleaseVerified": false
+}

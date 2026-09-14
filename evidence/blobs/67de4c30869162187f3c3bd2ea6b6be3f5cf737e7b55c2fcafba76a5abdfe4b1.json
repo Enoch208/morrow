@@ -1,0 +1,110 @@
+{
+  "observedAt": "2026-09-14T02:22:19.341Z",
+  "evidenceKind": "live-read-verified",
+  "scope": "Local HTTP read API integration against public testnet RPCs; not deployed API or independently recomputed contract state",
+  "results": [
+    {
+      "path": "claims/2",
+      "httpStatus": 200,
+      "cacheControl": "no-store, max-age=0",
+      "result": {
+        "status": "available",
+        "value": {
+          "claimId": "2",
+          "sourceToken": "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9",
+          "sourceFaceValueRaw": "10000000000",
+          "maturity": "1789272000",
+          "originalBeneficiary": "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c",
+          "currentBeneficiary": "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE",
+          "activeRound": "0",
+          "latestRound": "1",
+          "successfulSale": true,
+          "redeemed": true,
+          "referenceHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "observedAt": "2026-09-14T02:22:16.645Z",
+        "blockNumber": "11699863",
+        "blockHash": "0x6137cfa4023857c6853f786d4800e1446fcaef56de6244d549533155fa9f5612"
+      }
+    },
+    {
+      "path": "sales/0x68c0b70a12bbbec19f1413c90de99efc6336c6f0f002dc397e1955a672d61692",
+      "httpStatus": 200,
+      "cacheControl": "no-store, max-age=0",
+      "result": {
+        "status": "available",
+        "value": {
+          "saleId": "0x68c0b70a12bbbec19f1413c90de99efc6336c6f0f002dc397e1955a672d61692",
+          "state": "ASSIGNED_CLAIMABLE",
+          "terms": {
+            "protocolVersion": "1",
+            "sourceEvmChainId": "11155111",
+            "sourceVault": "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583",
+            "claimId": "2",
+            "round": "1",
+            "destinationEvmChainId": "102031",
+            "destinationMarket": "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
+            "seller": "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c",
+            "buyer": "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE",
+            "sourceToken": "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9",
+            "sourceFaceValueRaw": "10000000000",
+            "maturity": "1789272000",
+            "settlementToken": "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0",
+            "grossPurchasePriceRaw": "9410000000",
+            "feeBps": "50",
+            "feeRecipient": "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D",
+            "fundBefore": "1789259400",
+            "assignBefore": "1789261200"
+          }
+        },
+        "observedAt": "2026-09-14T02:22:17.135Z",
+        "blockNumber": "5484071",
+        "blockHash": "0xa33df5ac954169da8d49d3ae66143f7785b53f763dc9d01cc5e6f23496984efe"
+      }
+    },
+    {
+      "path": "settlements/0x68c0b70a12bbbec19f1413c90de99efc6336c6f0f002dc397e1955a672d61692",
+      "httpStatus": 200,
+      "cacheControl": "no-store, max-age=0",
+      "result": {
+        "status": "available",
+        "value": {
+          "sale": {
+            "saleId": "0x68c0b70a12bbbec19f1413c90de99efc6336c6f0f002dc397e1955a672d61692",
+            "state": "ASSIGNED_CLAIMABLE",
+            "terms": {
+              "protocolVersion": "1",
+              "sourceEvmChainId": "11155111",
+              "sourceVault": "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583",
+              "claimId": "2",
+              "round": "1",
+              "destinationEvmChainId": "102031",
+              "destinationMarket": "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
+              "seller": "0xB9e1914C0844d9cd0188AdFFc10e3Bd6A633D12c",
+              "buyer": "0x8c48477bd205B0007d32A45ea3b7aE27745FDfbE",
+              "sourceToken": "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9",
+              "sourceFaceValueRaw": "10000000000",
+              "maturity": "1789272000",
+              "settlementToken": "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0",
+              "grossPurchasePriceRaw": "9410000000",
+              "feeBps": "50",
+              "feeRecipient": "0x9DDB9007583a7b9DF073B65bCE820f77D6E2365D",
+              "fundBefore": "1789259400",
+              "assignBefore": "1789261200"
+            }
+          },
+          "sellerCreditRaw": "0",
+          "buyerCreditRaw": "0",
+          "feeRecipientCreditRaw": "0",
+          "totalLiabilitiesRaw": "0",
+          "totalBoundRaw": "0",
+          "totalCreditsRaw": "0",
+          "marketBalanceRaw": "0"
+        },
+        "observedAt": "2026-09-14T02:22:19.340Z",
+        "blockNumber": "5484070",
+        "blockHash": "0xa1d8a55de92293b3d9eb1a09a3d2163248f516eed0b0d24be1670145d1c687a7"
+      }
+    }
+  ]
+}
