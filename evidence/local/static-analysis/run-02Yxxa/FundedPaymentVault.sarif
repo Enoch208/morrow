@@ -1,0 +1,215 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Slither",
+          "informationUri": "https://github.com/crytic/slither",
+          "version": "0.11.6",
+          "rules": [
+            {
+              "id": "2-1-timestamp",
+              "name": "timestamp",
+              "properties": {
+                "precision": "high",
+                "security-severity": "3.0"
+              },
+              "shortDescription": {
+                "text": "Block timestamp"
+              },
+              "help": {
+                "text": "Avoid relying on `block.timestamp`."
+              }
+            },
+            {
+              "id": "3-0-naming-convention",
+              "name": "naming-convention",
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "0.0"
+              },
+              "shortDescription": {
+                "text": "Conformance to Solidity naming conventions"
+              },
+              "help": {
+                "text": "Follow the Solidity [naming convention](https://solidity.readthedocs.io/en/v0.4.25/style-guide.html#naming-conventions)."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "2-1-timestamp",
+          "message": {
+            "text": "FundedPaymentVault.cancelExpiredSale(uint256,uint256) (contracts/src/source/FundedPaymentVault.sol#105-112) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp < round.terms.assignBefore (contracts/src/source/FundedPaymentVault.sol#108)\n",
+            "markdown": "[FundedPaymentVault.cancelExpiredSale(uint256,uint256)](contracts/src/source/FundedPaymentVault.sol#L105-L112) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [block.timestamp < round.terms.assignBefore](contracts/src/source/FundedPaymentVault.sol#L108)\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/source/FundedPaymentVault.sol"
+                },
+                "region": {
+                  "startLine": 105,
+                  "endLine": 112
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "09802a9ba3429252dd6a21c8628981c8121650ecbce8d8525911b3bf9909acbf"
+          }
+        },
+        {
+          "ruleId": "2-1-timestamp",
+          "message": {
+            "text": "FundedPaymentVault.createClaim(address,uint256,address,uint256,bytes32) (contracts/src/source/FundedPaymentVault.sol#52-70) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- faceValueRaw == 0 || beneficiary == address(0) || maturity <= block.timestamp (contracts/src/source/FundedPaymentVault.sol#60)\n",
+            "markdown": "[FundedPaymentVault.createClaim(address,uint256,address,uint256,bytes32)](contracts/src/source/FundedPaymentVault.sol#L52-L70) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [faceValueRaw == 0 || beneficiary == address(0) || maturity <= block.timestamp](contracts/src/source/FundedPaymentVault.sol#L60)\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/source/FundedPaymentVault.sol"
+                },
+                "region": {
+                  "startLine": 52,
+                  "endLine": 70
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "547ece65c820f3d4a609c002ad55ecae6f003d3c9e6509aef7472a34a5d83bdd"
+          }
+        },
+        {
+          "ruleId": "2-1-timestamp",
+          "message": {
+            "text": "FundedPaymentVault.assignSale(uint256,uint256,bytes32) (contracts/src/source/FundedPaymentVault.sol#92-103) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp >= round.terms.assignBefore (contracts/src/source/FundedPaymentVault.sol#97)\n",
+            "markdown": "[FundedPaymentVault.assignSale(uint256,uint256,bytes32)](contracts/src/source/FundedPaymentVault.sol#L92-L103) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [block.timestamp >= round.terms.assignBefore](contracts/src/source/FundedPaymentVault.sol#L97)\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/source/FundedPaymentVault.sol"
+                },
+                "region": {
+                  "startLine": 92,
+                  "endLine": 103
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "652d73c5c781d944e6a74e053af856796cac9c26dbda7646a2c559c336572972"
+          }
+        },
+        {
+          "ruleId": "2-1-timestamp",
+          "message": {
+            "text": "FundedPaymentVault.redeem(uint256) (contracts/src/source/FundedPaymentVault.sol#114-125) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- claim.redeemed || claim.activeRound != 0 || block.timestamp < claim.maturity (contracts/src/source/FundedPaymentVault.sol#116)\n",
+            "markdown": "[FundedPaymentVault.redeem(uint256)](contracts/src/source/FundedPaymentVault.sol#L114-L125) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [claim.redeemed || claim.activeRound != 0 || block.timestamp < claim.maturity](contracts/src/source/FundedPaymentVault.sol#L116)\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/source/FundedPaymentVault.sol"
+                },
+                "region": {
+                  "startLine": 114,
+                  "endLine": 125
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "b4f9779ce21e5718d82f3659182142f0ae83e28ec9745cda699c3d9fa4ce592d"
+          }
+        },
+        {
+          "ruleId": "2-1-timestamp",
+          "message": {
+            "text": "FundedPaymentVault.reserveSale(uint256,SaleTermsLib.Terms) (contracts/src/source/FundedPaymentVault.sol#72-90) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- claim.redeemed || claim.successfulSale || claim.activeRound != 0 || block.timestamp >= claim.maturity (contracts/src/source/FundedPaymentVault.sol#79)\n",
+            "markdown": "[FundedPaymentVault.reserveSale(uint256,SaleTermsLib.Terms)](contracts/src/source/FundedPaymentVault.sol#L72-L90) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [claim.redeemed || claim.successfulSale || claim.activeRound != 0 || block.timestamp >= claim.maturity](contracts/src/source/FundedPaymentVault.sol#L79)\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/source/FundedPaymentVault.sol"
+                },
+                "region": {
+                  "startLine": 72,
+                  "endLine": 90
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "b9abddbf3599d09926c3e35f8042365d67d5e6b6925431ef7463745c5c90632b"
+          }
+        },
+        {
+          "ruleId": "2-1-timestamp",
+          "message": {
+            "text": "SourceTerms.bind(SaleTermsLib.Terms,SourceTypes.Claim,uint256,uint256) (contracts/src/source/SourceTerms.sol#11-35) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- canonical.destinationEvmChainId != 102031 || canonical.destinationMarket == address(0) || canonical.buyer == address(0) || canonical.settlementToken == address(0) || canonical.grossPurchasePriceRaw == 0 || canonical.feeBps > 100 || canonical.feeRecipient == address(0) || canonical.fundBefore == 0 || canonical.fundBefore > canonical.assignBefore || canonical.assignBefore <= block.timestamp || canonical.assignBefore >= claim.maturity (contracts/src/source/SourceTerms.sol#28-33)\n",
+            "markdown": "[SourceTerms.bind(SaleTermsLib.Terms,SourceTypes.Claim,uint256,uint256)](contracts/src/source/SourceTerms.sol#L11-L35) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [canonical.destinationEvmChainId != 102031 || canonical.destinationMarket == address(0) || canonical.buyer == address(0) || canonical.settlementToken == address(0) || canonical.grossPurchasePriceRaw == 0 || canonical.feeBps > 100 || canonical.feeRecipient == address(0) || canonical.fundBefore == 0 || canonical.fundBefore > canonical.assignBefore || canonical.assignBefore <= block.timestamp || canonical.assignBefore >= claim.maturity](contracts/src/source/SourceTerms.sol#L28-L33)\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/source/SourceTerms.sol"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 35
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "d8390b0e8c98fd137d8eccc43cf86d7f881052612b2c8640495190aa2839665e"
+          }
+        },
+        {
+          "ruleId": "3-0-naming-convention",
+          "message": {
+            "text": "Variable FundedPaymentVault.SOURCE_TOKEN (contracts/src/source/FundedPaymentVault.sol#14) is not in mixedCase\n",
+            "markdown": "Variable [FundedPaymentVault.SOURCE_TOKEN](contracts/src/source/FundedPaymentVault.sol#L14) is not in mixedCase\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/source/FundedPaymentVault.sol"
+                },
+                "region": {
+                  "startLine": 14,
+                  "endLine": 14
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "4cf6bcd2dacca23cf87a2e76f3b5df2424435ce04c1fdab76c7ac97a5554db8a"
+          }
+        }
+      ]
+    }
+  ]
+}

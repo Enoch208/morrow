@@ -1,0 +1,191 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Slither",
+          "informationUri": "https://github.com/crytic/slither",
+          "version": "0.11.6",
+          "rules": [
+            {
+              "id": "2-1-timestamp",
+              "name": "timestamp",
+              "properties": {
+                "precision": "high",
+                "security-severity": "3.0"
+              },
+              "shortDescription": {
+                "text": "Block timestamp"
+              },
+              "help": {
+                "text": "Avoid relying on `block.timestamp`."
+              }
+            },
+            {
+              "id": "3-0-naming-convention",
+              "name": "naming-convention",
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "0.0"
+              },
+              "shortDescription": {
+                "text": "Conformance to Solidity naming conventions"
+              },
+              "help": {
+                "text": "Follow the Solidity [naming convention](https://solidity.readthedocs.io/en/v0.4.25/style-guide.html#naming-conventions)."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "2-1-timestamp",
+          "message": {
+            "text": "MorrowMarket.fundReservation(AttestcoinGate.ProofEnvelope,uint256,SaleTermsLib.Terms) (contracts/src/destination/MorrowMarket.sol#65-85) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp >= terms.fundBefore (contracts/src/destination/MorrowMarket.sol#75)\n",
+            "markdown": "[MorrowMarket.fundReservation(AttestcoinGate.ProofEnvelope,uint256,SaleTermsLib.Terms)](contracts/src/destination/MorrowMarket.sol#L65-L85) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- [block.timestamp >= terms.fundBefore](contracts/src/destination/MorrowMarket.sol#L75)\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/destination/MorrowMarket.sol"
+                },
+                "region": {
+                  "startLine": 65,
+                  "endLine": 85
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "106f579afb6362c6e1e5bf46091cfa5e8bd7fc8a1cf9269de541a943c7d71548"
+          }
+        },
+        {
+          "ruleId": "3-0-naming-convention",
+          "message": {
+            "text": "Variable MorrowMarket.SOURCE_VAULT (contracts/src/destination/MorrowMarket.sol#18) is not in mixedCase\n",
+            "markdown": "Variable [MorrowMarket.SOURCE_VAULT](contracts/src/destination/MorrowMarket.sol#L18) is not in mixedCase\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/destination/MorrowMarket.sol"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "50bc4edc9fa8fc1f46b77acfafb1692d972b02f1fbb3dddb65badc7200b97add"
+          }
+        },
+        {
+          "ruleId": "3-0-naming-convention",
+          "message": {
+            "text": "Variable MorrowMarket.SOURCE_TOKEN (contracts/src/destination/MorrowMarket.sol#19) is not in mixedCase\n",
+            "markdown": "Variable [MorrowMarket.SOURCE_TOKEN](contracts/src/destination/MorrowMarket.sol#L19) is not in mixedCase\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/destination/MorrowMarket.sol"
+                },
+                "region": {
+                  "startLine": 19,
+                  "endLine": 19
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "7a8a0120e698f1ed4c0ff23965871b4720ff9ff156b1c59d6506dc0f0e245a51"
+          }
+        },
+        {
+          "ruleId": "3-0-naming-convention",
+          "message": {
+            "text": "Variable MorrowMarket.FEE_BPS (contracts/src/destination/MorrowMarket.sol#21) is not in mixedCase\n",
+            "markdown": "Variable [MorrowMarket.FEE_BPS](contracts/src/destination/MorrowMarket.sol#L21) is not in mixedCase\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/destination/MorrowMarket.sol"
+                },
+                "region": {
+                  "startLine": 21,
+                  "endLine": 21
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "864fcd2df9fd5450f4de6184ea1a15da9f41655dbeeaaccf014c191e3f1b943e"
+          }
+        },
+        {
+          "ruleId": "3-0-naming-convention",
+          "message": {
+            "text": "Variable MorrowMarket.SETTLEMENT_TOKEN (contracts/src/destination/MorrowMarket.sol#17) is not in mixedCase\n",
+            "markdown": "Variable [MorrowMarket.SETTLEMENT_TOKEN](contracts/src/destination/MorrowMarket.sol#L17) is not in mixedCase\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/destination/MorrowMarket.sol"
+                },
+                "region": {
+                  "startLine": 17,
+                  "endLine": 17
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "a8161d6634c59635a709abae8cf3ce4c19aecbb035da3764eda91ed89343149a"
+          }
+        },
+        {
+          "ruleId": "3-0-naming-convention",
+          "message": {
+            "text": "Variable MorrowMarket.FEE_RECIPIENT (contracts/src/destination/MorrowMarket.sol#20) is not in mixedCase\n",
+            "markdown": "Variable [MorrowMarket.FEE_RECIPIENT](contracts/src/destination/MorrowMarket.sol#L20) is not in mixedCase\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/destination/MorrowMarket.sol"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "a9acaadaa694c16cad54a984bd3e9211c532e53c2850bb620434e37b2e393a2d"
+          }
+        }
+      ]
+    }
+  ]
+}

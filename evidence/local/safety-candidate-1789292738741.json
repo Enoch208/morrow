@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "local-tested",
+  "generatedAt": "2026-09-13 09:49:26 UTC",
+  "baseCommit": "99d5d8d4cc10962da2c57ebf51ec9fe328fb94d8",
+  "candidateKind": "isolated-local-clone-with-explicit-uncommitted-overlay",
+  "candidateCommitted": false,
+  "checkoutPath": "/tmp/morrow-safety-final.Bz0Ksv/checkout",
+  "overlayFiles": [
+    {
+      "path": "contracts/test/unit/AssignmentUniqueness.t.sol",
+      "sha256": "a97f3192feda20948aa55e996cb4149f4410b15361c100aed41165435b64d282"
+    },
+    {
+      "path": "contracts/test/unit/FailedReceipt.t.sol",
+      "sha256": "f399170461f6ccf57ffca48a0a0bee1131b9ad84bd04a3b50f35f8d7556dd662"
+    },
+    {
+      "path": "contracts/test/unit/FundingRollback.t.sol",
+      "sha256": "be1b8e7bef21297e730be1f091d97d26f67236ed3d1353ec53e38233ec10ad90"
+    },
+    {
+      "path": "contracts/test/unit/HistoricalAssignment.t.sol",
+      "sha256": "b2659afaa94255ded8d61a3398f39de1288f9bad4849206ea2bdec1a5e79362a"
+    },
+    {
+      "path": "contracts/test/unit/OutgoingDelta.t.sol",
+      "sha256": "d18b0923cb5bbde61bd156fc78ae4f2d5200e269e961b404af79ce16b4f38cc8"
+    },
+    {
+      "path": "contracts/test/unit/ProofBoundary.t.sol",
+      "sha256": "faa88bb09ca12eedfc784a839d1f12a6ebf9406a627423e2dd378762b6108e6b"
+    },
+    {
+      "path": "contracts/test/unit/ProofBoundaryFixture.sol",
+      "sha256": "a83817cfd43c45a5a77b8efea98d5b179fb9107e8af0178320f37aeebe472db5"
+    },
+    {
+      "path": "contracts/test/unit/SourceBoundaries.t.sol",
+      "sha256": "bca48a62693e164f5f8616112d0bcc0cfc732ef59a84242c53e69ca8575f4b5f"
+    },
+    {
+      "path": "contracts/test/unit/SourceGuardPaths.t.sol",
+      "sha256": "54c4e82220d047e9a7e02229dae1703d647c646a5a4546def3a3f1ad7c6bf7fa"
+    },
+    {
+      "path": "evidence/release/candidate-99d5d8d.json",
+      "sha256": "90740616971370f72f307e654335fd88a5414f4a4d3ba12a9cc3e4937396f0b5"
+    },
+    {
+      "path": "packages/reference/package.json",
+      "sha256": "a0d266306725b733c48f1505c4111ac11a981a74bcb2bc9ea188f9616a3341b1"
+    },
+    {
+      "path": "packages/reference/src/manifest-deployment-check.ts",
+      "sha256": "9a929942d01474ed8acdd04c47368285179c1113483c3a3770bcd70651b24f89"
+    },
+    {
+      "path": "packages/reference/src/manifest-verify.ts",
+      "sha256": "617db8f85054eea72789d88051a0e476bc4ba2dcb75534e61e508ed659ee202c"
+    },
+    {
+      "path": "packages/reference/src/release-campaign-policy.ts",
+      "sha256": "7ba8d5f9051b92cb78336a0851051cf911b5f25bd939c1439ad9ac5103d487c8"
+    },
+    {
+      "path": "packages/reference/src/release-campaign-timing.ts",
+      "sha256": "8358742275d84e314ce125b4c34a1a1a648782836e2636fd03a8b7098be26a25"
+    },
+    {
+      "path": "packages/reference/src/release-campaigns.ts",
+      "sha256": "6dd69293f377e1e92d2eaaeafbd1fb3374809eaa0c1ffef8367c54d043cdd836"
+    },
+    {
+      "path": "packages/reference/src/release-candidate.ts",
+      "sha256": "d15802564f0c1d7269d88760882a4d823410b811bdd8319fc16bed578b823c53"
+    },
+    {
+      "path": "packages/reference/src/release-check-cli.ts",
+      "sha256": "7bcb619239723f3516cf50ff606200b4388822628c1a2b59e64e6f7661883a7c"
+    },
+    {
+      "path": "packages/reference/src/release-check.ts",
+      "sha256": "64b1a76896bd339af50e6841be96ca5fc3a9606d7e263ed991444573423b1365"
+    },
+    {
+      "path": "packages/reference/src/release-provenance-artifacts.ts",
+      "sha256": "9aaf0cef2eb2562be02c1f69e1c5057cfb79ba703a631a2d0cebdec7652b8860"
+    },
+    {
+      "path": "packages/reference/src/release-provenance-files.ts",
+      "sha256": "10537e399480024cba133a2c190a8a6bcbb59494887b9fbf625f7d36363f35ab"
+    },
+    {
+      "path": "packages/reference/src/release-provenance-metadata.ts",
+      "sha256": "7e08bfa4fdc0134949c90aa8bf5539c43440a722a9474e86c545d8d81e5898c1"
+    },
+    {
+      "path": "packages/reference/src/release-provenance.ts",
+      "sha256": "bb8eb381c5433ca480a8cc2f36369f3a0e071156fea644f0936a7ad660f2d5d3"
+    },
+    {
+      "path": "packages/reference/src/release-tool-identity.ts",
+      "sha256": "c6cbacf81eae51c3f57be94ad400dff9cd1edf82d0a72f8a40d28bab8fb0be5c"
+    },
+    {
+      "path": "packages/reference/src/release-verification-attempt.ts",
+      "sha256": "f2792f3d7fd5112d6be01c7e1ffde6a0c486a3db7ef9c565b3f29f2c3d33cf5d"
+    },
+    {
+      "path": "packages/reference/test/release-campaigns.test.ts",
+      "sha256": "77156bd516de06d26ea61c35d8a4dbaa54aa98bea916d16aa12baff166694bf3"
+    },
+    {
+      "path": "packages/reference/test/release-candidate.test.ts",
+      "sha256": "04221773769caa3a6873a0012002ae78649d4ca8e0ebc3cc3d1886642bc2d659"
+    },
+    {
+      "path": "packages/reference/test/release-provenance-fixture.ts",
+      "sha256": "05cac7d6ed881b63a958da243db299f17fce51fef5593ddb17e63e9e6486c0fc"
+    },
+    {
+      "path": "packages/reference/test/release-provenance.test.ts",
+      "sha256": "8b5910550d0d35eb1e430e90993802f8f78f0ee5fa624d0ccf466811d15fb764"
+    },
+    {
+      "path": "packages/reference/test/release-tool-identity.test.ts",
+      "sha256": "03581a90084f851c38dd740402cf57fd885829ff4b245ce7d487d98f7943e898"
+    },
+    {
+      "path": "packages/reference/test/runtime-substitution-fixture.ts",
+      "sha256": "c0b895cf5ea4d2dd1c305a3ace49c75d00227f67185d028bde0ecefdb71489a4"
+    },
+    {
+      "path": "packages/reference/test/runtime-substitution.test.ts",
+      "sha256": "471c88f2659efe1bf83e0f48dba107a6c6338bcba44b8f0ef25273e951a0cf68"
+    },
+    {
+      "path": "schemas/release-candidate-v1.schema.json",
+      "sha256": "ce471a61ac1730b9ddcc488eec6dabd4bbabd80b9f23f84a03c1b484ce42626b"
+    },
+    {
+      "path": "scripts/mutation-cases.mjs",
+      "sha256": "f9efa29a16d19f4b83aee0a0d1a4c5f752027bf29f5003aec399c97372fd748e"
+    },
+    {
+      "path": "scripts/test-mutations.mjs",
+      "sha256": "09de00ce234bcb6f07c9b871ddeadfa30531b320af99d3f68bb3de9ea1846829"
+    }
+  ],
+  "overlayMatchedAfterChecks": true,
+  "dependencyInstall": {
+    "command": "pnpm install --frozen-lockfile",
+    "exitCode": 0,
+    "reusedPackages": 398,
+    "downloadedPackages": 0,
+    "dependencyBuildPolicyUnchanged": true
+  },
+  "cleanBuild": {
+    "command": "forge clean --root /tmp/morrow-safety-final.Bz0Ksv/checkout/contracts",
+    "exitCode": 0,
+    "scope": "Only isolated generated compiler outputs were removed and rebuilt"
+  },
+  "backend": {
+    "command": "node scripts/check-backend.mjs",
+    "exitCode": 0,
+    "commandsPassed": 13,
+    "testsPassed": 256,
+    "report": "evidence/local/backend-check-1789292738741.json"
+  },
+  "workingCheckoutReport": "evidence/local/backend-check-1789292713229.json",
+  "mutationReport": "evidence/local/mutations-1789292743489.json",
+  "selectedMutationsKilled": 26,
+  "coverageReport": "evidence/local/coverage-1789292695437.json",
+  "criticalCoverage": {
+    "linesHit": 201,
+    "linesFound": 201,
+    "functionsHit": 28,
+    "functionsFound": 28,
+    "branchesHit": 40,
+    "branchesFound": 41,
+    "unhitBranch": "contracts/src/source/FundedPaymentVault.sol:147",
+    "sourceMapAnchorWarnings": 6327,
+    "deployedBytecodeCoverage": false
+  },
+  "liveVerification": {
+    "report": "evidence/blobs/b87e16e044deb89dfa6271a32e8068b2f96c8dd2d2a250a5d6eba465af6f1a36.json",
+    "command": "pnpm --filter @morrow/reference check:release evidence/release/candidate-99d5d8d.json",
+    "exitCode": 2,
+    "observedAt": "2026-09-13T09:50:14.091Z",
+    "gateABAndExistingC5Verified": true,
+    "attempts": { "gate": 3, "a": 3, "b": 2, "c5": 1 },
+    "transportFailuresRetained": 5,
+    "custodyArtifactsMatched": 3,
+    "candidateSchemaCommitted": false,
+    "remainingC5Stages": 12,
+    "overlayHashesMatchedAfterLiveCheck": true
+  },
+  "liveVerificationBlocker": "Full release remains blocked by uncommitted candidate inputs, incomplete C5 and broader release gates, not by an unverified completed gate/A/B campaign",
+  "roleKeyFilesCopied": false,
+  "freshMachine": false,
+  "reusedGitObjects": true,
+  "fullReleaseVerified": false,
+  "limitations": [
+    "Base Git commit plus overlay hashes identify this tested candidate; no committed/tagged final release exists.",
+    "Same host, runtime, Git objects and package cache were reused; no team role-key file was copied.",
+    "Coverage disables configured optimizer/viaIR and reports source-map warnings; counts do not establish every compound-condition operand or an audit.",
+    "Selected mutations include redundant defenses and changed error behavior; killed mutants do not independently prove each removed guard would cause a monetary loss.",
+    "No frontend/browser/human/presentation/submission verification performed.",
+    "C5 remains incomplete; no fresh trade or mined failed transaction is implied by local tests or historical replay."
+  ]
+}

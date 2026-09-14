@@ -1,0 +1,57 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Slither",
+          "informationUri": "https://github.com/crytic/slither",
+          "version": "0.11.6",
+          "rules": [
+            {
+              "id": "3-0-naming-convention",
+              "name": "naming-convention",
+              "properties": {
+                "precision": "very-high",
+                "security-severity": "0.0"
+              },
+              "shortDescription": {
+                "text": "Conformance to Solidity naming conventions"
+              },
+              "help": {
+                "text": "Follow the Solidity [naming convention](https://solidity.readthedocs.io/en/v0.4.25/style-guide.html#naming-conventions)."
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "3-0-naming-convention",
+          "message": {
+            "text": "Variable MorrowTestToken.TOKEN_DECIMALS (contracts/src/testnet/MorrowTestToken.sol#7) is not in mixedCase\n",
+            "markdown": "Variable [MorrowTestToken.TOKEN_DECIMALS](contracts/src/testnet/MorrowTestToken.sol#L7) is not in mixedCase\n"
+          },
+          "level": "warning",
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "contracts/src/testnet/MorrowTestToken.sol"
+                },
+                "region": {
+                  "startLine": 7,
+                  "endLine": 7
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "id": "1cdd8d3a736c2b1d5bfcc32a5a097ad830489b1e0da8858e77b3a5dfdfe1ee72"
+          }
+        }
+      ]
+    }
+  ]
+}

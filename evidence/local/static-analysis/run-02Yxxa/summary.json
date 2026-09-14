@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "evidenceKind": "local-tested",
+  "observedAt": "2026-09-14T02:20:16.725Z",
+  "slitherVersion": "0.11.6",
+  "solcVersion": "0.8.28",
+  "failureThreshold": "Medium or High findings, compilation errors, or incomplete AST resolution",
+  "scope": "Three deployed custody/token entrypoints and their imported application libraries; dependencies excluded from findings",
+  "limitations": "Low and informational findings remain visible. Static analysis is not an audit or proof of correctness.",
+  "pathNormalization": "Repository-root prefixes removed from reports; finding contents and severities retained.",
+  "results": [
+    {
+      "target": "contracts/src/source/FundedPaymentVault.sol",
+      "passed": true,
+      "exitCode": 0,
+      "incomplete": false,
+      "impacts": {
+        "Low": 6,
+        "Informational": 1
+      },
+      "reportPath": "evidence/local/static-analysis/run-02Yxxa/FundedPaymentVault.json"
+    },
+    {
+      "target": "contracts/src/destination/MorrowMarket.sol",
+      "passed": true,
+      "exitCode": 0,
+      "incomplete": false,
+      "impacts": {
+        "Low": 1,
+        "Informational": 5
+      },
+      "reportPath": "evidence/local/static-analysis/run-02Yxxa/MorrowMarket.json"
+    },
+    {
+      "target": "contracts/src/testnet/MorrowTestToken.sol",
+      "passed": true,
+      "exitCode": 0,
+      "incomplete": false,
+      "impacts": {
+        "Informational": 1
+      },
+      "reportPath": "evidence/local/static-analysis/run-02Yxxa/MorrowTestToken.json"
+    }
+  ]
+}
