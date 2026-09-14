@@ -1,8 +1,14 @@
 # Claims ledger
 
+## Current continuity refresh — 14 September 2026
+
+The backend verifier produced [17 PASS, 0 FAIL and 0 UNVERIFIED](../evidence/blobs/b0eedaad884661c216c74300f480ef7c0a7c06b01ff68a20d596af329bf6f2ab.json) in a read-only local invocation against public chains. It fetched fresh continuity witnesses from the official proof service, refused changes to each source transaction hash or authenticated transaction/Merkle components, and re-ran the resulting identical native/application proof pair at CC3 block 5487036. Wrong-sale returned `SaleIdMismatch`; old-round returned `SaleNotBound` because the later sale is now terminal, while the recorded-block replay still returned `SaleIdMismatch`.
+
+The subsequent mined-refusal campaign is recorded in [`evidence/mined-refusals/actions.jsonl`](../evidence/mined-refusals/actions.jsonl). Four zero-value CC3 transactions reverted with the expected errors and emitted no logs; pre/post market snapshots were identical: replay `0x779c6a3fbc1e154cf871486aabed6135bffb3357aaffc072efd57b08b9d2fd61`, wrong sale `0xf0823946d221485b808b9aed9d75faec6876274ccaac6d550458083eed72be86`, old round `0x5e04dbf412ebafd2c2d50fa97b344208509e07b21039132e09645f65f4476e57`, stale proof `0x9f8a36114b78dd29b4a1c93fe1e765003a550de4f883ddc2c73222b1dce36ab8`. This is `live-testnet-mined` failure evidence, not a new trade or a replacement for the archived 26-check report.
+
 ## Direct presentation release — 14 September 2026
 
-The Proof Room live-health report has 17 checks, separately scoped from the archived 26-check submission report. The deployed browser and API observed 15 PASS, 0 FAIL and 2 UNVERIFIED; both recorded-block attacks passed and both current native-continuity checks remained unavailable. Public API claim/sale/settlement reads returned 200, health returned 503, and a public browser refresh test passed without wallet access. This is not a new trade, an audit or a fresh 26/26 claim. The reviewed implementation and release pin are published, and GitHub CI passed all four jobs on follow-up commit `d0a2a9d6997c489aff54dd37814593541e38157d`. npm publication remains pending.
+The Proof Room live-health report has 17 checks, separately scoped from the archived 26-check submission report. The deployed browser and API observed 15 PASS, 0 FAIL and 2 UNVERIFIED; both recorded-block attacks passed and both current native-continuity checks remained unavailable. Public API claim/sale/settlement reads returned 200, health returned 503, and a public browser refresh test passed without wallet access. This is not a new trade, an audit or a fresh 26/26 claim. The reviewed implementation and release pin are published, GitHub CI passed all four jobs on follow-up commit `d0a2a9d6997c489aff54dd37814593541e38157d`, and `@morrow-protocol/sdk@0.1.0` is published under the MIT license.
 
 Every public claim Morrow makes, with its evidence label, where the evidence lives, and what it does not prove. Evidence labels are limited to: `proposed`, `local-tested`, `abstract-model`, `fork-tested`, `live-read-verified`, `live-testnet-mined`, `historical-replay`, `user-observed`, `blocked`.
 
@@ -10,7 +16,7 @@ Sepolia (EVM 11155111) transaction hashes resolve on `https://sepolia.etherscan.
 
 ## Standing caveats
 
-- New live health is a 17-check subset plus selected replays, not a fresh 26/26 full release claim. The [14 September observation](../evidence/blobs/b62f3fa8d459e3ebbfa1216556d4197c7b91451518e74deb9b099a906da15425.json) is 15 PASS and 2 UNVERIFIED. Current proof continuity remains unverified for the archived attack envelopes.
+- Live health is a 17-check subset plus selected replays, not a fresh 26/26 full release claim. The latest backend checkout observation is [17 PASS and 0 UNVERIFIED](../evidence/blobs/1f648197b5960f966d016afd90312ded7c8e882e5dbaf004fdce39421c761582.json); the currently deployed public release still reflects the earlier 15 PASS and 2 UNVERIFIED behavior until redeployed.
 - Local HTTP API responses, SDK tarballs and CI definitions are not evidence of public hosting, npm publication or passing remote CI. Those release steps remain separate.
 
 - All campaigns run on public testnets with test tokens. No test token has monetary value, and no amount here is revenue or buyer principal in any real currency.

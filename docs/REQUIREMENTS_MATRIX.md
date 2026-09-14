@@ -6,6 +6,8 @@ Status is one evidence label (`proposed`, `local-tested`, `abstract-model`, `for
 
 ## Evidence sources
 
+Current continuity increment: `packages/reference/test/health-continuity.test.ts` adds two focused regressions across both authentic attack envelopes and rejects changed source transaction or Merkle identity. Reference typecheck, lint and 95 tests passed. The read-only [live health result](../evidence/blobs/1f648197b5960f966d016afd90312ded7c8e882e5dbaf004fdce39421c761582.json) is 17 PASS / 0 FAIL / 0 UNVERIFIED at CC3 block 5486966. It does not replace the 26-check submission verifier, create mined failure receipts or update the public deployment.
+
 14 September increment: `packages/reference/test/health-*.test.ts` adds 10 passing regressions for read-only transport, wrong-chain/stale data, accounting, explicit missing checks and same-proof identity. `apps/worker/test/read-api.test.ts` adds 5 passing GET-only/validation/precision/failure-disclosure regressions. The [live health result](../evidence/blobs/b62f3fa8d459e3ebbfa1216556d4197c7b91451518e74deb9b099a906da15425.json) is 15 PASS / 2 UNVERIFIED, not a replacement for full release evidence. T58 remains blocked for browser integration; EVD-003/EVD-004 remain blocked pending an authorized pinned release and actual remote/fresh-environment CI execution. T62 still means selected mutations, not every guard.
 
 - **Live campaign logs.** `evidence/campaign/actions.jsonl` records the Gate claim (#1), Claim A (#2) and Claim B (#3). `evidence/c5/actions.jsonl` records Claim C (#4), the repeat-round claim. Source is Sepolia (EVM 11155111), destination is Creditcoin CC3 testnet (EVM 102031).

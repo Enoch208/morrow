@@ -283,7 +283,7 @@ Source backing and purchase capital are **different assets on different chains**
 
 At the recorded CC3 block **5,477,528**, the native verifier accepts the archived wrong-sale proof, while Morrow rejects its use for the other sale with **`SaleIdMismatch`**. The point is not merely that bad bytes fail: authentic evidence still needs correct application-level binding.
 
-The campaign also records refusal to cancel an assigned round and rejection of Claim C's old-round proof against its later sale. These refusals are **`eth_call` observations**, not mined reverted transactions. Historical replay does not assert that the archived envelope passes continuity checks at today's head. See the [verification scope](docs/SUBMISSION_VERIFICATION.md).
+The campaign also records refusal to cancel an assigned round and rejection of Claim C's old-round proof against its later sale. The archived campaign refusals are `eth_call` observations. A separate authorized CC3 campaign mined four zero-value reverted refusal transactions (replay, wrong-sale, old-round and stale-proof), with status-0 receipts, no logs and unchanged market snapshots; see [`evidence/mined-refusals/actions.jsonl`](evidence/mined-refusals/actions.jsonl). Historical replay does not assert that the archived envelope passes continuity checks at today's head. See the [verification scope](docs/SUBMISSION_VERIFICATION.md).
 
 ## Verify it yourself
 
@@ -295,6 +295,7 @@ cd morrow
 pnpm install --frozen-lockfile
 forge build --root contracts
 pnpm verify:submission
+pnpm verify:mined-refusals
 ```
 
 No wallet, private key, `.env` file or transaction broadcast is required. The command reads public RPCs, recomputes identities and economics, and saves a content-addressed JSON report under `evidence/blobs/`. Historical reads may take several minutes.

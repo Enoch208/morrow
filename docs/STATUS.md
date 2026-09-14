@@ -1,5 +1,11 @@
 # Status
 
+## Current proof-continuity health — 14 September 2026
+
+The backend-owned live-health verifier now refreshes only the continuity witness for both archived attack envelopes, rejects any change to the source transaction hash or authenticated proof components, and rebuilds both native and market calls from the refreshed envelope. `pnpm verify:health` returned [17 PASS, 0 FAIL, 0 UNVERIFIED](../evidence/blobs/b0eedaad884661c216c74300f480ef7c0a7c06b01ff68a20d596af329bf6f2ab.json) at CC3 block 5487036. The wrong-sale proof returned `SaleIdMismatch`; the old-round proof returned `SaleNotBound` against current terminal state, while its recorded-block replay independently retained `SaleIdMismatch`. This health observation is read-only `eth_call` evidence; the separate mined campaign is documented below.
+
+The focused reference package run passed typecheck, lint and 95 tests. The fresh CC3 refusal campaign is mined and state-preserving: replay (`SaleAlreadyExists`), wrong sale (`SaleIdMismatch`), old round (`SaleNotBound`) and stale proof (continuity mismatch) each have status-0, zero-log receipts in `evidence/mined-refusals/actions.jsonl`. This checkout result is not yet deployed to the public Proof Room and remains separate from the archived 26-check submission verifier.
+
 ## Direct live-health release — 14 September 2026
 
 The existing Proof Room and read-only API are deployed at the existing Vercel alias. Implementation `bf9296ba306f9acdd63f3d103ccdd3d61b8c6f5e` and release pin `56fc9b9f6ae1035b394a25872f727696478ced09` are published. GitHub CI passed all four jobs on follow-up commit `d0a2a9d6997c489aff54dd37814593541e38157d`. Static provenance passes with zero issues. The first full submission attempt overlapped release commits and correctly rejected the changed checker identity; the frozen-pin rerun is separate.
@@ -8,7 +14,7 @@ Changed: direct-browser live health, refresh and relative timestamps, GET-only N
 
 The frozen-pin submission run completed on 14 September at 07:52 UTC: 26 PASS, 0 FAIL, 0 UNVERIFIED, exit 0; report `evidence/blobs/ca6018650e557daa9193ce783d27acd2abc7bcf8b6b6823b018a008d6c782dca.json`. The earlier overlapping run is retained separately and is not counted as passing. This includes historical replays, not 26 current-block attacks.
 
-The 15-page whitepaper v1.2 includes the new full report and keeps its existing PDF URL. The public SDK is MIT-licensed and published on npm as `@morrow-protocol/sdk`. GitHub CI is public and passing. No new testnet transactions were sent. A separate read-only continuity-refresh investigation passed the wrong-sale current-block check at CC3 5485400 with unchanged authenticated source components (`fc8c329cd37456383519acfc640ae8b664d6762a8cd989160e74f3b433403adc.json`). That refreshed envelope is not wired into deployed health; its result must not replace the displayed 15/0/2 report. Next implementation slice: tested automatic proof-continuity refresh and a separately scoped current stale-round scenario, without manufacturing a new funded state.
+The 15-page whitepaper v1.2 includes the new full report and keeps its existing PDF URL. The public SDK is MIT-licensed and published on npm as `@morrow-protocol/sdk`. GitHub CI is public and passing. The backend checkout now has a 17/0/0 health observation and mined refusal evidence, but the public Proof Room still serves the prior deployment until the frontend lane publishes this release. An external-custody payout adapter remains blocked: no eligible team-controlled Sablier/VestingWallet position was found, so no unsupported deployment or fabricated integration is claimed.
 
 Morrow's contracts are deployed on Sepolia and the Creditcoin CC3 testnet. All four campaign claims are complete. The archived submission report is verified; this is not a claim that every current rerun passes.
 
