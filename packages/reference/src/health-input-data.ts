@@ -42,6 +42,9 @@ export function parseHealthProofs(
   const decoded = market.decodeFunctionData("fundReservation", calldata);
   const correct = market.encodeFunctionData("fundReservation", [decoded[0], decoded[1], terms]);
   const destination = record(record(stale.blocks).destination);
+  if (!Array.isArray(stale.proofs) || stale.proofs.length === 0)
+    throw new Error("Stale-round proof metadata missing");
+  const staleProof = record(stale.proofs[0]);
   return [
     {
       id: "wrong-sale",
@@ -53,6 +56,7 @@ export function parseHealthProofs(
       blockNumber: number(wrong.blockNumber),
       blockHash: string(wrong.blockHash),
       expectedError: "SaleIdMismatch",
+      sourceTransactionHash: string(verified.sourceTransactionHash),
     },
     {
       id: "stale-round",
@@ -63,6 +67,8 @@ export function parseHealthProofs(
       blockNumber: number(destination.number),
       blockHash: string(destination.hash),
       expectedError: "SaleIdMismatch",
+      currentExpectedError: "SaleNotBound",
+      sourceTransactionHash: string(staleProof.sourceTransactionHash),
     },
   ];
 }

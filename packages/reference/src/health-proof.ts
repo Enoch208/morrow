@@ -4,6 +4,7 @@ import nativeAbi from "../../../schemas/abi/BlockProver.json" with { type: "json
 import { pins } from "./deployment-pins.ts";
 import { healthCheck } from "./health-check.ts";
 import type { HealthSession } from "./health-check.ts";
+import { refreshHealthContinuity } from "./health-continuity.ts";
 import {
   HealthMismatch,
   HealthRevert,
@@ -21,6 +22,8 @@ export interface HealthProofCase {
   readonly blockNumber: number;
   readonly blockHash: string;
   readonly expectedError: string;
+  readonly currentExpectedError?: string;
+  readonly sourceTransactionHash: string;
   readonly from?: string;
   readonly correctMarketCalldata?: string;
 }
@@ -86,7 +89,19 @@ export async function proofHealth(
     `${proof.name} · ${historical ? "recorded block re-query" : "current block"}`,
     async () => {
       if (!session) throw new HealthUnavailable("No healthy CC3 RPC; proof has not been rechecked");
-      const fingerprint = requireSameProof(proof.nativeCalldata, proof.marketCalldata);
+      const active = historical
+        ? proof
+        : {
+            ...proof,
+            ...(await refreshHealthContinuity(
+              proof.sourceTransactionHash,
+              proof.nativeCalldata,
+              proof.marketCalldata,
+              proof.correctMarketCalldata,
+              session.request,
+            )),
+          };
+      const fingerprint = requireSameProof(active.nativeCalldata, active.marketCalldata);
       const block = historical
         ? await readHealthBlock(
             session.endpoint,
@@ -103,7 +118,7 @@ export async function proofHealth(
           await publicRpc(
             point.endpoint,
             "eth_call",
-            [{ to: pins.native, data: proof.nativeCalldata }, block.number],
+            [{ to: pins.native, data: active.nativeCalldata }, block.number],
             point.request,
           ),
         );
@@ -114,24 +129,27 @@ export async function proofHealth(
           );
         throw error;
       }
-      if (native.decodeFunctionResult(proof.nativeCalldata.slice(0, 10), raw)[0] !== true)
+      if (native.decodeFunctionResult(active.nativeCalldata.slice(0, 10), raw)[0] !== true)
         throw new HealthUnavailable(
           "Native verifier did not accept this proof envelope at this block",
         );
+      const expectedError = historical
+        ? proof.expectedError
+        : (proof.currentExpectedError ?? proof.expectedError);
       const result = await expectRejection(
         point,
-        proof.marketCalldata,
-        proof.expectedError,
+        active.marketCalldata,
+        expectedError,
         proof.from,
       );
-      if (proof.correctMarketCalldata) {
-        requireSameProof(proof.nativeCalldata, proof.correctMarketCalldata);
-        await expectRejection(point, proof.correctMarketCalldata, "SaleAlreadyExists", proof.from);
+      if (active.correctMarketCalldata) {
+        requireSameProof(active.nativeCalldata, active.correctMarketCalldata);
+        await expectRejection(point, active.correctMarketCalldata, "SaleAlreadyExists", proof.from);
       }
       const canonical = await readHealthBlock(point.endpoint, block.number, point.request);
       if (canonical.hash !== block.hash)
         throw new HealthUnavailable("Proof observation reorganized; recheck required");
-      return `Native true; market ${result}${proof.correctMarketCalldata ? "; matching sale SaleAlreadyExists (already funded, not a new successful deposit)" : ""}; proof ${fingerprint}; block ${BigInt(block.number).toString()}`;
+      return `Native true; market ${result}${active.correctMarketCalldata ? "; matching sale SaleAlreadyExists (already funded, not a new successful deposit)" : ""}; ${historical ? "archived" : "continuity-refreshed"} proof ${fingerprint}; block ${BigInt(block.number).toString()}`;
     },
     historical ? "historical-replay" : "live-read-verified",
   );
