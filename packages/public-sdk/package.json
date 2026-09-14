@@ -1,6 +1,6 @@
 {
   "name": "@morrow-protocol/sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read-only testnet clients and payout registration interfaces for Morrow",
   "type": "module",
   "license": "MIT",

@@ -1,6 +1,10 @@
 # Morrow SDK
 
-Typed, read-only clients and registration calldata for the deployed Morrow testnet primitive. This MIT-licensed package is prepared for the `@morrow-protocol/sdk` name; npm publication is pending scope authentication. It is not the internal seller-preflight or transaction-signing SDK.
+Typed, read-only clients and registration calldata for the deployed Morrow testnet primitive. This MIT-licensed package is published as [`@morrow-protocol/sdk`](https://www.npmjs.com/package/@morrow-protocol/sdk). It is not the internal seller-preflight or transaction-signing SDK.
+
+```sh
+npm install @morrow-protocol/sdk
+```
 
 ## Run from this repository
 
@@ -48,6 +52,6 @@ The [contract integration example](../../examples/payout-registrar) forwards rea
 
 ## Distribution and scope
 
-ES module JavaScript and bundled TypeScript declarations are emitted to `dist/`. `pnpm pack` builds a whitelist containing only distribution files, this README, the read-only example and package metadata. No keys, environment files, worker code or deployment journals belong in the package.
+ES module JavaScript and bundled TypeScript declarations are emitted to `dist/`. `pnpm pack` builds a whitelist containing only distribution files, the MIT license, this README, the read-only example and package metadata. No keys, environment files, worker code or deployment journals belong in the package.
 
 The package is licensed under the MIT License. Testnet assets have no monetary value. This package and the registrar example are not audited or production-ready. The deployed protocol's manual source-signing/preflight limitation is unchanged.
