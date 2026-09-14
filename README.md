@@ -6,6 +6,12 @@ A payer funds a fixed-maturity payout for a recipient in a vault on Sepolia. The
 
 Morrow is testnet-only. The vault is Morrow's own reference escrow; adapters for external payout systems are not implemented. Test tokens have no monetary value.
 
+## Watch the demo
+
+A narrated walkthrough of the actual application and recorded testnet campaign, including delayed-proof settlement, cancellation, and the Proof Room.
+
+https://github.com/user-attachments/assets/3a40e29c-891c-405f-8d1f-b2c424946862
+
 ## How a sale settles
 
 One sale round, one mutually exclusive source outcome, one economically consistent destination outcome. The order is load-bearing:
