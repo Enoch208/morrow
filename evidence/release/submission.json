@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "implementationCommit": "579bc0a1ebcd1905b6472dc2b5e3b554d497a40b",
+  "implementationCommit": "bf9296ba306f9acdd63f3d103ccdd3d61b8c6f5e",
   "campaignManifests": [
     {
       "path": "evidence/manifests/gate-1789279209011.json",
