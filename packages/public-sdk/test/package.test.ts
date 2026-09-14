@@ -16,10 +16,12 @@ void test("package exports built files and whitelists only distributable assets"
   const value = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8")) as {
     dependencies: Record<string, string>;
     files: string[];
+    license: string;
     exports: Record<string, { types: string; import: string }>;
   };
   assert.deepEqual(Object.keys(value.dependencies), ["ethers"]);
-  assert.deepEqual(value.files, ["dist", "README.md", "example"]);
+  assert.deepEqual(value.files, ["dist", "LICENSE", "README.md", "example"]);
+  assert.equal(value.license, "MIT");
   assert.equal(value.exports["."]?.import, "./dist/index.js");
   assert.equal(value.exports["."].types, "./dist/index.d.ts");
 });

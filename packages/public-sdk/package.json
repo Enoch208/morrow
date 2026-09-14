@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Read-only testnet clients and payout registration interfaces for Morrow",
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "engines": {
     "node": ">=24"
   },
@@ -20,6 +20,7 @@
   },
   "files": [
     "dist",
+    "LICENSE",
     "README.md",
     "example"
   ],
