@@ -19,3 +19,7 @@ runs = 256
 runs = 64
 depth = 32
 fail_on_revert = true
+
+[profile.fork]
+evm_version = "prague"
+test = "fork"
