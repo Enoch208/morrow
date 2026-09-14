@@ -36,6 +36,13 @@ export {
 } from "./browser-cancellation.ts";
 export { prepareBrowserRedemption, assertRedeemable } from "./browser-redemption.ts";
 export { readWalletActivity } from "./browser-sales.ts";
+export {
+  readSaleProgress,
+  readClaimState,
+  readMarketRules,
+  readTokenBalances,
+} from "./browser-sale-state.ts";
+export type { SaleProgress } from "./browser-sale-state.ts";
 export type { WalletClaim, WalletSale } from "./browser-sales.ts";
 export { campaignContracts } from "./campaign-config.ts";
 export { quoteEconomics, saleIdentity } from "./canonical.ts";
