@@ -1,0 +1,48 @@
+{
+  "name": "@morrow-protocol/sdk",
+  "version": "0.1.0",
+  "description": "Read-only testnet clients and payout registration interfaces for Morrow",
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=24"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enoch208/morrow.git",
+    "directory": "packages/public-sdk"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "example"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "node --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint . --max-warnings 0",
+    "prepack": "pnpm build"
+  },
+  "dependencies": {
+    "ethers": "6.17.0"
+  },
+  "devDependencies": {
+    "@morrow/eslint-config": "workspace:*",
+    "@morrow/protocol": "workspace:*",
+    "@morrow/typescript-config": "workspace:*",
+    "@types/node": "24.13.4",
+    "eslint": "9.39.5",
+    "tsup": "8.5.1",
+    "typescript": "5.9.3"
+  }
+}

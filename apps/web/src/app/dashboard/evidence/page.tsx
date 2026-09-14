@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { LiveHealthPanel } from "@/components/dashboard/evidence/live-health-panel";
+import { loadPublicHealthProofs } from "@/lib/evidence/health-proofs";
 import { AttestationFrontierPanel } from "@/components/dashboard/attestation/attestation-frontier";
 import { ActorDisclosure } from "@/components/dashboard/evidence/actor-disclosure";
 import { CanonicalSale } from "@/components/dashboard/evidence/canonical-sale";
@@ -25,6 +27,7 @@ export default function ProofRoomPage() {
         description="Every claim Morrow makes, next to the transaction, proof or live read that backs it. Nothing here is a screenshot: re-run the checks from this browser."
       />
       <div className="flex flex-col gap-10">
+        <LiveHealthPanel proofs={loadPublicHealthProofs()} />
         <VerifyYourself />
         {canonical && <CanonicalSale claim={canonical} />}
         <ActorDisclosure />

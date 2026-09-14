@@ -3,6 +3,8 @@ import { FetchRequest, Interface, JsonRpcProvider, Result } from "ethers";
 import marketAbi from "../../../schemas/abi/MorrowMarket.json" with { type: "json" };
 import tokenAbi from "../../../schemas/abi/MorrowTestToken.json" with { type: "json" };
 import nativeAbi from "../../../schemas/abi/BlockProver.json" with { type: "json" };
+import { pins } from "./deployment-pins.ts";
+export { pins } from "./deployment-pins.ts";
 
 export const root = fileURLToPath(new URL("../../../", import.meta.url));
 export const interfaces = {
@@ -10,16 +12,6 @@ export const interfaces = {
   token: new Interface(tokenAbi),
   native: new Interface(nativeAbi),
 };
-export const pins = {
-  vault: "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583",
-  sourceToken: "0x77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9",
-  market: "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
-  token: "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0",
-  sourceCodeHash: "0x0d92b51fec0c1d28e34b701b0f41a56675b2fa2c52ec6097c5100660f31a4560",
-  marketCodeHash: "0x8104de85a27582fa15cea674c7f19e19a69041586f509b982413b9dead287751",
-  tokenCodeHash: "0x2ebb03f50ccc7b228f8b7eaa868e81f7edbdd47cf4dd98f1dff2655a683ef65e",
-  native: "0x0000000000000000000000000000000000000FD2",
-} as const;
 
 export class EvidenceError extends Error {}
 

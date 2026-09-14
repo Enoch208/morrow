@@ -1,0 +1,15 @@
+[profile.default]
+src = "src"
+test = "test"
+out = "out"
+cache_path = "cache"
+allow_paths = ["../../contracts/src", "../../packages/sdk/node_modules", "../../node_modules/.pnpm"]
+solc_version = "0.8.28"
+evm_version = "paris"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+remappings = ["@openzeppelin/contracts/=../../packages/sdk/node_modules/@openzeppelin/contracts/", "@morrow/contracts/=../../contracts/src/"]
+
+[fuzz]
+runs = 256

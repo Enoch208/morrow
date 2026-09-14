@@ -3,13 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./read-api": "./src/read-api.ts"
+  },
   "scripts": {
+    "api": "node src/read-api-server.ts",
     "test": "node --test test/*.test.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
     "campaign": "node src/campaign-cli.ts"
   },
   "dependencies": {
+    "@morrow-protocol/sdk": "workspace:*",
+    "@morrow/reference": "workspace:*",
     "@morrow/sdk": "workspace:*"
   },
   "devDependencies": {

@@ -6,6 +6,7 @@ out
 build
 dist
 coverage
+examples/payout-registrar/cache
 *.tsbuildinfo
 next-env.d.ts
 .vercel

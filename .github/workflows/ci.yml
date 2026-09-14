@@ -1,0 +1,151 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validation:
+    name: Tests, build and evidence integrity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@7088e561eb65bb68695d245aa206f005ef30921d
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.14.1
+          cache: pnpm
+      - uses: foundry-rs/foundry-toolchain@50d5a8956f2e319df19e6b57539d7e2acb9f8c1e
+        with:
+          version: v1.5.1
+          cache: false
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Foundry unit and fuzz tests
+        run: forge test --root contracts --no-match-path 'test/invariant/*' -vv
+      - name: Foundry stateful invariant campaigns
+        run: forge test --root contracts --match-path 'test/invariant/*' -vv
+      - name: Contract-payer registration integration
+        run: forge test --root examples/payout-registrar -vv
+      - name: Protocol, SDK, worker and independent reference tests
+        run: pnpm --filter @morrow/protocol --filter @morrow/sdk --filter @morrow-protocol/sdk --filter @morrow/worker --filter @morrow/reference test
+      - name: Evidence integrity regressions
+        run: node --test scripts/evidence-integrity.test.mjs scripts/static-analysis-result.test.mjs
+      - name: Offline submission evidence integrity
+        run: node scripts/check-evidence-integrity.mjs
+      - run: pnpm lint
+      - run: pnpm typecheck
+
+  mutations:
+    name: Selected safety-guard mutations
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@7088e561eb65bb68695d245aa206f005ef30921d
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.14.1
+          cache: pnpm
+      - uses: foundry-rs/foundry-toolchain@50d5a8956f2e319df19e6b57539d7e2acb9f8c1e
+        with:
+          version: v1.5.1
+          cache: false
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/test-mutations.mjs
+      - name: Preserve measured mutation outcomes
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: selected-mutation-results
+          path: evidence/local/mutations-*.json
+          if-no-files-found: error
+          retention-days: 14
+
+  secrets:
+    name: Full Git history secret scan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.14.1
+      - name: Install checksum-pinned Gitleaks 8.30.1
+        run: |
+          curl --fail --silent --show-error --location --retry 3 https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz --output "$RUNNER_TEMP/gitleaks.tar.gz"
+          printf '%s  %s\n' '551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb' "$RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check --strict
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP" gitleaks
+      - name: Scan every fetched commit with fully redacted findings
+        run: '"$RUNNER_TEMP/gitleaks" git --config scripts/gitleaks.toml --redact=100 --no-banner --log-opts=--all --report-format json --report-path "$RUNNER_TEMP/gitleaks-redacted.json"'
+      - name: Check public-evidence classification does not hide credentials
+        env:
+          MORROW_GITLEAKS_BINARY: ${{ runner.temp }}/gitleaks
+        run: node --test scripts/secret-scan.test.mjs
+      - name: Preserve redacted scan report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: secret-scan-redacted
+          path: ${{ runner.temp }}/gitleaks-redacted.json
+          if-no-files-found: error
+          retention-days: 7
+
+  static-analysis:
+    name: Contract static analysis
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@7088e561eb65bb68695d245aa206f005ef30921d
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 24.14.1
+          cache: pnpm
+      - uses: foundry-rs/foundry-toolchain@50d5a8956f2e319df19e6b57539d7e2acb9f8c1e
+        with:
+          version: v1.5.1
+          cache: false
+      - run: pnpm install --frozen-lockfile
+      - name: Install Slither 0.11.6
+        run: |
+          python3 -m venv "$RUNNER_TEMP/slither-venv"
+          "$RUNNER_TEMP/slither-venv/bin/pip" install slither-analyzer==0.11.6
+      - name: Install and build with the pinned Solidity compiler
+        run: forge build --root contracts
+      - name: Analyze application contracts and retain all reported severities
+        run: 'node scripts/check-static-analysis.mjs "$RUNNER_TEMP/slither-venv/bin/slither" "$RUNNER_TEMP/static-analysis"'
+      - name: Preserve static analysis findings
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: contract-static-analysis
+          path: ${{ runner.temp }}/static-analysis/
+          if-no-files-found: error
+          retention-days: 14

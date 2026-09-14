@@ -1,0 +1,30 @@
+title = "Morrow public-chain evidence secret scan"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Public EVM token addresses in explicitly named asset fields, not API tokens"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''(?i)^(?:sourceToken|settlementToken|token)["']?\s*:\s*["']0x(?:77B3e1AE0cad279b8Ad1e7b01a89efd139E1e5E9|D48Fb19fd5C2Dc98f58484B38E5d54388EceADC0)["']$''']
+
+[[allowlists]]
+description = "Canonical public claim/event identities in explicitly named commitment fields"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''^(?:claimKey|eventKey|authenticSourceEventKey)["']?\s*:\s*["']0x[0-9a-fA-F]{64}["']$''']
+
+[[allowlists]]
+description = "Exact published runtime and ABI hashes under token artifact names"
+targetRules = ["generic-api-key"]
+regexTarget = "match"
+regexes = ['''^(?:tokenCodeHash|MorrowTestToken)["']?\s*:\s*["'](?:0x2ebb03f50ccc7b228f8b7eaa868e81f7edbdd47cf4dd98f1dff2655a683ef65e|74d420778b6ea616292c54719556674f054e48d44049012ea6a1e0f1db7adf93|48b8723d4e8c6f321cc8749cb66ab72536a31d068816c82cff252e6032e7c66a)["']$''']
+
+[[allowlists]]
+description = "Named MorrowTestToken compiler-artifact hash assertion in the preflight regression"
+targetRules = ["generic-api-key"]
+condition = "AND"
+paths = ['''^packages/sdk/test/preflight-rpc\.test\.ts$''']
+regexTarget = "match"
+regexes = ['''^MorrowTestToken",\s*"48b8723d4e8c6f321cc8749cb66ab72536a31d068816c82cff252e6032e7c66a"$''']

@@ -4,9 +4,13 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./health": "./src/health-report.ts",
+    "./health-proof-inputs": "./src/health-input-data.ts",
+    "./health-inputs": "./src/health-inputs.ts"
   },
   "scripts": {
+    "verify:health": "node src/health-cli.ts",
     "verify:submission": "node src/submission-cli.ts",
     "evidence:generate": "node src/manifest-cli.ts",
     "verify:evidence": "node src/verify-manifest-cli.ts",
