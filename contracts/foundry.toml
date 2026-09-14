@@ -22,4 +22,6 @@ fail_on_revert = true
 
 [profile.fork]
 evm_version = "prague"
+out = "out-fork"
+cache_path = "cache-fork"
 test = "fork"
