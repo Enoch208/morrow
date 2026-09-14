@@ -4,7 +4,7 @@ export const chains = {
     name: "Sepolia",
     explorer: "Etherscan",
     base: "https://sepolia.etherscan.io",
-    rpc: "https://ethereum-sepolia-rpc.publicnode.com",
+    rpc: "https://sepolia.gateway.tenderly.co",
     nativeCurrency: { name: "Sepolia Ether", symbol: "ETH", decimals: 18 },
   },
   cc3: {
