@@ -2,11 +2,11 @@
 
 import type { SaleTerms } from "@morrow/protocol";
 import {
-  campaignContracts,
   prepareBrowserReservation,
   quoteEconomics,
   readClaimState,
   readMarketRules,
+  tradeContracts,
   type WalletClaim,
 } from "@morrow/sdk/browser";
 import { getAddress, isAddress, parseUnits } from "ethers";
@@ -20,8 +20,8 @@ import { isBusy, useWalletAction } from "./use-wallet-action";
 const field =
   "w-full rounded-lg border border-white/10 bg-black px-3 py-2 text-sm text-white placeholder:text-neutral-600 focus:border-white/30 focus:outline-none";
 
-const fundMinutes = 60;
-const assignMinutes = 120;
+const fundMinutes = 120;
+const assignMinutes = 240;
 
 export async function buildTerms(
   claim: WalletClaim,
@@ -37,18 +37,18 @@ export async function buildTerms(
   const assignBefore = now + BigInt(assignMinutes * 60);
   return {
     protocolVersion: 1n,
-    sourceEvmChainId: campaignContracts.vault.chainId,
-    sourceVault: campaignContracts.vault.address,
+    sourceEvmChainId: tradeContracts.vault.chainId,
+    sourceVault: tradeContracts.vault.address,
     claimId: claim.claimId,
     round: live.latestRound + 1n,
-    destinationEvmChainId: campaignContracts.market.chainId,
-    destinationMarket: campaignContracts.market.address,
+    destinationEvmChainId: tradeContracts.market.chainId,
+    destinationMarket: tradeContracts.market.address,
     seller: getAddress(seller) as SaleTerms["seller"],
     buyer: getAddress(buyer) as SaleTerms["buyer"],
     sourceToken: live.sourceToken,
     sourceFaceValueRaw: live.sourceFaceValueRaw,
     maturity: live.maturity,
-    settlementToken: campaignContracts.settlementToken.address,
+    settlementToken: tradeContracts.settlementToken.address,
     grossPurchasePriceRaw,
     feeBps: rules.feeBps,
     feeRecipient: rules.feeRecipient as SaleTerms["feeRecipient"],

@@ -13,7 +13,7 @@ import { sourceTokenSymbol, tradeOptions } from "./trade-config";
 import { isBusy, useWalletAction } from "./use-wallet-action";
 
 const maturityChoices = [
-  { label: "In 3 hours", seconds: 10_800 },
+  { label: "In 6 hours", seconds: 21_600 },
   { label: "In 12 hours", seconds: 43_200 },
   { label: "In 2 days", seconds: 172_800 },
 ] as const;

@@ -2,13 +2,14 @@
 
 import type { ProofProgress, SaleTerms } from "@morrow/protocol";
 import {
+  type BrowserProofInput,
   ConfigurationError,
+  minimumAttestedDepth,
   prepareBrowserCancellationRecognition,
   prepareBrowserFunding,
   prepareBrowserFundingApproval,
   prepareBrowserSaleProof,
   prepareBrowserSettlement,
-  type BrowserProofInput,
 } from "@morrow/sdk/browser";
 import { useState } from "react";
 import { errorMessage } from "@/lib/wallet/eip1193";
@@ -37,7 +38,7 @@ function progressNote(progress: ProofProgress): string {
     case "awaiting-finality":
       return `Sepolia block ${String(progress.sourceBlock)} is not finalized yet (about 13 minutes)`;
     case "awaiting-attestation":
-      return `Waiting for Creditcoin attestors to attest Sepolia block ${String(progress.sourceBlock)}`;
+      return `Waiting for Creditcoin to attest Sepolia block ${String(progress.sourceBlock)} and ${String(minimumAttestedDepth)} blocks after it`;
     case "requesting":
       return "Requesting the proof from the Creditcoin prover…";
     case "verifying":
