@@ -8,6 +8,7 @@ Morrow is a testnet prototype. These are the limits of what it enforces and of w
 - **No timeout refund:** completion depends on Sepolia, Creditcoin and the Attestcoin proof service staying available. There is no finite proof-delay guarantee. Bound buyer funds have no time-based refund by design; they move only on a proven source outcome.
 - **Proof continuity:** an archived native proof envelope is not guaranteed to pass continuity verification at later Creditcoin blocks. Claim A's original assignment envelope failed current continuity verification. It was refreshed continuity-only, which kept the original and rejected any change to its authenticated source components, and settlement then succeeded.
 - **Historical proofs:** a reservation proof shows that a reservation happened. It does not prove current ownership or availability.
+- **Source reorganisations:** Attestcoin attests Sepolia blocks before Sepolia finalizes them. `MorrowMarketV2` requires 64 further attested blocks before it accepts a proof. The first market and the stream markets accept a proof as soon as its block is attested; their official clients wait for Sepolia finality, but a caller using another client does not. Depth reduces reorganisation risk; it is not a finality proof, and a reorganisation deeper than the attested depth would still strand bound funds.
 - **External payouts:** besides Morrow's own escrow vault, a stream vault accepts non-cancelable Sablier Lockup v4 streams and settles through a second market; its limits are listed in [the stream vault document](STREAM_VAULT.md). Other payout, vesting or invoice systems have no adapter.
 
 ## Trade page
@@ -37,8 +38,8 @@ Morrow is a testnet prototype. These are the limits of what it enforces and of w
 
 ## Testing
 
-- **Scope:** 353 backend tests pass (109 contract, 3 protocol, 118 SDK, 95 reference, 28 worker), plus 2 fork tests against the deployed Sablier lockup. Native precompile calls are mocked only inside local test fixtures. No live mempool-race or arbitrary-interleaving claim is made.
-- **Mutations:** 26 selected mutations of the reference vault, market and proof libraries were all killed; the stream vault and faucet have no mutation run. That is not an exhaustive mutation campaign over every guard.
+- **Scope:** 437 backend tests pass (188 contract, 3 protocol, 123 SDK, 95 reference, 28 worker), plus 2 fork tests against the deployed Sablier lockup. Native precompile calls are mocked only inside local test fixtures; three real proof envelopes run through the binding code with a verifier mock that accepts only their exact bytes. No live mempool-race or arbitrary-interleaving claim is made.
+- **Mutations:** 30 selected mutations of the reference vault, both markets and the proof libraries were all killed; the stream vault and faucet have no mutation run. That is not an exhaustive mutation campaign over every guard.
 - **Coverage:** instrumented coverage of the critical custody sources, measured before the stream vault existed, reports 201/201 lines, 28/28 functions and 40/41 branches. The unhit branch is `FundedPaymentVault.sol:147`, a round-state recheck that normal transitions cannot reach without storage corruption.
 - **Coverage scope:** instrumentation compiles differently from the deployed optimizer/viaIR build, so coverage is not deployed-bytecode coverage. Branch counts do not establish every operand of compound conditions.
 - **No state-space model:** no bounded state-space model is published, so no model-checking state counts are claimed.

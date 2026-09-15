@@ -1,12 +1,15 @@
 # Status
 
-## Trade page, faucets and stream sales — 15 September 2026
+## Trade page, attested-depth market, faucets and stream sales — 15 September 2026
 
-- **Trade page:** `/dashboard/trade` lets wallets lock a payout, reserve, fund with a proof, pass the seller preflight, assign, settle or refund, withdraw and redeem on the first deployment. It is live at the public alias as Vercel deployment `dpl_2EeGouqAWCXx9a5jtjqUhreti2Vf`, built from a clean archive of `b8a21c129b998e9d6da42eb03e4da41b30e902fd`. Public routes returned 200 and the Trade page rendered with no console errors. No browser wallet has signed through it yet. See [Dashboard trade flow](TRADE_FLOW.md).
-- **Claim #5:** the same browser action layer, driven from Node with team keys, ran a sale that missed its assignment window and completed the cancellation, full buyer refund and seller redemption on chain.
+- **Attested-depth market:** `MorrowMarketV2` on CC3 (`0x375fDD3C43Fc4e0d8E8b2BeCBccd0f0CDA71D479`) trusts a source proof only when 64 further Sepolia blocks are attested, its chain key resolves to Sepolia through ChainInfo, and `verifyAndEmit` records it. Its runtime and immutables were checked after deployment. The first market and its pinned artifacts are unchanged. See [Dashboard trade flow](TRADE_FLOW.md).
+- **Claim #6 on that market:** a live sale reserved, recorded a mined `InsufficientAttestedDepth` refusal of the real reservation proof, survived a third party calling `verifyAndEmit` with the same proof first, funded, passed the seller preflight, assigned, settled and paid the seller 9,362,950,000 raw and the fee recipient 47,050,000 raw. The market then held no liabilities. Redemption at maturity is not yet recorded.
+- **Trade page:** `/dashboard/trade` lets wallets lock a payout, reserve, fund with a proof, pass the seller preflight, assign, settle or refund, withdraw and redeem. It is live at the public alias as Vercel deployment `dpl_Hcsmx2h9eiNkkD3aJpP6zB9ff4fi`, built from a clean archive of `e510211104467525de3bce8722e57c1ec81a0c0b` and pointed at `MorrowMarketV2`; public routes returned 200, the Trade page rendered with no console errors, and its bundle carries the V2 market address. No browser wallet has signed through it yet.
+- **Claim #5:** the same browser action layer ran a sale on the first market that missed its assignment window and completed the cancellation, full buyer refund and seller redemption on chain.
 - **Faucets:** mSRC on Sepolia and mSET on CC3 each pay 20,000 units per address per 24 hours, with no owner.
-- **Sablier streams:** the current stream vault and market completed a live sale of a non-cancelable Sablier Lockup v4 stream: mined `UnsupportedStream` and `InvalidBuyer` refusals, reservation, proof-funded BOUND sale, an assignment gate that refused unfinalized funding and then passed, settlement and a 9,362,950,000 raw seller withdrawal. Redemption at the stream end is not yet recorded. See [Sablier Lockup stream vault](STREAM_VAULT.md).
-- **Checks:** `node scripts/check-backend.mjs` passed all 13 commands with 353 tests (109 contract, 3 protocol, 118 SDK, 95 reference, 28 worker): [report](../evidence/local/backend-check-1789449756564.json). Two fork tests pass against the deployed Sablier lockup. Slither 0.11.6 reports no High or Medium findings across all five deployed contract targets. GitHub CI passed all four jobs on `89829fc`.
+- **Sablier streams:** the current stream vault completed a live sale of a non-cancelable Sablier Lockup v4 stream, from wrap through settlement to redemption of 10,000 mSRC to the buyer at the stream end, with mined `UnsupportedStream` and `InvalidBuyer` refusals. See [Sablier Lockup stream vault](STREAM_VAULT.md).
+- **Real proof fixtures:** three proof envelopes the live market consumed are committed and run through both binding libraries; each yields the event key the market emitted and fails when a log index, term, emitter, signature or byte changes.
+- **Checks:** `node scripts/check-backend.mjs` passed all 13 commands with 437 tests (188 contract, 3 protocol, 123 SDK, 95 reference, 28 worker): [report](../evidence/local/backend-check-1789463951165.json). The lifecycle invariants now also check that consumed events stay consumed and that every sale has its consumed reservation. [30 selected mutations](../evidence/local/mutations-1789460987203.json) were all killed, including attested depth, its boundary, chain binding and `verifyAndEmit`. Slither 0.11.6 reports no High or Medium findings across six contract targets. Two fork tests pass against the deployed Sablier lockup.
 
 ## Current proof-continuity health — 14 September 2026
 
@@ -73,8 +76,8 @@ The action journal is [`evidence/c5/actions.jsonl`](../evidence/c5/actions.jsonl
 ## Verification and tests
 
 - **Live verification:** `pnpm verify:submission` returned 26 PASS, 0 FAIL, 0 UNVERIFIED and exit 0. See [Submission verification](SUBMISSION_VERIFICATION.md).
-- **Backend tests:** `node scripts/check-backend.mjs` passes all 13 commands (Foundry tests, plus test, typecheck and lint for protocol, SDK, reference and worker). That covers 353 tests: 109 contract, 3 protocol, 118 SDK, 95 reference and 28 worker. Output: [`evidence/local/backend-check-1789449756564.json`](../evidence/local/backend-check-1789449756564.json).
-- **Mutations:** 26 selected contract mutations are all killed. Output: [`evidence/local/mutations-1789292743489.json`](../evidence/local/mutations-1789292743489.json).
+- **Backend tests:** `node scripts/check-backend.mjs` passes all 13 commands (Foundry tests, plus test, typecheck and lint for protocol, SDK, reference and worker). That covers 437 tests: 188 contract, 3 protocol, 123 SDK, 95 reference and 28 worker. Output: [`evidence/local/backend-check-1789463951165.json`](../evidence/local/backend-check-1789463951165.json).
+- **Mutations:** 30 selected contract mutations are all killed. Output: [`evidence/local/mutations-1789460987203.json`](../evidence/local/mutations-1789460987203.json).
 - **Coverage:** critical custody sources report 201/201 lines, 28/28 functions and 40/41 branches. Output: [`evidence/local/coverage-1789292695437.json`](../evidence/local/coverage-1789292695437.json).
 - **Web app:** typecheck, lint and production build pass.
 

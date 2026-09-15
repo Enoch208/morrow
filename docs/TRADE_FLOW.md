@@ -1,24 +1,34 @@
 # Dashboard trade flow
 
-Status: `local-tested` for the browser action layer and dashboard build; `live-read-verified` for the public deployment at https://morrow-inky.vercel.app/dashboard/trade; `live-testnet-mined` for the same action layer driven by `packages/sdk/src/trade-cli.ts` with the team wallets. No external wallet has used the Trade page.
+Status: `local-tested` for the browser action layer and dashboard build; `live-read-verified` for the public deployment at https://morrow-inky.vercel.app/dashboard/trade; `live-testnet-mined` for the same action layer driven by `packages/sdk/src/trade-cli.ts` with the team wallets, including a settled sale on the attested-depth market. No external wallet has used the Trade page.
 
 ## What a wallet can do
 
-`/dashboard/trade` runs a new sale on the first deployment (vault `0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583`, market `0x7c3310280083eE63e32427D11d0A7C2CAf584474`). Campaign claims #1–#4 stay read-only.
+`/dashboard/trade` runs a new sale between the reference vault `0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583` on Sepolia and `MorrowMarketV2` `0x375fDD3C43Fc4e0d8E8b2BeCBccd0f0CDA71D479` on CC3. Campaign claims #1–#4 and Claim #5 used the first market `0x7c3310280083eE63e32427D11d0A7C2CAf584474` and stay read-only.
 
 | Step | Who signs | Chain | Guard before signing |
 | --- | --- | --- | --- |
 | Get test tokens | Any wallet | Sepolia or CC3 | Faucet runtime pinned; 24-hour cooldown and faucet balance read first |
 | Approve vault, lock payout | Payer | Sepolia | Separate recipient, positive amount, maturity at least one hour ahead, exact allowance and balance |
 | Reserve sale | Seller (current beneficiary) | Sepolia | Next round, live claim fields, market fee rules read from the market |
-| Get proof, approve, fund | Buyer | CC3 | Reservation finalized on Sepolia and attested on CC3; proof verified against the BlockProver precompile; source still reserved; exact allowance; sale absent |
+| Get proof, approve, fund | Buyer | CC3 | Reservation finalized on Sepolia, attested on CC3 with 64 attested blocks on top; proof verified against the BlockProver precompile; source still reserved; exact allowance; sale absent |
 | Assign | Seller | Sepolia | The existing live seller preflight: funds BOUND at a finalized CC3 block, terms and liabilities match |
-| Settle or refund with proof | Anyone | CC3 | Assignment or cancellation proof verified; sale BOUND |
+| Settle or refund with proof | Anyone | CC3 | Assignment or cancellation proof verified with 64 attested blocks on top; sale BOUND |
 | Cancel expired reservation | Anyone | Sepolia | Round still reserved at or after the assignment deadline |
 | Withdraw | The credited wallet | CC3 | Credits read first; success reported only after credits re-read as zero |
 | Redeem | Anyone | Sepolia | Matured, unredeemed, no active reservation; pays the current beneficiary |
 
 Every prepared transaction is simulated at one pinned block, carries its expected signer and chain, and is rejected if the wallet's account or network differs or the preparation is older than two minutes. Each sale card derives its step from live reads of both chains and shows only the step the connected wallet may take.
+
+## Attested-depth market
+
+`MorrowMarketV2` keeps the first market's sale rules and adds three checks before it trusts a source proof:
+
+- **Depth:** the latest Sepolia height attested on Creditcoin, read from the ChainInfo precompile, must be at least the proof's block height plus 64. A proof that is attested but shallower reverts with `InsufficientAttestedDepth` and changes nothing; the same proof is accepted once the frontier moves. No proof is ever rejected for arriving late.
+- **Source chain:** the proof's chain key must be 1, and ChainInfo must report chain key 1 as EVM chain 11155111.
+- **Recorded verification:** proofs go through `verifyAndEmit`, so every accepted proof leaves the native `TransactionVerified` log in the market transaction.
+
+The first market, its libraries and their pinned artifacts are unchanged. `MorrowMarketV2` has its own gate and binding libraries, and every market test suite plus the lifecycle invariants run against both markets. Deployment `0xf40bcf9606f3390c9a0e061d3ce3572c28ad9f36184b81dbc90fa20cecc63f9a` (CC3 block 5491342) was checked after mining: runtime matches the compiled artifact with immutables masked, and the five immutables equal mSET, the reference vault, mSRC, the payer as fee recipient and 50 bps ([journal](../evidence/market-v2/actions.jsonl)).
 
 ## Test funds
 
@@ -49,6 +59,25 @@ Payer, seller and buyer are the three team wallets. Every step below was prepare
 
 This run demonstrates the cancellation and full-refund path end to end. It is not a completed sale.
 
+## Claim #6: live sale on the attested-depth market
+
+Payer, seller and buyer are the three team wallets, and every step used the browser action layer from `packages/sdk/src/trade-cli.ts` ([journal](../evidence/trade/v2/actions.jsonl)). All times are UTC on 2026-09-15.
+
+| Step | Time | Transaction | Result |
+| --- | --- | --- | --- |
+| Lock payout | 08:55 | `0x8ed09d57245a77a7983fc5a9e2a2025646de26bbf609d35b148b2275df3e9e1d` | Claim 6, 10,000 mSRC for the seller |
+| Reserve | 08:56 | `0x3168788acf18af5a6b6ad8e5b0863a6d976901a92db307f54b5b16238b58b118` | Sepolia 11708853; sale `0x169980aa41209b763085b643dce455c888a48fb72b90abff012539fb1d71b5e1`, 9,410 mSET |
+| Shallow proof refused | 09:05 | `0xcc1e54925565ce6056bf5db6150d9a1952580f8e1351fc3c8834ddb532092894` | CC3 5491431; the real reservation proof with the frontier at 11708860, below the required 11708917; status 0, no logs, replayed as `InsufficientAttestedDepth` |
+| Third party verifies the proof first | 09:16 | `0x0962fca0eeb90e1a049eaf4fc00db843f8e5b3b719daa6a01590b5bac8fc835c` | CC3 5491475; the payer wallet called `verifyAndEmit` directly with the reservation proof; the precompile emitted `TransactionVerified` for Sepolia block 11708853 |
+| Fund with the same proof | 09:17 | `0x9fb94e585cbedc60aa938646903fc8851468e368212e6d9740b34a145fa692c3` | CC3 5491477; BOUND, with the native `TransactionVerified` log in the same transaction. An earlier direct verification did not block funding |
+| Assignment preflight refused | 09:17 | none | Funding was not yet at a finalized CC3 block |
+| Assign | 09:18 | `0xaf767789dbd0b31c3f88b913ad0f3b5483fd04879196fef2913327b3a29614d5` | Sepolia 11708964, after the seller preflight passed; the buyer owns the claim |
+| Settle with assignment proof | 09:40 | `0xaf41d4af1373e98d1a4e24deed953cf94b854ab44a0dbf3033136a7aed5180e4` | CC3 5491567, once the frontier passed Sepolia 11709028; the SDK waited one more attempt until a finalized CC3 block showed the depth |
+| Seller withdraws | 09:40 | `0x178544ad99e225e77aaaa9b7d624d1eb876c7264851c955889d993c49bd6bfe3` | 9,362,950,000 raw mSET |
+| Fee recipient withdraws | 09:40 | `0xcd302ae594b934a5aa961ba2b4780e6cfa5baedbb9b6a249573f48c805095825` | 47,050,000 raw mSET; the market then reads zero bound, zero credits, zero liabilities and a zero token balance |
+
+The claim matures at 13:15:38 UTC and redeems to the buyer then; that transaction is not yet recorded.
+
 ## RPC choice
 
 The dashboard reads Sepolia through `https://rpc.sepolia.ethpandaops.io`. The previous public endpoint returned `null` for Claim A's reservation receipt and only 4 of the vault's 18 logs, which would make browser proof checks report real transactions as missing. A second candidate rate-limited parallel browser reads with HTTP 429.
@@ -57,4 +86,5 @@ The dashboard reads Sepolia through `https://rpc.sepolia.ethpandaops.io`. The pr
 
 - **Wallet signing is not user-observed:** the Trade page is publicly deployed, but no browser wallet signed through it in this evidence. The live Claim #5 run used the identical preparation functions from Node with the team keys.
 - **One buyer per reservation:** the seller enters the buyer's address; there is no quote book.
+- **Earlier markets:** the first market and the three stream markets accept a proof as soon as its block is attested; only the Trade page market enforces attested depth on chain.
 - **Stream sales:** the Trade page does not yet support the Sablier stream deployment; stream sales run from the journaled CLI described in [the stream vault document](STREAM_VAULT.md).
