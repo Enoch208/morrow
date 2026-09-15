@@ -75,8 +75,9 @@ Payer, seller and buyer are the three team wallets, and every step used the brow
 | Settle with assignment proof | 09:40 | `0xaf41d4af1373e98d1a4e24deed953cf94b854ab44a0dbf3033136a7aed5180e4` | CC3 5491567, once the frontier passed Sepolia 11709028; the SDK waited one more attempt until a finalized CC3 block showed the depth |
 | Seller withdraws | 09:40 | `0x178544ad99e225e77aaaa9b7d624d1eb876c7264851c955889d993c49bd6bfe3` | 9,362,950,000 raw mSET |
 | Fee recipient withdraws | 09:40 | `0xcd302ae594b934a5aa961ba2b4780e6cfa5baedbb9b6a249573f48c805095825` | 47,050,000 raw mSET; the market then reads zero bound, zero credits, zero liabilities and a zero token balance |
+| Redeem at maturity | 12:58 | `0x0ae79381fcaa50254f0843e38b4aab1cef7300f9d3aea7a362d142530acc4f21` | Sepolia 11710010, after the 12:55:38 maturity; 10,000 mSRC paid to the buyer, and the claim reads redeemed. The follow-up progress read timed out and is journaled as unavailable |
 
-The claim matures at 13:15:38 UTC and redeems to the buyer then; that transaction is not yet recorded.
+
 
 ## RPC choice
 
