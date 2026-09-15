@@ -12,6 +12,7 @@ export const tradeSigner = {
   assign: "SELLER",
   settle: "SELLER",
   "withdraw-seller": "SELLER",
+  "withdraw-fee": "PAYER",
   cancel: "SELLER",
   recognize: "BUYER",
   "withdraw-buyer": "BUYER",
@@ -27,6 +28,7 @@ export function tradeChain(step: TradeStep): bigint {
     "fund",
     "settle",
     "withdraw-seller",
+    "withdraw-fee",
     "recognize",
     "withdraw-buyer",
   ].includes(step)

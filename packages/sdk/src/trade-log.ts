@@ -20,6 +20,7 @@ export const tradeSteps = [
   "assign",
   "settle",
   "withdraw-seller",
+  "withdraw-fee",
   "cancel",
   "recognize",
   "withdraw-buyer",

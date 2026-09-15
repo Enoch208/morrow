@@ -156,7 +156,7 @@ export async function prepareTradeStep(
     );
     return { prepared: await prepareBrowserSettlement(terms, actor, chain, input, options) };
   }
-  if (step === "withdraw-seller" || step === "withdraw-buyer")
+  if (step === "withdraw-seller" || step === "withdraw-fee" || step === "withdraw-buyer")
     return { prepared: await prepareBrowserWithdrawal(actor, chain, options) };
   if (step === "cancel")
     return { prepared: await prepareBrowserCancellation(terms, actor, chain, options) };
