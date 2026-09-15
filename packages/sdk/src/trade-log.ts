@@ -17,6 +17,9 @@ export const tradeSteps = [
   "assign",
   "settle",
   "withdraw-seller",
+  "cancel",
+  "recognize",
+  "withdraw-buyer",
   "redeem",
 ] as const;
 export type TradeStep = (typeof tradeSteps)[number];

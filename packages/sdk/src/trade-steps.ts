@@ -2,6 +2,8 @@ import { getAddress } from "ethers";
 import type { SaleTerms } from "@morrow/protocol";
 import {
   prepareBrowserAssignment,
+  prepareBrowserCancellation,
+  prepareBrowserCancellationRecognition,
   prepareBrowserClaim,
   prepareBrowserClaimApproval,
   prepareBrowserFaucetDrip,
@@ -39,11 +41,22 @@ export const tradeSigner = {
   assign: "SELLER",
   settle: "SELLER",
   "withdraw-seller": "SELLER",
+  cancel: "SELLER",
+  recognize: "BUYER",
+  "withdraw-buyer": "BUYER",
   redeem: "BUYER",
 } as const satisfies Record<TradeStep, "PAYER" | "SELLER" | "BUYER">;
 
 export function tradeChain(step: TradeStep): bigint {
-  return ["drip-buyer", "approve-fund", "fund", "settle", "withdraw-seller"].includes(step)
+  return [
+    "drip-buyer",
+    "approve-fund",
+    "fund",
+    "settle",
+    "withdraw-seller",
+    "recognize",
+    "withdraw-buyer",
+  ].includes(step)
     ? 102031n
     : 11155111n;
 }
@@ -88,7 +101,7 @@ async function reservationTerms(
 async function proofInput(
   terms: SaleTerms,
   hash: string,
-  event: "reserve" | "assign",
+  event: "reserve" | "assign" | "cancel",
   options: BrowserActionOptions,
 ) {
   const result = await prepareBrowserSaleProof(terms, hash, event, {
@@ -164,7 +177,20 @@ export async function prepareTradeStep(
     );
     return { prepared: await prepareBrowserSettlement(terms, actor, chain, input, options) };
   }
-  if (step === "withdraw-seller")
+  if (step === "withdraw-seller" || step === "withdraw-buyer")
     return { prepared: await prepareBrowserWithdrawal(actor, chain, options) };
+  if (step === "cancel")
+    return { prepared: await prepareBrowserCancellation(terms, actor, chain, options) };
+  if (step === "recognize") {
+    const input = await proofInput(
+      terms,
+      minedTrade(records, "cancel").transactionHash,
+      "cancel",
+      options,
+    );
+    return {
+      prepared: await prepareBrowserCancellationRecognition(terms, actor, chain, input, options),
+    };
+  }
   return { prepared: await prepareBrowserRedemption(terms.claimId, actor, chain, options) };
 }

@@ -10,10 +10,11 @@ import {
   provider,
   requireTestnet,
 } from "./environment.ts";
+import { waitForReceipt } from "./receipt-wait.ts";
 import { recordTrade, tradeDirectory, tradeRecords, tradeStep, tradeTerms } from "./trade-log.ts";
 import { prepareTradeStep, tradeChain, tradeSigner } from "./trade-steps.ts";
 
-const sourceRpcUrl = "https://rpc.sepolia.ethpandaops.io";
+const sourceRpcUrl = "https://sepolia.gateway.tenderly.co";
 const step = tradeStep(process.argv[2]);
 const broadcast = process.argv.includes("--broadcast");
 const options = { sourceRpcUrl, destinationRpcUrl: cc3Rpc };
@@ -62,8 +63,12 @@ try {
         evidenceKind: "proposed",
         transactionHash: response.hash,
       });
-      const receipt = await response.wait(1, 180_000);
-      if (!receipt) throw new ConfigurationError("Receipt unavailable; reconcile submitted hash");
+      const fallback = provider(
+        chainId === 11155111n ? "https://rpc.sepolia.ethpandaops.io" : cc3Rpc,
+      );
+      const receipt = await waitForReceipt(response.hash, [rpc, fallback]).finally(() => {
+        fallback.destroy();
+      });
       const mined = receipt.status === 1;
       const after = await tradeRecords();
       const progress = [
@@ -73,6 +78,9 @@ try {
         "assign",
         "settle",
         "withdraw-seller",
+        "cancel",
+        "recognize",
+        "withdraw-buyer",
         "redeem",
       ].includes(step)
         ? await readSaleProgress(
