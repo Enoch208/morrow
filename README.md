@@ -61,6 +61,7 @@ The Proof Room's replay is a read-only `eth_call` at a recorded block. It does n
 - [Engineering decisions](#engineering-decisions)
 - [Repository map](#repository-map)
 - [Trust boundaries and limitations](#trust-boundaries-and-limitations)
+- [Team](#team)
 - [Further reading](#further-reading)
 
 ## Why Morrow exists
@@ -478,6 +479,13 @@ Versions describe the checked-in manifests, not a promise that upstream software
 - **Verification is scoped.** Runtime scanning is not a security audit; current finality is not proof of historical finality timing; a fresh read of an old trade is not a fresh trade.
 
 [Known limitations](docs/KNOWN_LIMITATIONS.md) contains the detailed boundaries. Secrets belong only in local configuration, never in the browser, evidence or commits. Use testnet funds only.
+
+## Team
+
+- **Enoch** leads engineering: the smart contracts and the cross-chain integration.
+- **Drey** is a Web3 product manager with four years of experience, leading product, UX and strategy.
+
+Together, the team pairs strong technical execution with clear product thinking.
 
 ## Further reading
 
