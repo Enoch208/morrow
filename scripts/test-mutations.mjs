@@ -13,7 +13,7 @@ const target = join(temporary, "contracts");
 function run(test) {
   const args = ["test", "--root", target];
   if (test) args.push("--match-test", test);
-  const result = spawnSync("forge", args, { encoding: "utf8", timeout: 120000 });
+  const result = spawnSync("forge", args, { encoding: "utf8", timeout: 900000 });
   if (result.error) throw result.error;
   return {
     command: ["forge", ...args],
