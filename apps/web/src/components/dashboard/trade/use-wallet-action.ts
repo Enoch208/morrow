@@ -59,7 +59,12 @@ export function useWalletAction(chain: ChainKey, onSettled: () => void) {
         }
         await confirmPreparedWallet(provider, prepared);
         setState({ phase: "signing" });
-        const submitted = await wallet.send(chain, prepared.to, prepared.data);
+        const submitted = await wallet.send(
+          chain,
+          prepared.to,
+          prepared.data,
+          prepared.expectedSigner,
+        );
         hash = submitted.hash;
         if (!submitted.succeeded) {
           setState({ phase: "failed", reason: "Transaction reverted; nothing changed", hash });

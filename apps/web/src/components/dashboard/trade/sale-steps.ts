@@ -15,10 +15,12 @@ const same = (left: string, right: string) => left.toLowerCase() === right.toLow
 
 function settledStage(progress: SaleProgress, terms: SaleTerms, viewer: string): SaleStage {
   const assigned = progress.destinationState === 2n;
-  if (progress.viewerCreditRaw > 0n)
+  const creditedRole = assigned ? same(viewer, terms.seller) : same(viewer, terms.buyer);
+  if (progress.viewerCreditRaw > 0n && creditedRole)
     return {
       headline: assigned ? stateLanguage.SELLER_FUNDS_CLAIMABLE : stateLanguage.REFUND_CLAIMABLE,
-      detail: "Your wallet has credits in the Creditcoin market. Withdrawals pay only the caller.",
+      detail:
+        "Your wallet has market credits, which may include other sales. Withdrawals pay only the caller.",
       action: "withdraw",
       actor: "you",
     };
@@ -35,7 +37,7 @@ function settledStage(progress: SaleProgress, terms: SaleTerms, viewer: string):
       action: "redeem",
       actor: "anyone",
     };
-  const paidRole = assigned ? same(viewer, terms.seller) : same(viewer, terms.buyer);
+  const paidRole = creditedRole;
   return {
     headline: progress.claim.redeemed
       ? "Payout redeemed on Sepolia"
@@ -114,6 +116,14 @@ export function saleStage(
       detail: "Anyone can prove the cancellation on Creditcoin to refund the buyer, with no fee.",
       action: "recognize",
       actor: "anyone",
+    };
+  if (sourceState === 2n && destinationState === 0n)
+    return {
+      headline: "Assigned on source without recorded funding",
+      detail:
+        "The seller assigned before any buyer deposit, which the seller preflight exists to prevent. The claim now belongs to the buyer; the official client does not fund a reservation that is no longer open.",
+      action: "none",
+      actor: "nobody",
     };
   if (sourceState === 3n)
     return {

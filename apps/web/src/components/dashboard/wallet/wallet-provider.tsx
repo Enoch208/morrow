@@ -1,6 +1,6 @@
 "use client";
 
-import { BrowserProvider } from "ethers";
+import { BrowserProvider, isError } from "ethers";
 import {
   createContext,
   useCallback,
@@ -11,7 +11,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import type { ChainKey } from "@/lib/explorers";
+import { chains, type ChainKey } from "@/lib/explorers";
 import { switchToChain } from "@/lib/wallet/chain-switch";
 import { errorMessage, injectedProvider } from "@/lib/wallet/eip1193";
 
@@ -29,7 +29,12 @@ interface WalletState {
   readonly chainId: number | undefined;
   readonly error: string | undefined;
   readonly connect: () => Promise<void>;
-  readonly send: (chain: ChainKey, to: string, data: string) => Promise<SubmittedTransaction>;
+  readonly send: (
+    chain: ChainKey,
+    to: string,
+    data: string,
+    from?: string,
+  ) => Promise<SubmittedTransaction>;
 }
 
 type AccountStatus = "disconnected" | "connecting" | "connected";
@@ -109,16 +114,25 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const send = useCallback(async (chain: ChainKey, to: string, data: string) => {
+  const send = useCallback(async (chain: ChainKey, to: string, data: string, from?: string) => {
     const provider = injectedProvider();
     if (!provider) {
       throw new Error("No browser wallet detected");
     }
     await switchToChain(provider, chain);
-    const signer = await new BrowserProvider(provider).getSigner();
-    const response = await signer.sendTransaction({ to, data });
-    const receipt = await response.wait();
-    return { hash: response.hash, succeeded: receipt?.status === 1 };
+    const signer = await new BrowserProvider(provider).getSigner(from);
+    const response = await signer.sendTransaction({
+      to,
+      data,
+      chainId: chains[chain].evmChainId,
+    });
+    try {
+      const receipt = await response.wait();
+      return { hash: response.hash, succeeded: receipt?.status === 1 };
+    } catch (caught) {
+      if (isError(caught, "CALL_EXCEPTION")) return { hash: response.hash, succeeded: false };
+      throw caught;
+    }
   }, []);
 
   const status: WalletStatus =
