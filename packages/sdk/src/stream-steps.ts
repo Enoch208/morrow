@@ -152,7 +152,9 @@ export async function streamRequest(
       return {
         request: {
           to: vault(),
-          data: vaultInterface.encodeFunctionData("redeem", [streamTerms(records).claimId]),
+          data: vaultInterface.encodeFunctionData("redeem", [
+            BigInt(streamField(records, "wrap-stream", "claimId")),
+          ]),
           value: alreadyDepleted ? 0n : minimumFee,
         },
         context: { lockupFeeWei: alreadyDepleted ? 0n : minimumFee },
