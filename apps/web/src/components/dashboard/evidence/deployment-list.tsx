@@ -16,9 +16,15 @@ const entries: readonly { name: string; role: string; chain: ChainKey; address: 
   },
   {
     name: "MorrowMarket",
-    role: "Proof-gated escrow, credits and withdrawals",
+    role: "Proof-gated escrow, credits and withdrawals for the campaign claims",
     chain: "cc3",
     address: deployments.market,
+  },
+  {
+    name: "MorrowMarketV2",
+    role: "Trade page market; proofs need 64 attested blocks on top and are recorded with verifyAndEmit",
+    chain: "cc3",
+    address: deployments.tradeMarket,
   },
   {
     name: "mSET test token",

@@ -3,6 +3,7 @@ export const deployments = {
   vault: "0xEF6EE2fa664da7D3d710b272850CFAa6Ac73D583",
   settlementToken: "0xD48Fb19fd5C2Dc98f58484B38E5d54388EceADC0",
   market: "0x7c3310280083eE63e32427D11d0A7C2CAf584474",
+  tradeMarket: "0x375fDD3C43Fc4e0d8E8b2BeCBccd0f0CDA71D479",
 } as const;
 
 export const attestcoinChainKeys = {
