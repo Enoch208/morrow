@@ -182,16 +182,41 @@ contract StreamPaymentVaultTest {
         require(address(lockup).balance == 0.001 ether);
     }
 
-    function test_depletedStreamRefusesAStrayFee() public {
+    function test_feeSentForADepletedStreamIsReturnedAndRedemptionStillPays() public {
+        uint256 streamId = stream(0, false, true);
+        uint256 claimId = wrap(streamId);
+        lockup.setMinFee(0.001 ether);
+        VM.warp(11000);
+        VM.deal(STRANGER, 1 ether);
+        VM.prank(STRANGER);
+        lockup.withdrawMax{value: 0.001 ether}(streamId, address(vault));
+        VM.deal(address(this), 1 ether);
+        uint256 before = address(this).balance;
+        vault.redeem{value: 0.001 ether}(claimId);
+        require(address(this).balance == before);
+        require(address(vault).balance == 0);
+        require(token.balanceOf(SELLER) == DEPOSIT);
+    }
+
+    function test_feeRefundFailureRevertsWithoutPaying() public {
         uint256 streamId = stream(0, false, true);
         uint256 claimId = wrap(streamId);
         VM.warp(11000);
         lockup.withdrawMax(streamId, address(vault));
-        VM.deal(address(this), 1 ether);
-        VM.expectRevert(StreamPaymentVault.UnexpectedFee.selector);
-        vault.redeem{value: 1}(claimId);
-        vault.redeem(claimId);
-        require(token.balanceOf(SELLER) == DEPOSIT);
+        NoEtherCaller caller = new NoEtherCaller();
+        VM.deal(address(caller), 1 ether);
+        VM.expectRevert(StreamPaymentVault.FeeRefundFailed.selector);
+        caller.redeem(vault, claimId);
+        require(!vault.getClaim(claimId).redeemed);
+    }
+
+    function test_vaultCannotBeTheBuyer() public {
+        uint256 claimId = wrap(stream(0, false, true));
+        SaleTermsLib.Terms memory reserved = terms(claimId, 1);
+        reserved.buyer = address(vault);
+        VM.prank(SELLER);
+        VM.expectRevert(StreamPaymentVault.InvalidBuyer.selector);
+        vault.reserveSale(claimId, reserved);
     }
 
     function test_donationsNeverCreateRedemptionRights() public {
@@ -270,6 +295,12 @@ contract StreamPaymentVaultTest {
     }
 
     receive() external payable {}
+}
+
+contract NoEtherCaller {
+    function redeem(StreamPaymentVault vault, uint256 claimId) external {
+        vault.redeem{value: 1}(claimId);
+    }
 }
 
 contract StreamVaultEventCompatibilityTest {

@@ -29,7 +29,8 @@ contract StreamPaymentVault is ReentrancyGuard {
     error NotStreamOwner();
     error TransferDeltaMismatch();
     error EntitlementMismatch();
-    error UnexpectedFee();
+    error FeeRefundFailed();
+    error InvalidBuyer();
     error NotBeneficiary();
     error NotReservable();
     error RoundMismatch();
@@ -101,6 +102,7 @@ contract StreamPaymentVault is ReentrancyGuard {
     {
         SourceTypes.Claim storage claim = existingClaim(claimId);
         if (msg.sender != claim.currentBeneficiary) revert NotBeneficiary();
+        if (supplied.buyer == address(this)) revert InvalidBuyer();
         if (claim.redeemed || claim.successfulSale || claim.activeRound != 0 || block.timestamp >= claim.maturity) {
             revert NotReservable();
         }
@@ -142,11 +144,8 @@ contract StreamPaymentVault is ReentrancyGuard {
         uint256 streamId = claimStream[claimId];
         claim.redeemed = true;
         totalBacking -= claim.sourceFaceValueRaw;
-        if (LOCKUP.isDepleted(streamId)) {
-            if (msg.value != 0) revert UnexpectedFee();
-        } else {
-            LOCKUP.withdrawMax{value: msg.value}(streamId, address(this));
-        }
+        bool depletedBefore = LOCKUP.isDepleted(streamId);
+        if (!depletedBefore) LOCKUP.withdrawMax{value: msg.value}(streamId, address(this));
         if (
             !LOCKUP.isDepleted(streamId)
                 || LOCKUP.getWithdrawnAmount(streamId) - withdrawnAtWrap[claimId] != claim.sourceFaceValueRaw
@@ -157,6 +156,10 @@ contract StreamPaymentVault is ReentrancyGuard {
             revert TransferDeltaMismatch();
         }
         emit ClaimRedeemed(claimId, claim.currentBeneficiary, claim.sourceToken, claim.sourceFaceValueRaw);
+        if (depletedBefore && msg.value != 0) {
+            (bool refunded,) = payable(msg.sender).call{value: msg.value}("");
+            if (!refunded) revert FeeRefundFailed();
+        }
     }
 
     function getClaim(uint256 claimId) external view returns (SourceTypes.Claim memory) {

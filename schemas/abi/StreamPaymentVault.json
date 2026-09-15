@@ -729,6 +729,16 @@
   },
   {
     "type": "error",
+    "name": "FeeRefundFailed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "InvalidBuyer",
+    "inputs": []
+  },
+  {
+    "type": "error",
     "name": "InvalidClaim",
     "inputs": []
   },
@@ -791,11 +801,6 @@
   {
     "type": "error",
     "name": "TransferDeltaMismatch",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "UnexpectedFee",
     "inputs": []
   },
   {
