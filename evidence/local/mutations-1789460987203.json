@@ -1,0 +1,565 @@
+{
+  "observedAt": "2026-09-15T08:29:47.203Z",
+  "evidenceKind": "local-tested",
+  "scope": "30 selected mutations including six required classes and a combined outcome-binding mutation; not every safety guard",
+  "baseline": {
+    "command": [
+      "forge",
+      "test",
+      "--root",
+      "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts"
+    ],
+    "status": 0,
+    "output": "Compiling 86 files with Solc 0.8.28\nSolc 0.8.28 finished in 55.48s\nCompiler run successful!\n\nRan 2 tests for test/unit/AuthorityBypass.t.sol:AuthorityBypassTest\n[PASS] test_T04_principalSweepAndAdminWithdrawalHaveNoPath() (gas: 47779)\n[PASS] test_T17_arbitraryBeneficiaryTransferHasNoPath() (gas: 575480)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 3.22ms (821.83µs CPU time)\n\nRan 2 tests for test/unit/CanonicalTerms.t.sol:CanonicalTermsTest\n[PASS] test_T31_eachNumericAndActorFieldChangesIdentity() (gas: 22841)\n[PASS] test_T61_staticEncodingIsEighteenWords() (gas: 155295)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 3.17ms (1.07ms CPU time)\n\nRan 1 test for test/unit/AssignmentUniqueness.t.sol:AssignmentUniquenessTest\n[PASS] test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce() (gas: 1938020)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 3.68ms (986.17µs CPU time)\n\nRan 1 test for test/invariant/LifecycleV2.t.sol:HistoricalAssignmentV2Test\n[PASS] test_T44_T55_sourceAssignmentBeforeFundingCanRetryWithoutBurningEvidence() (gas: 1961437)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.02ms (1.42ms CPU time)\n\nRan 1 test for test/invariant/LifecycleV2.t.sol:AssignmentUniquenessV2Test\n[PASS] test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce() (gas: 1944130)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.12ms (1.38ms CPU time)\n\nRan 13 tests for test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[PASS] test_T01_invalidCreationDoesNotMoveBacking() (gas: 38190)\n[PASS] test_T03_donationCannotCreateRedemptionRights() (gas: 95730)\n[PASS] test_T05_nonOwnerReservationRejected() (gas: 23896)\n[PASS] test_T06_reservedSoldRedeemedClaimsCannotReserve() (gas: 600949)\n[PASS] test_T07_sourceOwnedFieldsCannotBeSubstituted() (gas: 117299)\n[PASS] test_T08_cutoffMustPrecedeMaturity() (gas: 40143)\n[PASS] test_T09_assignmentBeforeDeadlineAndT55ManualBypass() (gas: 562885)\n[PASS] test_T10_T11_assignmentAndCancellationBoundary() (gas: 539842)\n[PASS] test_T12_earlyCancellationRejected() (gas: 537764)\n[PASS] test_T13_assignmentAfterCancellationRejected() (gas: 525450)\n[PASS] test_T14_cancellationAfterAssignmentRejected() (gas: 567989)\n[PASS] test_T15_T16_oldRoundCannotAffectNewReservation() (gas: 1033291)\n[PASS] test_T18_T19_redemptionPaysOnlyBeneficiaryOnce() (gas: 102730)\nSuite result: ok. 13 passed; 0 failed; 0 skipped; finished in 864.58µs (688.37µs CPU time)\n\nRan 2 tests for test/unit/CorruptedProof.t.sol:CorruptedProofTest\n[PASS] test_T21_corruptedMerkleContinuityAndBytesNativeRejectWithoutFunding() (gas: 1014680)\n[PASS] test_T23_evmChainIdIsNotAcceptedAsProtocolChainKey() (gas: 670797)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 2.52ms (2.10ms CPU time)\n\nRan 2 tests for test/unit/FeeDecimals.t.sol:FeeDecimalsTest\n[PASS] test_T51_feeBoundariesUseFloorAndConservePrincipal() (gas: 29125863)\n[PASS] test_T52_sourceAndDestinationDecimalsStayIndependentRawUnits() (gas: 5137265)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 6.65ms (3.98ms CPU time)\n\nRan 1 test for test/unit/HistoricalAssignment.t.sol:HistoricalAssignmentTest\n[PASS] test_T44_T55_sourceAssignmentBeforeFundingCanRetryWithoutBurningEvidence() (gas: 1948152)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 3.01ms (2.46ms CPU time)\n\nRan 2 tests for test/unit/OutgoingDelta.t.sol:OutgoingDeltaTest\n[PASS] test_T18_T19_redemptionRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 520389)\n[PASS] test_T49_withdrawalRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 1078415)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 4.01ms (3.44ms CPU time)\n\nRan 2 tests for test/unit/MarketV2Suites.t.sol:CorruptedProofV2Test\n[PASS] test_T21_corruptedMerkleContinuityAndBytesNativeRejectWithoutFunding() (gas: 1035939)\n[PASS] test_T23_evmChainIdIsNotAcceptedAsProtocolChainKey() (gas: 676907)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 1.51ms (922.79µs CPU time)\n\nRan 8 tests for test/unit/MarketV2Suites.t.sol:MorrowMarketV2Test\n[PASS] test_T20_fundingEntersBoundWithExactPrincipal() (gas: 636468)\n[PASS] test_T31_changedTermsRejectSameProofAndCanRetry() (gas: 1299703)\n[PASS] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 698931)\n[PASS] test_T35_duplicateFundingDoesNotTakeMoney() (gas: 695869)\n[PASS] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 784020)\n[PASS] test_T38_cancellationRefundHasNoFee() (gas: 664356)\n[PASS] test_fundingCutoffIsStrictButNeverAnExit() (gas: 121156)\n[PASS] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 770402)\nSuite result: ok. 8 passed; 0 failed; 0 skipped; finished in 2.29ms (2.08ms CPU time)\n\nRan 2 tests for test/unit/MarketV2Suites.t.sol:FeeDecimalsV2Test\n[PASS] test_T51_feeBoundariesUseFloorAndConservePrincipal() (gas: 31810281)\n[PASS] test_T52_sourceAndDestinationDecimalsStayIndependentRawUnits() (gas: 5383546)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 3.77ms (3.47ms CPU time)\n\nRan 2 tests for test/invariant/LifecycleV2.t.sol:RoundReplayV2Test\n[PASS] test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific() (gas: 3342754)\n[PASS] test_T46_twoCancellationRelayersAllocateAndWithdrawOnlyOnce() (gas: 1843507)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 6.36ms (5.89ms CPU time)\n\nRan 2 tests for test/unit/RoundReplay.t.sol:RoundReplayTest\n[PASS] test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific() (gas: 3315050)\n[PASS] test_T46_twoCancellationRelayersAllocateAndWithdrawOnlyOnce() (gas: 1830199)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 6.29ms (5.84ms CPU time)\n\nRan 3 tests for test/unit/FailedReceipt.t.sol:FailedReceiptTest\n[PASS] test_T25_failedAssignmentPreservesBoundFundsAndAuthenticRetry() (gas: 2072386)\n[PASS] test_T25_failedCancellationPreservesBoundFundsAndAuthenticRetry() (gas: 1970834)\n[PASS] test_T25_failedReservationCannotMoveMoneyOrConsumeEvidence() (gas: 1759414)\nSuite result: ok. 3 passed; 0 failed; 0 skipped; finished in 7.91ms (7.40ms CPU time)\n\nRan 3 tests for test/unit/MarketV2Suites.t.sol:FundingRollbackV2Test\n[PASS] test_T20_fundingStoresEveryCanonicalTermAndExactBalanceDelta() (gas: 802124)\n[PASS] test_T34_insufficientAllowanceRollsBackCompleteStateThenExactRetry() (gas: 2462205)\n[PASS] test_T34_insufficientBalanceRollsBackAllowanceAndStateThenExactRetry() (gas: 2482836)\nSuite result: ok. 3 passed; 0 failed; 0 skipped; finished in 2.55ms (2.34ms CPU time)\n\nRan 6 tests for test/unit/SourceBoundaries.t.sol:SourceBoundariesTest\n[PASS] test_T01_invalidCreationPreservesFullSnapshotAndNextClaimId() (gas: 264436)\n[PASS] test_T05_unauthorizedReservationPreservesFullSnapshot() (gas: 192536)\n[PASS] test_T08_assignmentCutoffBeyondMaturityPreservesFullSnapshot() (gas: 198388)\n[PASS] test_T12_cancellationAtDeadlineMinusOnePreservesFullSnapshot() (gas: 649090)\n[PASS] test_T14_cancellationAfterDeadlineCannotUndoAssignment() (gas: 677101)\n[PASS] test_T16_staleAssignmentCannotChangeEitherRoundAfterRereservation() (gas: 1176764)\nSuite result: ok. 6 passed; 0 failed; 0 skipped; finished in 2.26ms (2.00ms CPU time)\n\nRan 1 test for test/unit/ProofIdentity.t.sol:ProofIdentityTest\n[PASS] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 774880)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.22ms (794.92µs CPU time)\n\nRan 3 tests for test/invariant/LifecycleV2.t.sol:MultiLogV2Test\n[PASS] test_T29_sameClaimCannotEmitDuplicateReservationOrCancellation() (gas: 2204526)\n[PASS] test_T47_distinctLocalIndicesFundInForwardOrder() (gas: 3519086)\n[PASS] test_T47_distinctLocalIndicesFundInReverseOrder() (gas: 3518782)\nSuite result: ok. 3 passed; 0 failed; 0 skipped; finished in 10.89ms (10.35ms CPU time)\n\nRan 3 tests for test/unit/FundingRollback.t.sol:FundingRollbackTest\n[PASS] test_T20_fundingStoresEveryCanonicalTermAndExactBalanceDelta() (gas: 796014)\n[PASS] test_T34_insufficientAllowanceRollsBackCompleteStateThenExactRetry() (gas: 2441675)\n[PASS] test_T34_insufficientBalanceRollsBackAllowanceAndStateThenExactRetry() (gas: 2462306)\nSuite result: ok. 3 passed; 0 failed; 0 skipped; finished in 16.43ms (4.66ms CPU time)\n\nRan 2 tests for test/unit/MarketV2Suites.t.sol:OutgoingDeltaV2Test\n[PASS] test_T18_T19_redemptionRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 520389)\n[PASS] test_T49_withdrawalRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 1088115)\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 2.16ms (1.78ms CPU time)\n\nRan 1 test for test/unit/StreamPaymentVault.t.sol:StreamVaultEventCompatibilityTest\n[PASS] test_saleEventsMatchTheMarketBoundSourceEvents() (gas: 105)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 12.88µs (3.29µs CPU time)\n\nRan 7 tests for test/unit/MarketV2Suites.t.sol:TokenSafetyV2Test\n[PASS] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1327645)\n[PASS] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 1225898)\n[PASS] test_T48_creditedTokenCallbackCannotWithdrawTwice() (gas: 810731)\n[PASS] test_T48_fundingCallbackCannotReenter() (gas: 2477637)\n[PASS] test_T48_sourceCreationCallbackCannotCreateSecondClaim() (gas: 1602312)\n[PASS] test_T48_sourceRedemptionCallbackCannotRedeemTwice() (gas: 1547109)\n[PASS] test_T49_failedWithdrawalRetainsCredit() (gas: 755899)\nSuite result: ok. 7 passed; 0 failed; 0 skipped; finished in 3.38ms (2.81ms CPU time)\n\nRan 7 tests for test/unit/TokenSafety.t.sol:TokenSafetyTest\n[PASS] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1327645)\n[PASS] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 1213678)\n[PASS] test_T48_creditedTokenCallbackCannotWithdrawTwice() (gas: 801031)\n[PASS] test_T48_fundingCallbackCannotReenter() (gas: 2471527)\n[PASS] test_T48_sourceCreationCallbackCannotCreateSecondClaim() (gas: 1602312)\n[PASS] test_T48_sourceRedemptionCallbackCannotRedeemTwice() (gas: 1547109)\n[PASS] test_T49_failedWithdrawalRetainsCredit() (gas: 746199)\nSuite result: ok. 7 passed; 0 failed; 0 skipped; finished in 1.40ms (1.10ms CPU time)\n\nRan 3 tests for test/unit/MultiLog.t.sol:MultiLogTest\n[PASS] test_T29_sameClaimCannotEmitDuplicateReservationOrCancellation() (gas: 2204526)\n[PASS] test_T47_distinctLocalIndicesFundInForwardOrder() (gas: 3479126)\n[PASS] test_T47_distinctLocalIndicesFundInReverseOrder() (gas: 3478822)\nSuite result: ok. 3 passed; 0 failed; 0 skipped; finished in 4.42ms (4.15ms CPU time)\n\nRan 10 tests for test/unit/NativeSpike.t.sol:NativeSpikeTest\n[PASS] test_T21_nativeFalseRejected() (gas: 26279)\n[PASS] test_T22_wrongChainKeyRejected() (gas: 22696)\n[PASS] test_T24_nativeValidUnapprovedEmitterRejected() (gas: 41406)\n[PASS] test_T25_failedReceiptRejected() (gas: 38154)\n[PASS] test_T26_malformedEventLayoutRejected() (gas: 62753)\n[PASS] test_T26_wrongSignatureRejectedWithoutConsumption() (gas: 65012)\n[PASS] test_T27_outOfRangeRejected() (gas: 38126)\n[PASS] test_T28_correctLaterLogAndReplay() (gas: 119402)\n[PASS] test_changedCommitmentCanRetryAuthenticEvent() (gas: 142600)\n[PASS] test_wrongActorRejectedWithoutConsumption() (gas: 63589)\nSuite result: ok. 10 passed; 0 failed; 0 skipped; finished in 806.88µs (716.09µs CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:ProofIdentityV2Test\n[PASS] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 793184)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.43ms (1.09ms CPU time)\n\nRan 8 tests for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[PASS] test_T20_fundingEntersBoundWithExactPrincipal() (gas: 630358)\n[PASS] test_T31_changedTermsRejectSameProofAndCanRetry() (gas: 1250914)\n[PASS] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 686718)\n[PASS] test_T35_duplicateFundingDoesNotTakeMoney() (gas: 686151)\n[PASS] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 774320)\n[PASS] test_T38_cancellationRefundHasNoFee() (gas: 654656)\n[PASS] test_fundingCutoffIsStrictButNeverAnExit() (gas: 115048)\n[PASS] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 760702)\nSuite result: ok. 8 passed; 0 failed; 0 skipped; finished in 6.56ms (5.38ms CPU time)\n\nRan 5 tests for test/unit/MarketV2Suites.t.sol:ProofBoundaryV2Test\n[PASS] test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry() (gas: 1933442)\n[PASS] test_T26_T31_cancellationLengthsHashAndTopicCountsRollbackThenRetry() (gas: 1910854)\n[PASS] test_T26_T31_reservationPayloadHashMismatchPreservesIdentityAndCanRetry() (gas: 1047964)\n[PASS] test_T26_reservationWrongLengthAndTopicCountsCannotConsumeOriginal() (gas: 1387115)\n[PASS] test_T31_selfConsistentUnsupportedTermsReachMarketPolicyWithoutCustodyChange() (gas: 3321302)\nSuite result: ok. 5 passed; 0 failed; 0 skipped; finished in 14.54ms (14.27ms CPU time)\n\nRan 12 tests for test/unit/RealProofFixture.t.sol:RealProofFixtureTest\n[PASS] test_fixturesAreTheExactCalldataTheLiveMarketConsumed() (gas: 1666915)\n[PASS] test_realAssignmentBindsToLiveEventKey() (gas: 628480)\n[PASS] test_realAssignmentChangedTermsReverts() (gas: 627672)\n[PASS] test_realAssignmentPresentedAsCancellationReverts() (gas: 623070)\n[PASS] test_realCancellationBindsToLiveEventKey() (gas: 527293)\n[PASS] test_realCancellationTamperedTransactionReverts() (gas: 515519)\n[PASS] test_realEventKeyPreimageUsesSepoliaTransactionIndex() (gas: 1641921)\n[PASS] test_realReservationBindsToLiveEventKey() (gas: 668294)\n[PASS] test_realReservationChangedTermsReverts() (gas: 664660)\n[PASS] test_realReservationOtherLogIndexReverts() (gas: 659887)\n[PASS] test_realReservationTamperedTransactionReverts() (gas: 652345)\n[PASS] test_realReservationWrongEmitterReverts() (gas: 659843)\nSuite result: ok. 12 passed; 0 failed; 0 skipped; finished in 21.36ms (35.84ms CPU time)\n\nRan 13 tests for test/unit/RealProofFixtureV2.t.sol:RealProofFixtureV2Test\n[PASS] test_capturedChainLookupBytesDecodeAsSepolia() (gas: 4498)\n[PASS] test_realAssignmentAtDepth63Reverts() (gas: 618568)\n[PASS] test_realAssignmentBindsToLiveEventKey() (gas: 635756)\n[PASS] test_realAssignmentTamperedTransactionReverts() (gas: 624087)\n[PASS] test_realAssignmentWrongEmitterReverts() (gas: 630191)\n[PASS] test_realCancellationBindsToLiveEventKey() (gas: 534473)\n[PASS] test_realCancellationChangedTermsReverts() (gas: 533408)\n[PASS] test_realReservationAtDepth63Reverts() (gas: 651386)\n[PASS] test_realReservationBindsToLiveEventKeyAtDepth64() (gas: 675433)\n[PASS] test_realReservationChangedTermsReverts() (gas: 671803)\n[PASS] test_realReservationOnOtherChainIdReverts() (gas: 649986)\n[PASS] test_realReservationOtherLogIndexReverts() (gas: 667019)\n[PASS] test_realReservationTamperedTransactionReverts() (gas: 659524)\nSuite result: ok. 13 passed; 0 failed; 0 skipped; finished in 12.62ms (21.67ms CPU time)\n\nRan 3 tests for test/unit/SourceGuardPaths.t.sol:SourceGuardPathsTest\n[PASS] test_T01_wrongCreationTokenPreservesClaimsBalancesIdsAndAllowances() (gas: 470134)\n[PASS] test_T31_wrongAssignmentHashPreservesActiveRoundThenAuthenticRetryWorks() (gas: 831527)\n[PASS] test_sourceConstructorRejectsWrongChainZeroAndCodelessToken() (gas: 1787427)\nSuite result: ok. 3 passed; 0 failed; 0 skipped; finished in 22.37ms (1.07ms CPU time)\n\nRan 16 tests for test/unit/StreamPaymentVault.t.sol:StreamPaymentVaultTest\n[PASS] testFuzz_entitlementIsConservedAcrossPartialWithdrawals(uint16,uint16) (runs: 256, μ: 485534, ~: 487569)\n[PASS] test_canceledStreamIsRejected() (gas: 215350)\n[PASS] test_donationsNeverCreateRedemptionRights() (gas: 466348)\n[PASS] test_feeRefundFailureRevertsWithoutPaying() (gas: 576994)\n[PASS] test_feeSentForADepletedStreamIsReturnedAndRedemptionStillPays() (gas: 482285)\n[PASS] test_fullyWithdrawnEndedStreamIsRejected() (gas: 236435)\n[PASS] test_onlyTheCurrentOwnerCanWrap() (gas: 199847)\n[PASS] test_redemptionForwardsAndRequiresTheLockupFee() (gas: 488013)\n[PASS] test_redemptionRefusesALockupWhoseReturnDisagreesWithItsAccounting() (gas: 455753)\n[PASS] test_renouncedStreamBecomesWrappable() (gas: 410097)\n[PASS] test_reservedClaimMustBeCancelledBeforeRedemption() (gas: 939731)\n[PASS] test_thirdPartyWithdrawalsBeforeMaturityCannotChangeRedemption() (gas: 964206)\n[PASS] test_twoStreamsOnTheSameTokenKeepSeparateBacking() (gas: 810375)\n[PASS] test_unsafeStreamsAreRejected() (gas: 805006)\n[PASS] test_vaultCannotBeTheBuyer() (gas: 415501)\n[PASS] test_wrapHoldsTheNftAndRecordsExactRemainingEntitlement() (gas: 465028)\nSuite result: ok. 16 passed; 0 failed; 0 skipped; finished in 47.77ms (49.73ms CPU time)\n\nRan 8 tests for test/unit/MarketV2Suites.t.sol:MarketRejectionsV2Test\n[PASS] testFuzz_T51_feeRoundingAndWithdrawalConservePrincipal(uint64) (runs: 256, μ: 743720, ~: 760822)\n[PASS] test_T26_noncanonicalReservationEncodingRejected() (gas: 694226)\n[PASS] test_T32_authenticOtherDestinationCannotFundHere() (gas: 183071)\n[PASS] test_T41_elapsedTimeExposesNoRefundOrAdminExit() (gas: 637381)\n[PASS] test_T42_oldCancellationCannotSettleNewRound() (gas: 1274805)\n[PASS] test_T43_T44_terminalProofBeforeFundingCanRetryAfterHistoricalFunding() (gas: 736381)\n[PASS] test_T45_sameSourceEventCannotUseAnotherProofNamespace() (gas: 697086)\n[PASS] test_T51_overlappingFeeSellerRolesAggregateOnce() (gas: 678568)\nSuite result: ok. 8 passed; 0 failed; 0 skipped; finished in 65.32ms (64.34ms CPU time)\n\nRan 8 tests for test/unit/MarketRejections.t.sol:MarketRejectionsTest\n[PASS] testFuzz_T51_feeRoundingAndWithdrawalConservePrincipal(uint64) (runs: 256, μ: 737129, ~: 751122)\n[PASS] test_T26_noncanonicalReservationEncodingRejected() (gas: 682019)\n[PASS] test_T32_authenticOtherDestinationCannotFundHere() (gas: 170865)\n[PASS] test_T41_elapsedTimeExposesNoRefundOrAdminExit() (gas: 631271)\n[PASS] test_T42_oldCancellationCannotSettleNewRound() (gas: 1257907)\n[PASS] test_T43_T44_terminalProofBeforeFundingCanRetryAfterHistoricalFunding() (gas: 726681)\n[PASS] test_T45_sameSourceEventCannotUseAnotherProofNamespace() (gas: 687368)\n[PASS] test_T51_overlappingFeeSellerRolesAggregateOnce() (gas: 668868)\nSuite result: ok. 8 passed; 0 failed; 0 skipped; finished in 88.75ms (87.71ms CPU time)\n\nRan 7 tests for test/unit/MorrowTestFaucet.t.sol:MorrowTestFaucetTest\n[PASS] testFuzz_totalDrippedNeverExceedsFunding(uint8) (runs: 256, μ: 601352, ~: 320946)\n[PASS] test_constructorRejectsInvalidConfiguration() (gas: 236802)\n[PASS] test_constructorRejectsNonTestnetChain() (gas: 60846)\n[PASS] test_cooldownIsPerRecipient() (gas: 123002)\n[PASS] test_dripPaysExactAmountToCaller() (gas: 73110)\n[PASS] test_insufficientBalanceRevertsWithoutConsumingCooldown() (gas: 191745)\n[PASS] test_repeatDripWaitsForCooldown() (gas: 85777)\nSuite result: ok. 7 passed; 0 failed; 0 skipped; finished in 117.08ms (117.20ms CPU time)\n\nRan 5 tests for test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[PASS] test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry() (gas: 1898629)\n[PASS] test_T26_T31_cancellationLengthsHashAndTopicCountsRollbackThenRetry() (gas: 1876041)\n[PASS] test_T26_T31_reservationPayloadHashMismatchPreservesIdentityAndCanRetry() (gas: 1029648)\n[PASS] test_T26_reservationWrongLengthAndTopicCountsCannotConsumeOriginal() (gas: 1356622)\n[PASS] test_T31_selfConsistentUnsupportedTermsReachMarketPolicyWithoutCustodyChange() (gas: 3235853)\nSuite result: ok. 5 passed; 0 failed; 0 skipped; finished in 128.97ms (18.86ms CPU time)\n\nRan 6 tests for test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[PASS] test_chainKeyMustResolveToSepolia() (gas: 133437)\n[PASS] test_missingAttestationFrontierRefusesEveryProof() (gas: 85155)\n[PASS] test_otherChainKeysAreRefusedBeforeAnyPrecompileRead() (gas: 80346)\n[PASS] test_proofsAreRecordedThroughVerifyAndEmit() (gas: 654093)\n[PASS] test_reservationProofNeedsSixtyFourAttestedBlocksOnTop() (gas: 689259)\n[PASS] test_shallowOutcomeProofWaitsAndThenSettles() (gas: 779644)\nSuite result: ok. 6 passed; 0 failed; 0 skipped; finished in 3.28s (2.30ms CPU time)\n\nRan 2 tests for test/invariant/LifecycleInvariant.t.sol:LifecycleInvariantTest\n[PASS] invariant_consumedEventsStayConsumedAndEverySaleHasItsReservation() (runs: 64, calls: 2048, reverts: 0)\n\n╭------------------+----------+-------+---------+----------╮\n| Contract         | Selector | Calls | Reverts | Discards |\n+==========================================================+\n| LifecycleHandler | cycle    | 2048  | 0       | 0        |\n╰------------------+----------+-------+---------+----------╯\n\n[PASS] invariant_fundedOutcomesAndWithdrawalsConserveBacking() (runs: 64, calls: 2048, reverts: 0)\n\n╭------------------+----------+-------+---------+----------╮\n| Contract         | Selector | Calls | Reverts | Discards |\n+==========================================================+\n| LifecycleHandler | cycle    | 2048  | 0       | 0        |\n╰------------------+----------+-------+---------+----------╯\n\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 4.75s (8.02s CPU time)\n\nRan 2 tests for test/invariant/LifecycleV2.t.sol:LifecycleInvariantV2Test\n[PASS] invariant_consumedEventsStayConsumedAndEverySaleHasItsReservation() (runs: 64, calls: 2048, reverts: 0)\n\n╭--------------------+----------+-------+---------+----------╮\n| Contract           | Selector | Calls | Reverts | Discards |\n+============================================================+\n| LifecycleHandlerV2 | cycle    | 2048  | 0       | 0        |\n╰--------------------+----------+-------+---------+----------╯\n\n[PASS] invariant_fundedOutcomesAndWithdrawalsConserveBacking() (runs: 64, calls: 2048, reverts: 0)\n\n╭--------------------+----------+-------+---------+----------╮\n| Contract           | Selector | Calls | Reverts | Discards |\n+============================================================+\n| LifecycleHandlerV2 | cycle    | 2048  | 0       | 0        |\n╰--------------------+----------+-------+---------+----------╯\n\nSuite result: ok. 2 passed; 0 failed; 0 skipped; finished in 7.97s (11.33s CPU time)\n\nRan 41 test suites in 7.98s (16.63s CPU time): 188 tests passed, 0 failed, 0 skipped (188 total tests)\n"
+  },
+  "results": [
+    {
+      "name": "source incoming delta",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (SOURCE_TOKEN.balanceOf(address(this)) != balanceBefore + faceValueRaw) revert TransferDeltaMismatch();",
+      "test": "test_T02_sourceTaxCannotCreateUnbackedClaim",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T02_sourceTaxCannotCreateUnbackedClaim"
+      ],
+      "status": 1,
+      "output": "Compiling 5 files with Solc 0.8.28\nSolc 0.8.28 finished in 18.59s\nCompiler run successful with warnings:\nWarning (2072): Unused local variable.\n  --> src/source/FundedPaymentVault.sol:61:9:\n   |\n61 |         uint256 balanceBefore = SOURCE_TOKEN.balanceOf(address(this));\n   |         ^^^^^^^^^^^^^^^^^^^^^\n\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:TokenSafetyV2Test\n[FAIL: next call did not revert as expected] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1441389)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.59ms (270.50µs CPU time)\n\nRan 1 test for test/unit/TokenSafety.t.sol:TokenSafetyTest\n[FAIL: next call did not revert as expected] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1441389)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.57ms (166.46µs CPU time)\n\nRan 2 test suites in 98.06ms (3.16ms CPU time): 0 tests passed, 2 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketV2Suites.t.sol:TokenSafetyV2Test\n[FAIL: next call did not revert as expected] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1441389)\n\nEncountered 1 failing test in test/unit/TokenSafety.t.sol:TokenSafetyTest\n[FAIL: next call did not revert as expected] test_T02_sourceTaxCannotCreateUnbackedClaim() (gas: 1441389)\n\nEncountered a total of 2 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 2 failed tests\n"
+    },
+    {
+      "name": "source assignment cutoff",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (block.timestamp >= round.terms.assignBefore) revert AssignmentExpired();",
+      "test": "test_T10_T11_assignmentAndCancellationBoundary",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T10_T11_assignmentAndCancellationBoundary"
+      ],
+      "status": 1,
+      "output": "Compiling 2 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.40s\nCompiler run successful!\n\nRan 1 test for test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[FAIL: next call did not revert as expected] test_T10_T11_assignmentAndCancellationBoundary() (gas: 569698)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 395.29µs (86.46µs CPU time)\n\nRan 1 test suite in 97.72ms (395.29µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[FAIL: next call did not revert as expected] test_T10_T11_assignmentAndCancellationBoundary() (gas: 569698)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "source cancellation cutoff",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (block.timestamp < round.terms.assignBefore) revert CancellationTooEarly();",
+      "test": "test_T12_earlyCancellationRejected",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T12_earlyCancellationRejected"
+      ],
+      "status": 1,
+      "output": "Compiling 2 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.23s\nCompiler run successful!\n\nRan 1 test for test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[FAIL: next call did not revert as expected] test_T12_earlyCancellationRejected() (gas: 543147)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 404.00µs (85.33µs CPU time)\n\nRan 1 test suite in 85.73ms (404.00µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/FundedPaymentVault.t.sol:FundedPaymentVaultTest\n[FAIL: next call did not revert as expected] test_T12_earlyCancellationRejected() (gas: 543147)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "buyer authority",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (msg.sender != terms.buyer) revert NotBuyer();",
+      "test": "test_T33_T36_nonBuyerCannotConsumeReservation",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T33_T36_nonBuyerCannotConsumeReservation"
+      ],
+      "status": 1,
+      "output": "Compiling 14 files with Solc 0.8.28\nSolc 0.8.28 finished in 25.50s\nCompiler run successful!\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:MorrowMarketV2Test\n[PASS] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 698931)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 3.07ms (929.71µs CPU time)\n\nRan 1 test for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: Error != expected error: ERC20InsufficientAllowance(0x2e234DAe75C793f67A35089C9d99245E1C58470b, 0, 9410) != NotBuyer()] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 584587)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 3.27ms (1.10ms CPU time)\n\nRan 2 test suites in 203.88ms (6.34ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: Error != expected error: ERC20InsufficientAllowance(0x2e234DAe75C793f67A35089C9d99245E1C58470b, 0, 9410) != NotBuyer()] test_T33_T36_nonBuyerCannotConsumeReservation() (gas: 584587)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "destination incoming delta",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (SETTLEMENT_TOKEN.balanceOf(address(this)) != beforeBalance + price) revert TransferDeltaMismatch();",
+      "test": "test_T34_taxedFundingRollsBackMoneyStateAndConsumption",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T34_taxedFundingRollsBackMoneyStateAndConsumption"
+      ],
+      "status": 1,
+      "output": "Compiling 13 files with Solc 0.8.28\nSolc 0.8.28 finished in 25.23s\nCompiler run successful with warnings:\nWarning (2072): Unused local variable.\n  --> src/destination/MorrowMarket.sol:81:9:\n   |\n81 |         uint256 beforeBalance = SETTLEMENT_TOKEN.balanceOf(address(this));\n   |         ^^^^^^^^^^^^^^^^^^^^^\n\n\nRan 1 test for test/unit/TokenSafety.t.sol:TokenSafetyTest\n[FAIL: next call did not revert as expected] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 650630)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.36ms (169.04µs CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:TokenSafetyV2Test\n[PASS] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 1225898)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.51ms (321.58µs CPU time)\n\nRan 2 test suites in 88.65ms (2.88ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/TokenSafety.t.sol:TokenSafetyTest\n[FAIL: next call did not revert as expected] test_T34_taxedFundingRollsBackMoneyStateAndConsumption() (gas: 650630)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "funding admission cutoff",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (block.timestamp >= terms.fundBefore) revert FundingClosed();",
+      "test": "test_fundingCutoffIsStrictButNeverAnExit",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_fundingCutoffIsStrictButNeverAnExit"
+      ],
+      "status": 1,
+      "output": "Compiling 13 files with Solc 0.8.28\nSolc 0.8.28 finished in 24.53s\nCompiler run successful!\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:MorrowMarketV2Test\n[PASS] test_fundingCutoffIsStrictButNeverAnExit() (gas: 121156)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.05ms (157.08µs CPU time)\n\nRan 1 test for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: next call did not revert as expected] test_fundingCutoffIsStrictButNeverAnExit() (gas: 616430)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.07ms (178.88µs CPU time)\n\nRan 2 test suites in 88.32ms (2.12ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: next call did not revert as expected] test_fundingCutoffIsStrictButNeverAnExit() (gas: 616430)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "approved source emitter",
+      "file": "src/libraries/AttestcoinGate.sol",
+      "guard": "if (entry.address_ != expectedEmitter) revert WrongEmitter();",
+      "test": "test_T24_nativeValidUnapprovedEmitterRejected",
+      "originalSha256": "cf598f9a66828f11f5623670521665ad08c0e6901fa7515bc26754a9c2a408f3",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T24_nativeValidUnapprovedEmitterRejected"
+      ],
+      "status": 1,
+      "output": "Compiling 8 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.95s\nCompiler run successful with warnings:\nWarning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.\n  --> src/libraries/AttestcoinGate.sol:30:9:\n   |\n30 |         address expectedEmitter,\n   |         ^^^^^^^^^^^^^^^^^^^^^^^\n\n\nRan 1 test for test/unit/NativeSpike.t.sol:NativeSpikeTest\n[FAIL: next call did not revert as expected] test_T24_nativeValidUnapprovedEmitterRejected() (gas: 87503)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 333.83µs (90.13µs CPU time)\n\nRan 1 test suite in 85.88ms (333.83µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/NativeSpike.t.sol:NativeSpikeTest\n[FAIL: next call did not revert as expected] test_T24_nativeValidUnapprovedEmitterRejected() (gas: 87503)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "withdrawal credit consumption",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "credits[msg.sender] = 0;",
+      "test": "test_withdrawalOnlyPaysCallerAndCannotRepeat",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_withdrawalOnlyPaysCallerAndCannotRepeat"
+      ],
+      "status": 1,
+      "output": "Compiling 19 files with Solc 0.8.28\nSolc 0.8.28 finished in 25.55s\nCompiler run successful!\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:MorrowMarketV2Test\n[PASS] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 770402)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.16ms (279.88µs CPU time)\n\nRan 1 test for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: EvmError: Revert] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 799199)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.41ms (504.50µs CPU time)\n\nRan 2 test suites in 223.41ms (2.57ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: EvmError: Revert] test_withdrawalOnlyPaysCallerAndCannotRepeat() (gas: 799199)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "claim and round binding",
+      "file": "src/libraries/ProofBindingLib.sol",
+      "guard": "if (entry.topics[2] != bytes32(terms.claimId) || entry.topics[3] != bytes32(terms.round)) {\n            revert ClaimRoundMismatch();\n        }",
+      "test": "test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash",
+      "originalSha256": "dfecdf5f46eb2df6fe84245a22d71609018fc613139006b4f9b4b2701b53d404",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash"
+      ],
+      "status": 1,
+      "output": "Compiling 14 files with Solc 0.8.28\nSolc 0.8.28 finished in 25.13s\nCompiler run successful!\n\nRan 1 test for test/unit/ProofIdentity.t.sol:ProofIdentityTest\n[FAIL: next call did not revert as expected] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 632621)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.06ms (186.42µs CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:ProofIdentityV2Test\n[PASS] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 793184)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.28ms (413.46µs CPU time)\n\nRan 2 test suites in 108.08ms (2.34ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/ProofIdentity.t.sol:ProofIdentityTest\n[FAIL: next call did not revert as expected] test_T31_claimAndRoundTopicsMustMatchEvenWithMatchingSaleHash() (gas: 632621)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "destination deployment binding",
+      "file": "src/destination/MarketTerms.sol",
+      "guard": "|| terms.destinationEvmChainId != block.chainid || terms.destinationMarket != address(this)",
+      "test": "test_T32_authenticOtherDestinationCannotFundHere",
+      "originalSha256": "030cf5549a94e2e8c6c183423463bf67903203b83092f5ec9f946591a23b576a",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T32_authenticOtherDestinationCannotFundHere"
+      ],
+      "status": 1,
+      "output": "Compiling 16 files with Solc 0.8.28\nSolc 0.8.28 finished in 24.03s\nCompiler run successful with warnings:\nWarning (2018): Function state mutability can be restricted to pure\n  --> src/destination/MarketTerms.sol:10:5:\n   |\n10 |     function validate(\n   |     ^ (Relevant source part starts here and spans across multiple lines).\n\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:MarketRejectionsV2Test\n[FAIL: next call did not revert as expected] test_T32_authenticOtherDestinationCannotFundHere() (gas: 622901)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.07ms (174.17µs CPU time)\n\nRan 1 test for test/unit/MarketRejections.t.sol:MarketRejectionsTest\n[FAIL: next call did not revert as expected] test_T32_authenticOtherDestinationCannotFundHere() (gas: 616791)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.09ms (184.71µs CPU time)\n\nRan 2 test suites in 94.55ms (2.16ms CPU time): 0 tests passed, 2 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketRejections.t.sol:MarketRejectionsTest\n[FAIL: next call did not revert as expected] test_T32_authenticOtherDestinationCannotFundHere() (gas: 616791)\n\nEncountered 1 failing test in test/unit/MarketV2Suites.t.sol:MarketRejectionsV2Test\n[FAIL: next call did not revert as expected] test_T32_authenticOtherDestinationCannotFundHere() (gas: 622901)\n\nEncountered a total of 2 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 2 failed tests\n"
+    },
+    {
+      "name": "terminal state guard",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (sale.state != MarketTypes.State.BOUND) revert SaleNotBound();",
+      "test": "test_T37_T39_lateAssignmentAllocatesExactlyOnce",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T37_T39_lateAssignmentAllocatesExactlyOnce"
+      ],
+      "status": 1,
+      "output": "Compiling 15 files with Solc 0.8.28\nSolc 0.8.28 finished in 26.09s\nCompiler run successful!\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:MorrowMarketV2Test\n[PASS] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 784020)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.16ms (291.92µs CPU time)\n\nRan 1 test for test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: Error != expected error: EventAlreadyConsumed() != SaleNotBound()] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 813586)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.26ms (384.67µs CPU time)\n\nRan 2 test suites in 89.25ms (2.42ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MorrowMarket.t.sol:MorrowMarketTest\n[FAIL: Error != expected error: EventAlreadyConsumed() != SaleNotBound()] test_T37_T39_lateAssignmentAllocatesExactlyOnce() (gas: 813586)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "combined outcome identity and terms binding",
+      "file": "src/libraries/ProofBindingLib.sol",
+      "guard": "bindIdentity(entry, terms);\n        if (entry.data.length != 32) revert InvalidEventLayout();\n        if (abi.decode(entry.data, (bytes32)) != SaleTermsLib.termsHash(terms)) revert TermsHashMismatch();",
+      "replacement": "if (entry.data.length != 32) revert InvalidEventLayout();",
+      "test": "test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific",
+      "originalSha256": "dfecdf5f46eb2df6fe84245a22d71609018fc613139006b4f9b4b2701b53d404",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific"
+      ],
+      "status": 1,
+      "output": "Compiling 12 files with Solc 0.8.28\nSolc 0.8.28 finished in 19.35s\nCompiler run successful with warnings:\nWarning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.\n  --> src/libraries/ProofBindingLib.sol:36:9:\n   |\n36 |         SaleTermsLib.Terms memory terms,\n   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\nRan 1 test for test/unit/RoundReplay.t.sol:RoundReplayTest\n[FAIL: next call did not revert as expected] test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific() (gas: 2836780)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.84ms (893.50µs CPU time)\n\nRan 1 test for test/invariant/LifecycleV2.t.sol:RoundReplayV2Test\n[PASS] test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific() (gas: 3342754)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.90ms (1.96ms CPU time)\n\nRan 2 test suites in 92.65ms (4.74ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/RoundReplay.t.sol:RoundReplayTest\n[FAIL: next call did not revert as expected] test_T42_T45_T57_oldRefundDeliveredAfterNewAssignmentStaysRoundSpecific() (gas: 2836780)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "receipt-local event identity",
+      "file": "src/libraries/AttestcoinGate.sol",
+      "guard": "eventKey = keccak256(abi.encode(proof.chainKey, proof.blockHeight, txIndex, receiptLocalLogIndex));",
+      "replacement": "eventKey = keccak256(abi.encode(proof.chainKey, proof.blockHeight, txIndex, uint256(0)));",
+      "test": "test_T47_distinctLocalIndicesFundInForwardOrder",
+      "originalSha256": "cf598f9a66828f11f5623670521665ad08c0e6901fa7515bc26754a9c2a408f3",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T47_distinctLocalIndicesFundInForwardOrder"
+      ],
+      "status": 1,
+      "output": "Compiling 17 files with Solc 0.8.28\nSolc 0.8.28 finished in 20.43s\nCompiler run successful!\n\nRan 1 test for test/unit/MultiLog.t.sol:MultiLogTest\n[FAIL: EventAlreadyConsumed()] test_T47_distinctLocalIndicesFundInForwardOrder() (gas: 2613551)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 2.08ms (1.13ms CPU time)\n\nRan 1 test for test/invariant/LifecycleV2.t.sol:MultiLogV2Test\n[PASS] test_T47_distinctLocalIndicesFundInForwardOrder() (gas: 3519086)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.85ms (1.91ms CPU time)\n\nRan 2 test suites in 86.48ms (4.94ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MultiLog.t.sol:MultiLogTest\n[FAIL: EventAlreadyConsumed()] test_T47_distinctLocalIndicesFundInForwardOrder() (gas: 2613551)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "forbidden assignment proof timeout",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "bytes32 eventKey = ProofBindingLib.outcome(proof, logIndex, sale.terms, SOURCE_VAULT, true);",
+      "replacement": "if (block.timestamp >= sale.terms.assignBefore) revert FundingClosed();\n        bytes32 eventKey = ProofBindingLib.outcome(proof, logIndex, sale.terms, SOURCE_VAULT, true);",
+      "test": "test_T44_T55_sourceAssignmentBeforeFundingCanRetryWithoutBurningEvidence",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T44_T55_sourceAssignmentBeforeFundingCanRetryWithoutBurningEvidence"
+      ],
+      "status": 1,
+      "output": "Compiling 17 files with Solc 0.8.28\nSolc 0.8.28 finished in 21.28s\nCompiler run successful!\n\nRan 1 test for test/unit/HistoricalAssignment.t.sol:HistoricalAssignmentTest\n[FAIL: FundingClosed()] test_T44_T55_sourceAssignmentBeforeFundingCanRetryWithoutBurningEvidence() (gas: 1735944)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.59ms (657.88µs CPU time)\n\nRan 1 test for test/invariant/LifecycleV2.t.sol:HistoricalAssignmentV2Test\n[PASS] test_T44_T55_sourceAssignmentBeforeFundingCanRetryWithoutBurningEvidence() (gas: 1961437)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.95ms (1.01ms CPU time)\n\nRan 2 test suites in 88.43ms (3.54ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/HistoricalAssignment.t.sol:HistoricalAssignmentTest\n[FAIL: FundingClosed()] test_T44_T55_sourceAssignmentBeforeFundingCanRetryWithoutBurningEvidence() (gas: 1735944)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "successful source receipt status",
+      "file": "src/libraries/AttestcoinGate.sol",
+      "guard": "if (receipt.receiptStatus != 1) revert FailedReceipt();",
+      "test": "test_T25_failedAssignmentPreservesBoundFundsAndAuthenticRetry",
+      "originalSha256": "cf598f9a66828f11f5623670521665ad08c0e6901fa7515bc26754a9c2a408f3",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T25_failedAssignmentPreservesBoundFundsAndAuthenticRetry"
+      ],
+      "status": 1,
+      "output": "Compiling 10 files with Solc 0.8.28\nSolc 0.8.28 finished in 3.82s\nCompiler run successful!\n\nRan 1 test for test/unit/FailedReceipt.t.sol:FailedReceiptTest\n[FAIL: next call did not revert as expected] test_T25_failedAssignmentPreservesBoundFundsAndAuthenticRetry() (gas: 1858705)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 949.38µs (506.83µs CPU time)\n\nRan 1 test suite in 86.47ms (949.38µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/FailedReceipt.t.sol:FailedReceiptTest\n[FAIL: next call did not revert as expected] test_T25_failedAssignmentPreservesBoundFundsAndAuthenticRetry() (gas: 1858705)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "withdrawal recipient delta",
+      "file": "src/destination/MorrowMarket.sol",
+      "guard": "if (SETTLEMENT_TOKEN.balanceOf(msg.sender) != beforeBalance + amount) revert TransferDeltaMismatch();",
+      "test": "test_T49_withdrawalRecipientTaxRollsBackEverythingThenPaysOnce",
+      "originalSha256": "6cf2997ad78f4b6b024389f75e6183e32d01f1b596f3b41836e677e235d9b600",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T49_withdrawalRecipientTaxRollsBackEverythingThenPaysOnce"
+      ],
+      "status": 1,
+      "output": "Compiling 19 files with Solc 0.8.28\nSolc 0.8.28 finished in 24.01s\nCompiler run successful with warnings:\nWarning (2072): Unused local variable.\n   --> src/destination/MorrowMarket.sol:123:9:\n    |\n123 |         uint256 beforeBalance = SETTLEMENT_TOKEN.balanceOf(msg.sender);\n    |         ^^^^^^^^^^^^^^^^^^^^^\n\n\nRan 1 test for test/unit/OutgoingDelta.t.sol:OutgoingDeltaTest\n[FAIL: next call did not revert as expected] test_T49_withdrawalRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 952646)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.43ms (345.25µs CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:OutgoingDeltaV2Test\n[PASS] test_T49_withdrawalRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 1088115)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.68ms (593.71µs CPU time)\n\nRan 2 test suites in 89.83ms (3.10ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/OutgoingDelta.t.sol:OutgoingDeltaTest\n[FAIL: next call did not revert as expected] test_T49_withdrawalRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 952646)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "redemption recipient delta",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (SOURCE_TOKEN.balanceOf(claim.currentBeneficiary) != recipientBalance + claim.sourceFaceValueRaw) {\n            revert TransferDeltaMismatch();\n        }",
+      "test": "test_T18_T19_redemptionRecipientTaxRollsBackEverythingThenPaysOnce",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T18_T19_redemptionRecipientTaxRollsBackEverythingThenPaysOnce"
+      ],
+      "status": 1,
+      "output": "Compiling 14 files with Solc 0.8.28\nSolc 0.8.28 finished in 25.04s\nCompiler run successful with warnings:\nWarning (2072): Unused local variable.\n   --> src/source/FundedPaymentVault.sol:119:9:\n    |\n119 |         uint256 recipientBalance = SOURCE_TOKEN.balanceOf(claim.currentBeneficiary);\n    |         ^^^^^^^^^^^^^^^^^^^^^^^^\n\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:OutgoingDeltaV2Test\n[FAIL: next call did not revert as expected] test_T18_T19_redemptionRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 318578)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.27ms (121.58µs CPU time)\n\nRan 1 test for test/unit/OutgoingDelta.t.sol:OutgoingDeltaTest\n[FAIL: next call did not revert as expected] test_T18_T19_redemptionRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 318578)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.26ms (121.96µs CPU time)\n\nRan 2 test suites in 87.29ms (2.53ms CPU time): 0 tests passed, 2 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketV2Suites.t.sol:OutgoingDeltaV2Test\n[FAIL: next call did not revert as expected] test_T18_T19_redemptionRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 318578)\n\nEncountered 1 failing test in test/unit/OutgoingDelta.t.sol:OutgoingDeltaTest\n[FAIL: next call did not revert as expected] test_T18_T19_redemptionRecipientTaxRollsBackEverythingThenPaysOnce() (gas: 318578)\n\nEncountered a total of 2 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 2 failed tests\n"
+    },
+    {
+      "name": "source constructor domain and token",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (block.chainid != 11155111 || token == address(0) || token.code.length == 0) revert UnsupportedToken();",
+      "test": "test_sourceConstructorRejectsWrongChainZeroAndCodelessToken",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_sourceConstructorRejectsWrongChainZeroAndCodelessToken"
+      ],
+      "status": 1,
+      "output": "Compiling 2 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.04s\nCompiler run successful!\n\nRan 1 test for test/unit/SourceGuardPaths.t.sol:SourceGuardPathsTest\n[FAIL: next call did not revert as expected] test_sourceConstructorRejectsWrongChainZeroAndCodelessToken() (gas: 1457987)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 496.92µs (138.50µs CPU time)\n\nRan 1 test suite in 89.10ms (496.92µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/SourceGuardPaths.t.sol:SourceGuardPathsTest\n[FAIL: next call did not revert as expected] test_sourceConstructorRejectsWrongChainZeroAndCodelessToken() (gas: 1457987)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "source creation token binding",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (token != address(SOURCE_TOKEN)) revert UnsupportedToken();",
+      "test": "test_T01_wrongCreationTokenPreservesClaimsBalancesIdsAndAllowances",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T01_wrongCreationTokenPreservesClaimsBalancesIdsAndAllowances"
+      ],
+      "status": 1,
+      "output": "Compiling 2 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.04s\nCompiler run successful!\n\nRan 1 test for test/unit/SourceGuardPaths.t.sol:SourceGuardPathsTest\n[FAIL: next call did not revert as expected] test_T01_wrongCreationTokenPreservesClaimsBalancesIdsAndAllowances() (gas: 406865)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 479.71µs (137.08µs CPU time)\n\nRan 1 test suite in 82.85ms (479.71µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/SourceGuardPaths.t.sol:SourceGuardPathsTest\n[FAIL: next call did not revert as expected] test_T01_wrongCreationTokenPreservesClaimsBalancesIdsAndAllowances() (gas: 406865)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "source assignment intent hash",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "if (round.termsHash != expectedTermsHash) revert TermsHashMismatch();",
+      "test": "test_T31_wrongAssignmentHashPreservesActiveRoundThenAuthenticRetryWorks",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T31_wrongAssignmentHashPreservesActiveRoundThenAuthenticRetryWorks"
+      ],
+      "status": 1,
+      "output": "Compiling 2 files with Solc 0.8.28\nSolc 0.8.28 finished in 1.17s\nCompiler run successful with warnings:\nWarning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.\n  --> src/source/FundedPaymentVault.sol:92:65:\n   |\n92 |     function assignSale(uint256 claimId, uint256 expectedRound, bytes32 expectedTermsHash) external nonReentrant {\n   |                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\nRan 1 test for test/unit/SourceGuardPaths.t.sol:SourceGuardPathsTest\n[FAIL: next call did not revert as expected] test_T31_wrongAssignmentHashPreservesActiveRoundThenAuthenticRetryWorks() (gas: 757818)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 541.42µs (179.33µs CPU time)\n\nRan 1 test suite in 89.68ms (541.42µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/SourceGuardPaths.t.sol:SourceGuardPathsTest\n[FAIL: next call did not revert as expected] test_T31_wrongAssignmentHashPreservesActiveRoundThenAuthenticRetryWorks() (gas: 757818)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "reservation canonical payload binding",
+      "file": "src/libraries/ProofBindingLib.sol",
+      "guard": "if (keccak256(entry.data) != keccak256(abi.encode(SaleTermsLib.termsHash(terms), abi.encode(terms)))) {\n            revert TermsHashMismatch();\n        }",
+      "test": "test_T26_T31_reservationPayloadHashMismatchPreservesIdentityAndCanRetry",
+      "originalSha256": "dfecdf5f46eb2df6fe84245a22d71609018fc613139006b4f9b4b2701b53d404",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T26_T31_reservationPayloadHashMismatchPreservesIdentityAndCanRetry"
+      ],
+      "status": 1,
+      "output": "Compiling 15 files with Solc 0.8.28\nSolc 0.8.28 finished in 28.86s\nCompiler run successful!\n\nRan 1 test for test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T26_T31_reservationPayloadHashMismatchPreservesIdentityAndCanRetry() (gas: 723703)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.16ms (288.75µs CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:ProofBoundaryV2Test\n[PASS] test_T26_T31_reservationPayloadHashMismatchPreservesIdentityAndCanRetry() (gas: 1047964)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.75ms (690.42µs CPU time)\n\nRan 2 test suites in 88.41ms (2.92ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T26_T31_reservationPayloadHashMismatchPreservesIdentityAndCanRetry() (gas: 723703)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "outcome exact payload length",
+      "file": "src/libraries/ProofBindingLib.sol",
+      "guard": "if (entry.data.length != 32) revert InvalidEventLayout();",
+      "test": "test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry",
+      "originalSha256": "dfecdf5f46eb2df6fe84245a22d71609018fc613139006b4f9b4b2701b53d404",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry"
+      ],
+      "status": 1,
+      "output": "Compiling 14 files with Solc 0.8.28\nSolc 0.8.28 finished in 32.78s\nCompiler run successful!\n\nRan 1 test for test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry() (gas: 879899)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.27ms (398.33µs CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:ProofBoundaryV2Test\n[PASS] test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry() (gas: 1933442)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.74ms (1.87ms CPU time)\n\nRan 2 test suites in 87.34ms (4.01ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry() (gas: 879899)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "outcome canonical terms hash",
+      "file": "src/libraries/ProofBindingLib.sol",
+      "guard": "if (abi.decode(entry.data, (bytes32)) != SaleTermsLib.termsHash(terms)) revert TermsHashMismatch();",
+      "test": "test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry",
+      "originalSha256": "dfecdf5f46eb2df6fe84245a22d71609018fc613139006b4f9b4b2701b53d404",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry"
+      ],
+      "status": 1,
+      "output": "Compiling 14 files with Solc 0.8.28\nSolc 0.8.28 finished in 25.06s\nCompiler run successful!\n\nRan 1 test for test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry() (gas: 1487493)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 2.19ms (1.25ms CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:ProofBoundaryV2Test\n[PASS] test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry() (gas: 1933442)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.82ms (1.88ms CPU time)\n\nRan 2 test suites in 95.38ms (5.01ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T26_T31_assignmentLengthsHashAndTopicCountsRollbackThenRetry() (gas: 1487493)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "event exact topic count",
+      "file": "src/libraries/ProofBindingLib.sol",
+      "guard": "if (entry.topics.length != 4) revert InvalidEventLayout();",
+      "test": "test_T26_reservationWrongLengthAndTopicCountsCannotConsumeOriginal",
+      "originalSha256": "dfecdf5f46eb2df6fe84245a22d71609018fc613139006b4f9b4b2701b53d404",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T26_reservationWrongLengthAndTopicCountsCannotConsumeOriginal"
+      ],
+      "status": 1,
+      "output": "Compiling 14 files with Solc 0.8.28\nSolc 0.8.28 finished in 24.58s\nCompiler run successful!\n\nRan 1 test for test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T26_reservationWrongLengthAndTopicCountsCannotConsumeOriginal() (gas: 604623)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.63ms (743.42µs CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:ProofBoundaryV2Test\n[PASS] test_T26_reservationWrongLengthAndTopicCountsCannotConsumeOriginal() (gas: 1387115)\nSuite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.05ms (1.15ms CPU time)\n\nRan 2 test suites in 87.12ms (3.68ms CPU time): 1 tests passed, 1 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T26_reservationWrongLengthAndTopicCountsCannotConsumeOriginal() (gas: 604623)\n\nEncountered a total of 1 failing tests, 1 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "configured market fee binding",
+      "file": "src/destination/MarketTerms.sol",
+      "guard": "|| terms.feeBps != feeBps",
+      "test": "test_T31_selfConsistentUnsupportedTermsReachMarketPolicyWithoutCustodyChange",
+      "originalSha256": "030cf5549a94e2e8c6c183423463bf67903203b83092f5ec9f946591a23b576a",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T31_selfConsistentUnsupportedTermsReachMarketPolicyWithoutCustodyChange"
+      ],
+      "status": 1,
+      "output": "Compiling 16 files with Solc 0.8.28\nSolc 0.8.28 finished in 25.51s\nCompiler run successful with warnings:\nWarning (5667): Unused function parameter. Remove or comment out the variable name to silence this warning.\n  --> src/destination/MarketTerms.sol:16:9:\n   |\n16 |         uint16 feeBps\n   |         ^^^^^^^^^^^^^\n\n\nRan 1 test for test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T31_selfConsistentUnsupportedTermsReachMarketPolicyWithoutCustodyChange() (gas: 1093184)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.60ms (686.75µs CPU time)\n\nRan 1 test for test/unit/MarketV2Suites.t.sol:ProofBoundaryV2Test\n[FAIL: EvmError: Revert] test_T31_selfConsistentUnsupportedTermsReachMarketPolicyWithoutCustodyChange() (gas: 1111500)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.60ms (690.50µs CPU time)\n\nRan 2 test suites in 87.79ms (3.19ms CPU time): 0 tests passed, 2 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketV2Suites.t.sol:ProofBoundaryV2Test\n[FAIL: EvmError: Revert] test_T31_selfConsistentUnsupportedTermsReachMarketPolicyWithoutCustodyChange() (gas: 1111500)\n\nEncountered 1 failing test in test/unit/ProofBoundary.t.sol:ProofBoundaryTest\n[FAIL: EvmError: Revert] test_T31_selfConsistentUnsupportedTermsReachMarketPolicyWithoutCustodyChange() (gas: 1093184)\n\nEncountered a total of 2 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 2 failed tests\n"
+    },
+    {
+      "name": "assignment emits matching source outcome",
+      "file": "src/source/FundedPaymentVault.sol",
+      "guard": "emit SaleAssigned(round.saleId, claimId, expectedRound, round.termsHash);",
+      "replacement": "emit SaleCancelled(round.saleId, claimId, expectedRound, round.termsHash);",
+      "test": "test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce",
+      "originalSha256": "64b60db3b3ad7e270d35d6f4c2f0e827faa494974439c9f9af6f965570a63e3e",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce"
+      ],
+      "status": 1,
+      "output": "Compiling 14 files with Solc 0.8.28\nSolc 0.8.28 finished in 20.60s\nCompiler run successful!\n\nRan 1 test for test/unit/AssignmentUniqueness.t.sol:AssignmentUniquenessTest\n[FAIL: EvmError: Revert] test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce() (gas: 1858170)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.31ms (443.54µs CPU time)\n\nRan 1 test for test/invariant/LifecycleV2.t.sol:AssignmentUniquenessV2Test\n[FAIL: EvmError: Revert] test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce() (gas: 1864280)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.31ms (443.46µs CPU time)\n\nRan 2 test suites in 123.53ms (2.62ms CPU time): 0 tests passed, 2 failed, 0 skipped (2 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/invariant/LifecycleV2.t.sol:AssignmentUniquenessV2Test\n[FAIL: EvmError: Revert] test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce() (gas: 1864280)\n\nEncountered 1 failing test in test/unit/AssignmentUniqueness.t.sol:AssignmentUniquenessTest\n[FAIL: EvmError: Revert] test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce() (gas: 1858170)\n\nEncountered a total of 2 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 2 failed tests\n"
+    },
+    {
+      "name": "attested source depth",
+      "file": "src/libraries/AttestcoinGateV2.sol",
+      "guard": "latest.height < requiredHeight",
+      "replacement": "latest.height < proof.blockHeight",
+      "test": "test_reservationProofNeedsSixtyFourAttestedBlocksOnTop",
+      "originalSha256": "a7119aa2df9d516a3f92c46f7cb545c7ef541f50fa5d88c87d9bf3ab2c3bf7b3",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_reservationProofNeedsSixtyFourAttestedBlocksOnTop"
+      ],
+      "status": 1,
+      "output": "Compiling 6 files with Solc 0.8.28\nSolc 0.8.28 finished in 2.96s\nCompiler run successful!\n\nRan 1 test for test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[FAIL: next call did not revert as expected] test_reservationProofNeedsSixtyFourAttestedBlocksOnTop() (gas: 626200)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 558.58µs (165.96µs CPU time)\n\nRan 1 test suite in 85.87ms (558.58µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[FAIL: next call did not revert as expected] test_reservationProofNeedsSixtyFourAttestedBlocksOnTop() (gas: 626200)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "attested source depth boundary",
+      "file": "src/libraries/AttestcoinGateV2.sol",
+      "guard": "latest.height < requiredHeight",
+      "replacement": "latest.height <= requiredHeight",
+      "test": "test_reservationProofNeedsSixtyFourAttestedBlocksOnTop",
+      "originalSha256": "a7119aa2df9d516a3f92c46f7cb545c7ef541f50fa5d88c87d9bf3ab2c3bf7b3",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_reservationProofNeedsSixtyFourAttestedBlocksOnTop"
+      ],
+      "status": 1,
+      "output": "Compiling 5 files with Solc 0.8.28\nSolc 0.8.28 finished in 2.84s\nCompiler run successful!\n\nRan 1 test for test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[FAIL: InsufficientAttestedDepth(163, 163)] test_reservationProofNeedsSixtyFourAttestedBlocksOnTop() (gas: 191500)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.09ms (231.63µs CPU time)\n\nRan 1 test suite in 97.63ms (1.09ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[FAIL: InsufficientAttestedDepth(163, 163)] test_reservationProofNeedsSixtyFourAttestedBlocksOnTop() (gas: 191500)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "source chain binding",
+      "file": "src/libraries/AttestcoinGateV2.sol",
+      "guard": "chain.info.chainId != SOURCE_CHAIN_ID",
+      "replacement": "false",
+      "test": "test_chainKeyMustResolveToSepolia",
+      "originalSha256": "a7119aa2df9d516a3f92c46f7cb545c7ef541f50fa5d88c87d9bf3ab2c3bf7b3",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_chainKeyMustResolveToSepolia"
+      ],
+      "status": 1,
+      "output": "Compiling 5 files with Solc 0.8.28\nSolc 0.8.28 finished in 2.67s\nCompiler run successful!\n\nRan 1 test for test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[FAIL: next call did not revert as expected] test_chainKeyMustResolveToSepolia() (gas: 625353)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 731.00µs (190.96µs CPU time)\n\nRan 1 test suite in 151.79ms (731.00µs CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[FAIL: next call did not revert as expected] test_chainKeyMustResolveToSepolia() (gas: 625353)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    },
+    {
+      "name": "recorded native verification",
+      "file": "src/libraries/AttestcoinGateV2.sol",
+      "guard": "verifier.verifyAndEmit(",
+      "replacement": "verifier.verify(",
+      "test": "test_proofsAreRecordedThroughVerifyAndEmit",
+      "originalSha256": "a7119aa2df9d516a3f92c46f7cb545c7ef541f50fa5d88c87d9bf3ab2c3bf7b3",
+      "killed": true,
+      "command": [
+        "forge",
+        "test",
+        "--root",
+        "/var/folders/l1/dqdkwj814k963dgsnprdhv1h0000gn/T/morrow-mutations-yVjb8r/contracts",
+        "--match-test",
+        "test_proofsAreRecordedThroughVerifyAndEmit"
+      ],
+      "status": 1,
+      "output": "Compiling 5 files with Solc 0.8.28\nSolc 0.8.28 finished in 2.20s\nCompiler run successful with warnings:\nWarning (2018): Function state mutability can be restricted to view\n  --> src/libraries/AttestcoinGateV2.sol:27:5:\n   |\n27 |     function authenticate(\n   |     ^ (Relevant source part starts here and spans across multiple lines).\n\n\nRan 1 test for test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[FAIL: expected call to 0x0000000000000000000000000000000000000FD2 with data 0x7cc4e258 to be called 0 times, but was called 1 time] test_proofsAreRecordedThroughVerifyAndEmit() (gas: 656890)\nSuite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 1.31ms (421.63µs CPU time)\n\nRan 1 test suite in 97.54ms (1.31ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)\n\nFailing tests:\nEncountered 1 failing test in test/unit/MarketV2Freshness.t.sol:MarketV2FreshnessTest\n[FAIL: expected call to 0x0000000000000000000000000000000000000FD2 with data 0x7cc4e258 to be called 0 times, but was called 1 time] test_proofsAreRecordedThroughVerifyAndEmit() (gas: 656890)\n\nEncountered a total of 1 failing tests, 0 tests succeeded\n\nTip: Run `forge test --rerun` to retry only the 1 failed test\n"
+    }
+  ]
+}
