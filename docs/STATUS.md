@@ -1,5 +1,13 @@
 # Status
 
+## Trade page, faucets and stream sales — 15 September 2026
+
+- **Trade page:** `/dashboard/trade` lets wallets lock a payout, reserve, fund with a proof, pass the seller preflight, assign, settle or refund, withdraw and redeem on the first deployment. It is live at the public alias as Vercel deployment `dpl_2EeGouqAWCXx9a5jtjqUhreti2Vf`, built from a clean archive of `b8a21c129b998e9d6da42eb03e4da41b30e902fd`. Public routes returned 200 and the Trade page rendered with no console errors. No browser wallet has signed through it yet. See [Dashboard trade flow](TRADE_FLOW.md).
+- **Claim #5:** the same browser action layer, driven from Node with team keys, ran a sale that missed its assignment window and completed the cancellation, full buyer refund and seller redemption on chain.
+- **Faucets:** mSRC on Sepolia and mSET on CC3 each pay 20,000 units per address per 24 hours, with no owner.
+- **Sablier streams:** the current stream vault and market completed a live sale of a non-cancelable Sablier Lockup v4 stream: mined `UnsupportedStream` and `InvalidBuyer` refusals, reservation, proof-funded BOUND sale, an assignment gate that refused unfinalized funding and then passed, settlement and a 9,362,950,000 raw seller withdrawal. Redemption at the stream end is not yet recorded. See [Sablier Lockup stream vault](STREAM_VAULT.md).
+- **Checks:** `node scripts/check-backend.mjs` passed all 13 commands with 353 tests (109 contract, 3 protocol, 118 SDK, 95 reference, 28 worker): [report](../evidence/local/backend-check-1789449756564.json). Two fork tests pass against the deployed Sablier lockup. Slither 0.11.6 reports no High or Medium findings across all five deployed contract targets. GitHub CI passed all four jobs on `89829fc`.
+
 ## Current proof-continuity health — 14 September 2026
 
 The backend-owned live-health verifier now refreshes only the continuity witness for both archived attack envelopes, rejects any change to the source transaction hash or authenticated proof components, and rebuilds both native and market calls from the refreshed envelope. `pnpm verify:health` returned [17 PASS, 0 FAIL, 0 UNVERIFIED](../evidence/blobs/b0eedaad884661c216c74300f480ef7c0a7c06b01ff68a20d596af329bf6f2ab.json) at CC3 block 5487036. The wrong-sale proof returned `SaleIdMismatch`; the old-round proof returned `SaleNotBound` against current terminal state, while its recorded-block replay independently retained `SaleIdMismatch`. This health observation is read-only `eth_call` evidence; the separate mined campaign is documented below.
@@ -65,7 +73,7 @@ The action journal is [`evidence/c5/actions.jsonl`](../evidence/c5/actions.jsonl
 ## Verification and tests
 
 - **Live verification:** `pnpm verify:submission` returned 26 PASS, 0 FAIL, 0 UNVERIFIED and exit 0. See [Submission verification](SUBMISSION_VERIFICATION.md).
-- **Backend tests:** `node scripts/check-backend.mjs` passes all 13 commands (Foundry tests, plus test, typecheck and lint for protocol, SDK, reference and worker). That covers 282 tests: 85 contract, 3 protocol, 90 SDK, 81 reference and 23 worker. Output: [`evidence/local/backend-check-1789308979675.json`](../evidence/local/backend-check-1789308979675.json).
+- **Backend tests:** `node scripts/check-backend.mjs` passes all 13 commands (Foundry tests, plus test, typecheck and lint for protocol, SDK, reference and worker). That covers 353 tests: 109 contract, 3 protocol, 118 SDK, 95 reference and 28 worker. Output: [`evidence/local/backend-check-1789449756564.json`](../evidence/local/backend-check-1789449756564.json).
 - **Mutations:** 26 selected contract mutations are all killed. Output: [`evidence/local/mutations-1789292743489.json`](../evidence/local/mutations-1789292743489.json).
 - **Coverage:** critical custody sources report 201/201 lines, 28/28 functions and 40/41 branches. Output: [`evidence/local/coverage-1789292695437.json`](../evidence/local/coverage-1789292695437.json).
 - **Web app:** typecheck, lint and production build pass.
@@ -82,10 +90,11 @@ The web app in `apps/web` renders the campaign from the evidence journals and re
   - a live bytecode check that the contracts expose no admin path
   - the attestation frontier
 - **Seller preflight:** a connected seller wallet can run it in the browser before assigning.
+- **Trade:** wallets can run a new sale on the first deployment; campaign claims stay read-only.
 
 ## Not done
 
-- Adapters for existing payout, vesting or invoice systems.
+- Adapters for payout, vesting or invoice systems other than Sablier Lockup streams.
 - A campaign with an external participant; all three roles are team-operated.
 - A security audit or a fresh-machine release check.
 
