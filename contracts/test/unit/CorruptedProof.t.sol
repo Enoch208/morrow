@@ -2,15 +2,13 @@
 pragma solidity 0.8.28;
 
 import {MarketFixture} from "./MarketFixture.sol";
+import {NativeMocks} from "./NativeMocks.sol";
 import {AttestcoinGate} from "../../src/libraries/AttestcoinGate.sol";
 import {INativeQueryVerifier} from "@gluwa/asc-contracts/contracts/write-ability/common/INativeQueryVerifier.sol";
 import {MarketTypes} from "../../src/destination/MarketTypes.sol";
 import {SaleTermsLib} from "../../src/libraries/SaleTermsLib.sol";
 
 contract CorruptedProofTest is MarketFixture {
-    bytes4 private constant VERIFY =
-        bytes4(keccak256("verify(uint64,uint64,bytes,(bytes32,(bytes32,bool)[]),(bytes32,bytes32[]))"));
-
     function test_T21_corruptedMerkleContinuityAndBytesNativeRejectWithoutFunding() public {
         AttestcoinGate.ProofEnvelope memory forged = reservation(terms);
         forged.merkleProof.root = bytes32(uint256(1));
@@ -63,17 +61,11 @@ contract CorruptedProofTest is MarketFixture {
 
     function denyNative() private {
         vm.clearMockedCalls();
-        vm.mockCall(NATIVE, abi.encodePacked(VERIFY), abi.encode(false));
-        vm.mockCall(
-            NATIVE, abi.encodeWithSelector(INativeQueryVerifier.calculateTxIndex.selector), abi.encode(uint64(7))
-        );
+        NativeMocks.install(false, 7);
     }
 
     function allowNative() private {
         vm.clearMockedCalls();
-        vm.mockCall(NATIVE, abi.encodePacked(VERIFY), abi.encode(true));
-        vm.mockCall(
-            NATIVE, abi.encodeWithSelector(INativeQueryVerifier.calculateTxIndex.selector), abi.encode(uint64(7))
-        );
+        NativeMocks.install(true, 7);
     }
 }

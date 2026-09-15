@@ -3,11 +3,14 @@ pragma solidity 0.8.28;
 
 import {FundedPaymentVault} from "../../src/source/FundedPaymentVault.sol";
 import {MorrowMarket} from "../../src/destination/MorrowMarket.sol";
+import {MorrowMarketV2} from "../../src/destination/MorrowMarketV2.sol";
+import {MarketTypes} from "../../src/destination/MarketTypes.sol";
 import {MorrowTestToken} from "../../src/testnet/MorrowTestToken.sol";
 import {SaleTermsLib} from "../../src/libraries/SaleTermsLib.sol";
 import {AttestcoinGate} from "../../src/libraries/AttestcoinGate.sol";
 import {EvmV1Decoder} from "@gluwa/asc-contracts/contracts/common/EvmV1Decoder.sol";
 import {INativeQueryVerifier} from "@gluwa/asc-contracts/contracts/write-ability/common/INativeQueryVerifier.sol";
+import {NativeMocks} from "../unit/NativeMocks.sol";
 
 interface VmLifecycle {
     struct Log {
@@ -40,6 +43,9 @@ abstract contract LifecycleFixture {
     uint256 public repeatedRounds;
     uint256 public redemptions;
     uint256 public withdrawals;
+    bytes32[] private consumedKeys;
+    bytes32[] private fundedSales;
+    mapping(bytes32 => bytes32) private reservationKeys;
 
     constructor() {
         vm.warp(1000);
@@ -49,23 +55,33 @@ abstract contract LifecycleFixture {
         source.approve(address(vault), type(uint256).max);
         vm.chainId(102031);
         settlement = new MorrowTestToken("Invariant settlement", "ISET", 6, 1e24);
-        market = new MorrowMarket(address(settlement), address(vault), address(source), FEE, 50);
+        market = newMarket(address(settlement), address(vault), address(source), FEE, 50);
         for (uint160 i = 0; i < 2; i++) {
             address buyer = address(uint160(0x6000) + i);
             settlement.transfer(buyer, 1e23);
             vm.prank(buyer);
             settlement.approve(address(market), type(uint256).max);
         }
-        vm.mockCall(
-            NATIVE,
-            abi.encodePacked(
-                bytes4(keccak256("verify(uint64,uint64,bytes,(bytes32,(bytes32,bool)[]),(bytes32,bytes32[]))"))
-            ),
-            abi.encode(true)
-        );
-        vm.mockCall(
-            NATIVE, abi.encodeWithSelector(INativeQueryVerifier.calculateTxIndex.selector), abi.encode(uint64(0))
-        );
+        NativeMocks.install(true, 0);
+    }
+
+    function usesMarketV2() internal pure virtual returns (bool) {
+        return false;
+    }
+
+    function newMarket(
+        address settlementToken,
+        address sourceVault,
+        address sourceToken,
+        address feeRecipient,
+        uint16 feeBps
+    ) internal returns (MorrowMarket) {
+        if (usesMarketV2()) {
+            return MorrowMarket(
+                address(new MorrowMarketV2(settlementToken, sourceVault, sourceToken, feeRecipient, feeBps))
+            );
+        }
+        return new MorrowMarket(settlementToken, sourceVault, sourceToken, feeRecipient, feeBps);
     }
 
     function assertAccounting() public view {
@@ -79,6 +95,24 @@ abstract contract LifecycleFixture {
             credits += market.credits(address(uint160(0x6000) + i));
         }
         require(credits == market.totalCredits());
+    }
+
+    function assertConsumption() public view {
+        for (uint256 i = 0; i < consumedKeys.length; i++) {
+            require(market.consumed(consumedKeys[i]));
+        }
+        for (uint256 i = 0; i < fundedSales.length; i++) {
+            require(market.getSale(fundedSales[i]).state != MarketTypes.State.ABSENT);
+            require(market.consumed(reservationKeys[fundedSales[i]]));
+        }
+    }
+
+    function consumedKey(AttestcoinGate.ProofEnvelope memory proof) private pure returns (bytes32) {
+        return keccak256(abi.encode(proof.chainKey, proof.blockHeight, uint64(0), uint256(0)));
+    }
+
+    function markConsumed(AttestcoinGate.ProofEnvelope memory proof) internal {
+        consumedKeys.push(consumedKey(proof));
     }
 
     function capturedProof() internal returns (AttestcoinGate.ProofEnvelope memory proof) {
@@ -107,6 +141,9 @@ abstract contract LifecycleFixture {
         vm.prank(terms.buyer);
         require(market.fundReservation(proof, 0, terms) == id);
         fundings++;
+        markConsumed(proof);
+        fundedSales.push(id);
+        reservationKeys[id] = consumedKey(proof);
         vm.prank(terms.buyer);
         vm.expectRevert(MorrowMarket.SaleAlreadyExists.selector);
         market.fundReservation(proof, 0, terms);

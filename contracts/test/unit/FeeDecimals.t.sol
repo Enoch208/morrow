@@ -11,7 +11,7 @@ import {SaleTermsLib} from "../../src/libraries/SaleTermsLib.sol";
 contract FeeDecimalsTest is MarketFixture {
     function test_T51_feeBoundariesUseFloorAndConservePrincipal() public {
         vm.expectRevert(MorrowMarket.InvalidConfiguration.selector);
-        new MorrowMarket(address(token), VAULT, SOURCE_TOKEN, FEE_RECIPIENT, 101);
+        newMarket(address(token), VAULT, SOURCE_TOKEN, FEE_RECIPIENT, 101);
         assertFee(1, 0);
         assertFee(1, 50);
         assertFee(1, 100);
@@ -35,8 +35,7 @@ contract FeeDecimalsTest is MarketFixture {
         vm.chainId(102031);
         MorrowTestToken settlement = new MorrowTestToken("Dest eighteen", "D18", 18, 1e24);
         uint256 price = 9410 * 1e18;
-        MorrowMarket dest =
-            new MorrowMarket(address(settlement), address(vault), address(sourceToken), FEE_RECIPIENT, 50);
+        MorrowMarket dest = newMarket(address(settlement), address(vault), address(sourceToken), FEE_RECIPIENT, 50);
         settlement.transfer(BUYER, price);
         vm.prank(BUYER);
         settlement.approve(address(dest), type(uint256).max);
@@ -69,7 +68,7 @@ contract FeeDecimalsTest is MarketFixture {
     }
 
     function assertFee(uint256 price, uint16 feeBps) private {
-        market = new MorrowMarket(address(token), VAULT, SOURCE_TOKEN, FEE_RECIPIENT, feeBps);
+        market = newMarket(address(token), VAULT, SOURCE_TOKEN, FEE_RECIPIENT, feeBps);
         vm.prank(BUYER);
         token.approve(address(market), type(uint256).max);
         terms.destinationMarket = address(market);

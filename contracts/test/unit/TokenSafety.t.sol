@@ -14,7 +14,7 @@ contract TokenSafetyTest is MarketFixture {
     function setUp() public override {
         super.setUp();
         hostile = new HostileToken();
-        market = new MorrowMarket(address(hostile), VAULT, SOURCE_TOKEN, FEE_RECIPIENT, 50);
+        market = newMarket(address(hostile), VAULT, SOURCE_TOKEN, FEE_RECIPIENT, 50);
         hostile.transfer(BUYER, 1000000);
         vm.prank(BUYER);
         hostile.approve(address(market), type(uint256).max);

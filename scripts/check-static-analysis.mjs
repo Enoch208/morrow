@@ -16,6 +16,7 @@ const targets = [
   "contracts/src/testnet/MorrowTestToken.sol",
   "contracts/src/testnet/MorrowTestFaucet.sol",
   "contracts/src/source/StreamPaymentVault.sol",
+  "contracts/src/destination/MorrowMarketV2.sol",
 ];
 
 function portableJson(value) {
@@ -81,7 +82,7 @@ const summary = {
   solcVersion: "0.8.28",
   failureThreshold: "Medium or High findings, compilation errors, or incomplete AST resolution",
   scope:
-    "Three deployed custody/token entrypoints and their imported application libraries; dependencies excluded from findings",
+    "Deployed custody, market, stream vault, faucet and token entrypoints and their imported application libraries; dependencies excluded from findings",
   limitations:
     "Low and informational findings remain visible. Static analysis is not an audit or proof of correctness.",
   pathNormalization:

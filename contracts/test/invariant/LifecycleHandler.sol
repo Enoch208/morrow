@@ -41,6 +41,7 @@ contract LifecycleHandler is LifecycleFixture {
         AttestcoinGate.ProofEnvelope memory old = cancel(terms);
         vm.chainId(102031);
         market.recognizeCancellation(old, 0, first);
+        markConsumed(old);
         require(market.credits(terms.buyer) == price);
         withdrawCredit(terms.buyer);
         terms.round = 2;
@@ -57,11 +58,13 @@ contract LifecycleHandler is LifecycleFixture {
         vm.chainId(102031);
         if (assigned) {
             market.settleAssignment(proof, 0, second);
+            markConsumed(proof);
             uint256 fee = price * 50 / 10000;
             require(market.credits(terms.seller) == price - fee && market.credits(FEE) == fee);
             require(market.credits(terms.buyer) == 0);
         } else {
             market.recognizeCancellation(proof, 0, second);
+            markConsumed(proof);
             require(market.credits(terms.buyer) == price);
             require(market.credits(terms.seller) == 0 && market.credits(FEE) == 0);
         }

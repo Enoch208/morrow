@@ -36,7 +36,7 @@ contract OutgoingDeltaTest is MarketFixture {
         claimId = vault.createClaim(address(hostile), 10000, SELLER, 3000, bytes32(0));
         require(vault.totalBacking() == 10000 && hostile.balanceOf(address(vault)) == 10000);
         vm.chainId(102031);
-        market = new MorrowMarket(address(hostile), address(vault), address(hostile), FEE_RECIPIENT, 50);
+        market = newMarket(address(hostile), address(vault), address(hostile), FEE_RECIPIENT, 50);
         hostile.transfer(BUYER, 1000000);
         vm.prank(BUYER);
         hostile.approve(address(market), 9410);

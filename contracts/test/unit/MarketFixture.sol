@@ -2,11 +2,13 @@
 pragma solidity 0.8.28;
 
 import {MorrowMarket} from "../../src/destination/MorrowMarket.sol";
+import {MorrowMarketV2} from "../../src/destination/MorrowMarketV2.sol";
 import {MorrowTestToken} from "../../src/testnet/MorrowTestToken.sol";
 import {SaleTermsLib} from "../../src/libraries/SaleTermsLib.sol";
 import {AttestcoinGate} from "../../src/libraries/AttestcoinGate.sol";
 import {INativeQueryVerifier} from "@gluwa/asc-contracts/contracts/write-ability/common/INativeQueryVerifier.sol";
 import {EvmV1Decoder} from "@gluwa/asc-contracts/contracts/common/EvmV1Decoder.sol";
+import {NativeMocks} from "./NativeMocks.sol";
 
 interface VmMarket {
     function chainId(uint256) external;
@@ -33,7 +35,7 @@ abstract contract MarketFixture {
         vm.chainId(102031);
         vm.warp(1000);
         token = new MorrowTestToken("Local settlement test", "LOCAL", 6, 1000000);
-        market = new MorrowMarket(address(token), VAULT, SOURCE_TOKEN, FEE_RECIPIENT, 50);
+        market = newMarket(address(token), VAULT, SOURCE_TOKEN, FEE_RECIPIENT, 50);
         token.transfer(BUYER, 1000000);
         vm.prank(BUYER);
         token.approve(address(market), type(uint256).max);
@@ -57,16 +59,21 @@ abstract contract MarketFixture {
             1800,
             2000
         );
-        vm.mockCall(
-            NATIVE,
-            abi.encodePacked(
-                bytes4(keccak256("verify(uint64,uint64,bytes,(bytes32,(bytes32,bool)[]),(bytes32,bytes32[]))"))
-            ),
-            abi.encode(true)
-        );
-        vm.mockCall(
-            NATIVE, abi.encodeWithSelector(INativeQueryVerifier.calculateTxIndex.selector), abi.encode(uint64(7))
-        );
+        NativeMocks.install(true, 7);
+    }
+
+    function usesMarketV2() internal pure virtual returns (bool) {
+        return false;
+    }
+
+    function newMarket(address settlement, address vault, address sourceToken, address feeRecipient, uint16 feeBps)
+        internal
+        returns (MorrowMarket)
+    {
+        if (usesMarketV2()) {
+            return MorrowMarket(address(new MorrowMarketV2(settlement, vault, sourceToken, feeRecipient, feeBps)));
+        }
+        return new MorrowMarket(settlement, vault, sourceToken, feeRecipient, feeBps);
     }
 
     function reservation(SaleTermsLib.Terms memory supplied)

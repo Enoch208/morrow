@@ -173,4 +173,32 @@ export const mutationCases = [
     replacement: "emit SaleCancelled(round.saleId, claimId, expectedRound, round.termsHash);",
     test: "test_T29_duplicateAssignmentBatchRollsBackAndSingleAssignmentEmitsOnce",
   },
+  {
+    name: "attested source depth",
+    file: "src/libraries/AttestcoinGateV2.sol",
+    guard: "latest.height < requiredHeight",
+    replacement: "latest.height < proof.blockHeight",
+    test: "test_reservationProofNeedsSixtyFourAttestedBlocksOnTop",
+  },
+  {
+    name: "attested source depth boundary",
+    file: "src/libraries/AttestcoinGateV2.sol",
+    guard: "latest.height < requiredHeight",
+    replacement: "latest.height <= requiredHeight",
+    test: "test_reservationProofNeedsSixtyFourAttestedBlocksOnTop",
+  },
+  {
+    name: "source chain binding",
+    file: "src/libraries/AttestcoinGateV2.sol",
+    guard: "chain.info.chainId != SOURCE_CHAIN_ID",
+    replacement: "false",
+    test: "test_chainKeyMustResolveToSepolia",
+  },
+  {
+    name: "recorded native verification",
+    file: "src/libraries/AttestcoinGateV2.sol",
+    guard: "verifier.verifyAndEmit(",
+    replacement: "verifier.verify(",
+    test: "test_proofsAreRecordedThroughVerifyAndEmit",
+  },
 ];

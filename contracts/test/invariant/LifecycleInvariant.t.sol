@@ -8,9 +8,13 @@ contract LifecycleInvariantTest is InvariantTargets {
     LifecycleHandler private handler;
 
     function setUp() public {
-        handler = new LifecycleHandler();
+        handler = newHandler();
         handler.cycle(true, 9410);
         handler.cycle(false, 9411);
+    }
+
+    function newHandler() internal virtual returns (LifecycleHandler) {
+        return new LifecycleHandler();
     }
 
     function targetContracts() public view returns (address[] memory targets) {
@@ -25,8 +29,13 @@ contract LifecycleInvariantTest is InvariantTargets {
         require(handler.withdrawals() > 0 && handler.fundings() > 0);
     }
 
+    function invariant_consumedEventsStayConsumedAndEverySaleHasItsReservation() public view {
+        handler.assertConsumption();
+    }
+
     function afterInvariant() public view {
         require(handler.fundings() > 4 && handler.redemptions() > 2);
         handler.assertAccounting();
+        handler.assertConsumption();
     }
 }
