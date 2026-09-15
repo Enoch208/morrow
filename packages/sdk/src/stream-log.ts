@@ -6,7 +6,15 @@ import { decodeCanonicalTerms } from "./canonical.ts";
 import { ConfigurationError, repositoryRoot } from "./environment.ts";
 import type { StreamStep } from "./stream-config.ts";
 
-export const streamDirectory = `${repositoryRoot}evidence/stream`;
+export function streamRunDirectory(argv: readonly string[]): string {
+  const flag = argv.find((argument) => argument.startsWith("--run="));
+  if (flag === undefined) return `${repositoryRoot}evidence/stream`;
+  const run = flag.slice("--run=".length);
+  if (!/^[a-z0-9-]{1,32}$/.test(run)) throw new ConfigurationError("Run names use a-z, 0-9 and -");
+  return `${repositoryRoot}evidence/stream/${run}`;
+}
+
+export const streamDirectory = streamRunDirectory(process.argv);
 
 export async function recordStream(value: Record<string, unknown>): Promise<void> {
   await mkdir(streamDirectory, { recursive: true });
@@ -44,6 +52,12 @@ export function streamField(
   const value = settledStream(records, step)[field];
   if (typeof value !== "string") throw new ConfigurationError(`Step ${step} lacks ${field}`);
   return value;
+}
+
+export function streamMarketBlock(records: readonly Record<string, unknown>[]): number {
+  const block = settledStream(records, "deploy-stream-market").blockNumber;
+  if (typeof block !== "number") throw new ConfigurationError("Market deployment block missing");
+  return block;
 }
 
 export function streamTerms(records: readonly Record<string, unknown>[]): SaleTerms {

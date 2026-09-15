@@ -4,7 +4,6 @@ import { campaignContracts } from "./campaign-config.ts";
 import { ConfigurationError } from "./errors.ts";
 
 export const sablierLockup = "0xe61cb9153356419bdaD0A8767c059f92d221a3C4";
-export const streamMarketDeploymentBlock = 5_490_321;
 export const streamDepositRaw = 10_000_000_000n;
 export const refusalDepositRaw = 1_000_000n;
 export const streamDurationSeconds = 14_400n;
@@ -34,6 +33,7 @@ export const streamSteps = [
   "create-stream",
   "approve-stream",
   "wrap-stream",
+  "reserve-vault-buyer-refused",
   "reserve",
   "approve-fund",
   "fund",
@@ -62,6 +62,7 @@ export const streamSigner = {
   "create-stream": "PAYER",
   "approve-stream": "SELLER",
   "wrap-stream": "SELLER",
+  "reserve-vault-buyer-refused": "SELLER",
   reserve: "SELLER",
   "approve-fund": "BUYER",
   fund: "BUYER",
@@ -90,6 +91,7 @@ export function streamChain(step: StreamStep): bigint {
 
 export const expectedRefusal: Partial<Record<StreamStep, string>> = {
   "wrap-cancelable-refused": "UnsupportedStream",
+  "reserve-vault-buyer-refused": "InvalidBuyer",
 };
 
 export const streamTokens = {

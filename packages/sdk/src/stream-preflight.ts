@@ -5,7 +5,6 @@ import { contractInterfaces } from "./contract-reads.ts";
 import { decodedAddress, decodedInteger, decodedTerms, decodedTuple } from "./decoded-state.ts";
 import { ConfigurationError } from "./errors.ts";
 import { compiledRuntime, maskImmutables } from "./runtime.ts";
-import { streamMarketDeploymentBlock } from "./stream-config.ts";
 import { vaultInterface } from "./stream-setup.ts";
 
 export interface StreamAssignmentRead {
@@ -87,6 +86,7 @@ export async function readStreamAssignment(
   source: JsonRpcProvider,
   destination: JsonRpcProvider,
   terms: SaleTerms,
+  marketBlock: number,
 ): Promise<StreamAssignmentRead> {
   const [finalized, sourceBlock, network] = await Promise.all([
     destination.getBlock("finalized"),
@@ -116,7 +116,7 @@ export async function readStreamAssignment(
       destination.getLogs({
         address: market,
         topics: [funded ?? null, saleId],
-        fromBlock: streamMarketDeploymentBlock,
+        fromBlock: marketBlock,
         toBlock: finalized.number,
       }),
       source.call({

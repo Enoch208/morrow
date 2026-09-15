@@ -18,7 +18,13 @@ import {
   streamStep,
 } from "./stream-config.ts";
 import type { StreamStep } from "./stream-config.ts";
-import { recordStream, streamDirectory, streamRecords, streamTerms } from "./stream-log.ts";
+import {
+  recordStream,
+  streamDirectory,
+  streamMarketBlock,
+  streamRecords,
+  streamTerms,
+} from "./stream-log.ts";
 import { waitForReceipt } from "./receipt-wait.ts";
 import { readStreamAssignment, validateStreamAssignment } from "./stream-preflight.ts";
 import { vaultInterface } from "./stream-setup.ts";
@@ -72,7 +78,12 @@ try {
     throw new ConfigurationError("Step already submitted; reconcile before retrying");
   if (step === "assign")
     validateStreamAssignment(
-      await readStreamAssignment(source, destination, streamTerms(records)),
+      await readStreamAssignment(
+        source,
+        destination,
+        streamTerms(records),
+        streamMarketBlock(records),
+      ),
       streamTerms(records),
     );
   const wallet = localRole(localConfiguration(), streamSigner[step]).connect(rpc);

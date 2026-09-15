@@ -1,63 +1,15 @@
 import { getAddress } from "ethers";
 import type { SaleTerms } from "@morrow/protocol";
-import { campaignActors } from "./campaign-config.ts";
 import { encodeTerms, saleIdentity } from "./canonical.ts";
 import { contractInterfaces } from "./contract-reads.ts";
-import { decodedClaim } from "./decoded-state.ts";
 import { ConfigurationError } from "./environment.ts";
-import {
-  assignWindowSeconds,
-  fundWindowSeconds,
-  lockupInterface,
-  sablierLockup,
-  streamFeeBps,
-  streamPriceRaw,
-  streamTokens,
-} from "./stream-config.ts";
+import { lockupInterface, sablierLockup, streamPriceRaw, streamTokens } from "./stream-config.ts";
 import { setupRequest, vaultInterface } from "./stream-setup.ts";
 import type { StreamStep } from "./stream-config.ts";
 import { streamField, streamTerms } from "./stream-log.ts";
 import { provenEvent } from "./stream-evidence.ts";
+import { saleTerms } from "./stream-terms.ts";
 import type { StreamContext, StreamRequest } from "./stream-evidence.ts";
-
-async function saleTerms(context: StreamContext): Promise<SaleTerms> {
-  const vault = streamField(context.records, "deploy-stream-vault", "contractAddress");
-  const market = streamField(context.records, "deploy-stream-market", "contractAddress");
-  const claimId = BigInt(streamField(context.records, "wrap-stream", "claimId"));
-  const claim = decodedClaim(
-    vaultInterface.decodeFunctionResult(
-      "getClaim",
-      await context.source.call({
-        to: vault,
-        data: vaultInterface.encodeFunctionData("getClaim", [claimId]),
-      }),
-    )[0],
-    claimId,
-  );
-  const block = await context.source.getBlock("latest");
-  if (!block) throw new ConfigurationError("Latest source block unavailable");
-  const now = BigInt(block.timestamp);
-  return {
-    protocolVersion: 1n,
-    sourceEvmChainId: 11155111n,
-    sourceVault: getAddress(vault) as SaleTerms["sourceVault"],
-    claimId,
-    round: claim.latestRound + 1n,
-    destinationEvmChainId: 102031n,
-    destinationMarket: getAddress(market) as SaleTerms["destinationMarket"],
-    seller: campaignActors.SELLER,
-    buyer: campaignActors.BUYER,
-    sourceToken: streamTokens.source,
-    sourceFaceValueRaw: claim.sourceFaceValueRaw,
-    maturity: claim.maturity,
-    settlementToken: streamTokens.settlement,
-    grossPurchasePriceRaw: streamPriceRaw,
-    feeBps: streamFeeBps,
-    feeRecipient: campaignActors.PAYER,
-    fundBefore: now + fundWindowSeconds,
-    assignBefore: now + assignWindowSeconds,
-  };
-}
 
 export async function streamRequest(
   step: StreamStep,
@@ -76,6 +28,18 @@ export async function streamRequest(
     case "approve-stream":
     case "wrap-stream":
       return setupRequest(step, records);
+    case "reserve-vault-buyer-refused": {
+      const terms = {
+        ...(await saleTerms(context)),
+        buyer: getAddress(vault()) as SaleTerms["buyer"],
+      };
+      return {
+        request: {
+          to: vault(),
+          data: vaultInterface.encodeFunctionData("reserveSale", [terms.claimId, terms]),
+        },
+      };
+    }
     case "reserve": {
       const terms = await saleTerms(context);
       return {
