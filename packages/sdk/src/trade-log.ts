@@ -2,10 +2,11 @@ import { appendFile, mkdir, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import type { SaleTerms } from "@morrow/protocol";
 import { json } from "./campaign-log.ts";
-import { ConfigurationError, repositoryRoot } from "./environment.ts";
+import { ConfigurationError } from "./environment.ts";
+import { runDirectory } from "./run-journal.ts";
 import { decodeCanonicalTerms, encodeTerms } from "./canonical.ts";
 
-export const tradeDirectory = `${repositoryRoot}evidence/trade`;
+export const tradeDirectory = runDirectory("trade", process.argv);
 
 export const tradeSteps = [
   "drip-buyer",
@@ -13,6 +14,8 @@ export const tradeSteps = [
   "create",
   "reserve",
   "approve-fund",
+  "fund-shallow-refused",
+  "verify-front-run",
   "fund",
   "assign",
   "settle",

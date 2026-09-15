@@ -6,12 +6,28 @@ import { canonicalSourceReceipt, verifySaleEnvelope } from "./sale-proof-validat
 import type { SaleProofEvent } from "./sale-proof-validation.ts";
 import { obtainProof } from "./proof.ts";
 import { readNative } from "./native.ts";
-import { decodedHash } from "./decoded-state.ts";
+import { decodedHash, decodedInteger, decodedTuple } from "./decoded-state.ts";
+import { minimumAttestedDepth } from "./trade-contracts.ts";
 import { ConfigurationError } from "./errors.ts";
 
 export interface BrowserProofInput {
   readonly proof: ProofEnvelope;
   readonly sourceTransactionHash: string;
+}
+
+export async function attestedHeight(
+  destination: BrowserActionContext["destination"],
+  blockTag: number | "finalized" = "finalized",
+): Promise<bigint> {
+  const latest = await readNative(
+    destination,
+    "chainInfo",
+    "get_latest_attestation_height_and_hash",
+    [1n],
+    blockTag,
+  );
+  const [height, , , exists] = decodedTuple(latest.decoded[0], 4);
+  return exists === true ? decodedInteger(height) : 0n;
 }
 
 export async function verifyBrowserProof(
@@ -56,6 +72,15 @@ export async function prepareBrowserSaleProof(
     if (attested.decoded[0] !== true) {
       progress?.({ phase: "awaiting-attestation", sourceBlock: receipt.blockNumber });
       throw new ConfigurationError("Source transaction is awaiting attestation");
+    }
+    if (
+      (await attestedHeight(context.destination)) <
+      BigInt(receipt.blockNumber) + minimumAttestedDepth
+    ) {
+      progress?.({ phase: "awaiting-attestation", sourceBlock: receipt.blockNumber });
+      throw new ConfigurationError(
+        `Source transaction needs ${String(minimumAttestedDepth)} attested blocks on top`,
+      );
     }
     progress?.({ phase: "requesting", transactionHash });
     const { proof } = await obtainProof(transactionHash, options.proverUrl);

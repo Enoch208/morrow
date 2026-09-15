@@ -4,6 +4,7 @@ import vaultAbi from "../../../schemas/abi/FundedPaymentVault.json" with { type:
 import marketAbi from "../../../schemas/abi/MorrowMarket.json" with { type: "json" };
 import tokenAbi from "../../../schemas/abi/MorrowTestToken.json" with { type: "json" };
 import { campaignContracts } from "./campaign-config.ts";
+import type { PinnedContracts } from "./campaign-config.ts";
 import { ConfigurationError } from "./errors.ts";
 
 const tokenInterface = new Interface(tokenAbi);
@@ -16,10 +17,11 @@ export const contractInterfaces = {
 
 export async function verifyCampaignContract(
   rpc: JsonRpcProvider,
-  key: keyof typeof campaignContracts,
+  key: keyof PinnedContracts,
   blockTag: number | "latest" = "latest",
+  contracts: PinnedContracts = campaignContracts,
 ) {
-  const contract = campaignContracts[key];
+  const contract = contracts[key];
   const chainId: unknown = await rpc.send("eth_chainId", []);
   if (
     typeof chainId !== "string" ||
@@ -34,12 +36,13 @@ export async function verifyCampaignContract(
 
 export async function campaignRead(
   rpc: JsonRpcProvider,
-  key: keyof typeof campaignContracts,
+  key: keyof PinnedContracts,
   method: string,
   args: readonly unknown[] = [],
   blockTag: number | "latest" = "latest",
+  contracts: PinnedContracts = campaignContracts,
 ) {
-  const contract = campaignContracts[key];
+  const contract = contracts[key];
   const abi = contractInterfaces[key];
   const calldata = abi.encodeFunctionData(method, args);
   const raw = await rpc.call({ to: contract.address, data: calldata, blockTag });

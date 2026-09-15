@@ -1,5 +1,5 @@
 import type { SaleIdentity, SaleTerms } from "@morrow/protocol";
-import { campaignContracts } from "./campaign-config.ts";
+import { contractsForMarket } from "./trade-contracts.ts";
 import { encodeTerms, quoteEconomics, saleIdentity } from "./canonical.ts";
 import { contractInterfaces } from "./contract-reads.ts";
 import { ConfigurationError } from "./errors.ts";
@@ -66,7 +66,7 @@ export function validateReservedSource(
   const identity = saleIdentity(terms);
   if (
     read.chainId !== terms.sourceEvmChainId ||
-    read.vaultCodeHash !== campaignContracts.vault.codeHash
+    read.vaultCodeHash !== contractsForMarket(terms.destinationMarket).vault.codeHash
   )
     throw new ConfigurationError("Source deployment provenance mismatch");
   if (
@@ -108,11 +108,12 @@ export async function prepareAssignment(
     sellerAddress.toLowerCase() !== terms.seller.toLowerCase()
   )
     throw new ConfigurationError("Wrong seller account or source chain");
+  const pinned = contractsForMarket(terms.destinationMarket);
   if (
-    terms.sourceVault !== campaignContracts.vault.address ||
-    terms.destinationMarket !== campaignContracts.market.address ||
-    terms.sourceToken !== campaignContracts.sourceToken.address ||
-    terms.settlementToken !== campaignContracts.settlementToken.address ||
+    terms.sourceVault !== pinned.vault.address ||
+    terms.destinationMarket !== pinned.market.address ||
+    terms.sourceToken !== pinned.sourceToken.address ||
+    terms.settlementToken !== pinned.settlementToken.address ||
     terms.sourceEvmChainId !== 11155111n ||
     terms.destinationEvmChainId !== 102031n ||
     terms.protocolVersion !== 1n
@@ -130,8 +131,8 @@ export async function prepareAssignment(
     throw new ConfigurationError("Funding transaction is unfinalized");
   if (
     destination.chainId !== 102031n ||
-    destination.marketCodeHash !== campaignContracts.market.codeHash ||
-    destination.tokenCodeHash !== campaignContracts.settlementToken.codeHash
+    destination.marketCodeHash !== pinned.market.codeHash ||
+    destination.tokenCodeHash !== pinned.settlementToken.codeHash
   )
     throw new ConfigurationError("Destination deployment provenance mismatch");
   if (destination.state !== 1n || encodeTerms(destination.terms) !== encodeTerms(terms))

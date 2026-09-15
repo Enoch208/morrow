@@ -3,10 +3,10 @@ import type { JsonRpcProvider } from "ethers";
 import { actionBlock, finishPreparation, withBrowserAction } from "./browser-action-context.ts";
 import type { BrowserActionOptions } from "./browser-action-context.ts";
 import { actionAddress, assertActor } from "./browser-action-policy.ts";
-import { campaignContracts } from "./campaign-config.ts";
-import { campaignRead, contractInterfaces } from "./contract-reads.ts";
+import { contractInterfaces } from "./contract-reads.ts";
 import { decodedInteger } from "./decoded-state.ts";
 import { ConfigurationError } from "./errors.ts";
+import { tradeContracts, tradeRead } from "./trade-contracts.ts";
 
 export interface ClaimRequest {
   readonly faceValueRaw: bigint;
@@ -31,14 +31,14 @@ export function assertClaimRequest(request: ClaimRequest, payer: string, now: bi
 async function payerSnapshot(source: JsonRpcProvider, actor: string) {
   const block = await actionBlock(source, "source");
   const [allowance, balance] = await Promise.all([
-    campaignRead(
+    tradeRead(
       source,
       "sourceToken",
       "allowance",
-      [actor, campaignContracts.vault.address],
+      [actor, tradeContracts.vault.address],
       block.number,
     ),
-    campaignRead(source, "sourceToken", "balanceOf", [actor], block.number),
+    tradeRead(source, "sourceToken", "balanceOf", [actor], block.number),
   ]);
   return {
     block,
@@ -68,7 +68,7 @@ export async function prepareBrowserClaimApproval(
       actor,
       "sourceToken",
       contractInterfaces.sourceToken.encodeFunctionData("approve", [
-        campaignContracts.vault.address,
+        tradeContracts.vault.address,
         amount,
       ]),
     );
@@ -92,7 +92,7 @@ export async function prepareBrowserClaim(
     assertClaimRequest(request, actor, BigInt(block.timestamp));
     if (allowance < request.faceValueRaw || balance < request.faceValueRaw)
       throw new ConfigurationError("Approve and hold the full face value before creating a claim");
-    const next = await campaignRead(source, "vault", "nextClaimId", [], block.number);
+    const next = await tradeRead(source, "vault", "nextClaimId", [], block.number);
     const prepared = await finishPreparation(
       source,
       block,
@@ -100,7 +100,7 @@ export async function prepareBrowserClaim(
       actor,
       "vault",
       contractInterfaces.vault.encodeFunctionData("createClaim", [
-        campaignContracts.sourceToken.address,
+        tradeContracts.sourceToken.address,
         request.faceValueRaw,
         actionAddress(request.beneficiary),
         request.maturity,

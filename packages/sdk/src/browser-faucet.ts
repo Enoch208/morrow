@@ -1,11 +1,11 @@
 import { actionBlock, finishPreparationFor, withBrowserAction } from "./browser-action-context.ts";
 import type { BrowserActionOptions } from "./browser-action-context.ts";
 import { assertActor } from "./browser-action-policy.ts";
-import { campaignRead } from "./contract-reads.ts";
 import { decodedAddress, decodedInteger } from "./decoded-state.ts";
 import { faucetInterface, faucetRead, verifyFaucet } from "./faucet-pins.ts";
 import type { FaucetSide } from "./faucet-pins.ts";
 import { ConfigurationError } from "./errors.ts";
+import { tradeRead } from "./trade-contracts.ts";
 
 export interface FaucetStatus {
   readonly dripRaw: bigint;
@@ -36,7 +36,7 @@ export async function prepareBrowserFaucetDrip(
       faucetRead(rpc, side, "TOKEN", [], block.number),
       faucetRead(rpc, side, "DRIP_AMOUNT", [], block.number),
       faucetRead(rpc, side, "nextDripAt", [actor], block.number),
-      campaignRead(
+      tradeRead(
         rpc,
         side === "source" ? "sourceToken" : "settlementToken",
         "balanceOf",

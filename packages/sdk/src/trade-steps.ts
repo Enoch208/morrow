@@ -20,45 +20,16 @@ import {
 } from "./browser.ts";
 import type { BrowserActionOptions } from "./browser.ts";
 import { campaignActors, campaignContracts } from "./campaign-config.ts";
+import { tradeContracts } from "./trade-contracts.ts";
 import { encodeTerms } from "./canonical.ts";
 import { ConfigurationError, proverEndpoints } from "./environment.ts";
 import { minedTrade, tradeTerms } from "./trade-log.ts";
 import type { TradeStep } from "./trade-log.ts";
-
+import { tradeChain } from "./trade-roles.ts";
 import { tradeFaceValueRaw, tradePriceRaw } from "./trade-claim.ts";
-const maturitySeconds = 10_800n;
-const fundSeconds = 3_600n;
-const assignSeconds = 7_200n;
-
-export const tradeSigner = {
-  "drip-buyer": "BUYER",
-  "approve-claim": "PAYER",
-  create: "PAYER",
-  reserve: "SELLER",
-  "approve-fund": "BUYER",
-  fund: "BUYER",
-  assign: "SELLER",
-  settle: "SELLER",
-  "withdraw-seller": "SELLER",
-  cancel: "SELLER",
-  recognize: "BUYER",
-  "withdraw-buyer": "BUYER",
-  redeem: "BUYER",
-} as const satisfies Record<TradeStep, "PAYER" | "SELLER" | "BUYER">;
-
-export function tradeChain(step: TradeStep): bigint {
-  return [
-    "drip-buyer",
-    "approve-fund",
-    "fund",
-    "settle",
-    "withdraw-seller",
-    "recognize",
-    "withdraw-buyer",
-  ].includes(step)
-    ? 102031n
-    : 11155111n;
-}
+const maturitySeconds = 14_400n;
+const fundSeconds = 7_200n;
+const assignSeconds = 10_800n;
 
 function claimIdOf(records: readonly Record<string, unknown>[]): bigint {
   const row = minedTrade(records, "create");
@@ -89,7 +60,7 @@ async function reservationTerms(
     claimId,
     round: claim.latestRound + 1n,
     destinationEvmChainId: 102031n,
-    destinationMarket: campaignContracts.market.address,
+    destinationMarket: tradeContracts.market.address,
     seller: campaignActors.SELLER,
     buyer: campaignActors.BUYER,
     sourceToken: claim.sourceToken,
@@ -124,6 +95,8 @@ export async function prepareTradeStep(
   options: BrowserActionOptions,
 ) {
   const chain = tradeChain(step);
+  if (step === "fund-shallow-refused" || step === "verify-front-run")
+    throw new ConfigurationError("Probe steps run through the probe runner");
   if (step === "drip-buyer")
     return { prepared: await prepareBrowserFaucetDrip("settlement", actor, chain, options) };
   if (step === "approve-claim" || step === "create") {

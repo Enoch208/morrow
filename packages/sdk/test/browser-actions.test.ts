@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { campaignTerms } from "../src/campaign-config.ts";
+import { campaignContracts, campaignTerms } from "../src/campaign-config.ts";
+import { tradeContracts } from "../src/trade-contracts.ts";
 import {
   assertBrowserTerms,
   assertReservationClaim,
@@ -9,7 +10,7 @@ import {
 import type { Claim, PreparedTransaction } from "@morrow/protocol";
 import { assertFundingSnapshot, assertSettlementSnapshot } from "../src/browser-market.ts";
 
-const terms = campaignTerms("a", 2n);
+const terms = { ...campaignTerms("a", 2n), destinationMarket: tradeContracts.market.address };
 const claim: Claim = {
   claimId: terms.claimId,
   sourceToken: terms.sourceToken,
@@ -26,6 +27,9 @@ const claim: Claim = {
 
 await test("browser reservation checks live identity and next round before preparing", () => {
   assertBrowserTerms(terms);
+  assert.throws(() => {
+    assertBrowserTerms({ ...terms, destinationMarket: campaignContracts.market.address });
+  });
   assertReservationClaim(claim, terms, 1789255000n);
   for (const patch of [
     { activeRound: 1n },

@@ -1,11 +1,10 @@
 import { FetchRequest, JsonRpcProvider } from "ethers";
 import type { Block } from "ethers";
 import type { PreparedAction, PreparedTransaction, SaleTerms } from "@morrow/protocol";
-import { campaignContracts } from "./campaign-config.ts";
-import { campaignRead, verifyCampaignContract } from "./contract-reads.ts";
 import { decodedAddress, decodedInteger } from "./decoded-state.ts";
 import { actionAddress } from "./browser-action-policy.ts";
 import { ConfigurationError } from "./errors.ts";
+import { tradeContracts, tradeRead, verifyTradeContract } from "./trade-contracts.ts";
 
 export interface BrowserActionOptions {
   readonly sourceRpcUrl: string;
@@ -58,7 +57,7 @@ export async function actionBlock(
     (side === "source"
       ? (["vault", "sourceToken"] as const)
       : (["market", "settlementToken"] as const)
-    ).map((key) => verifyCampaignContract(rpc, key, block.number)),
+    ).map((key) => verifyTradeContract(rpc, key, block.number)),
   );
   return block;
 }
@@ -69,8 +68,8 @@ export async function checkMarketConfiguration(
   block: number,
 ): Promise<void> {
   const [fee, recipient] = await Promise.all([
-    campaignRead(rpc, "market", "FEE_BPS", [], block),
-    campaignRead(rpc, "market", "FEE_RECIPIENT", [], block),
+    tradeRead(rpc, "market", "FEE_BPS", [], block),
+    tradeRead(rpc, "market", "FEE_RECIPIENT", [], block),
   ]);
   if (
     decodedInteger(fee.decoded[0]) !== terms.feeBps ||
@@ -89,11 +88,11 @@ export function finishPreparation(
   block: Block,
   action: PreparedAction,
   actor: string,
-  key: keyof typeof campaignContracts,
+  key: keyof typeof tradeContracts,
   data: string,
   cutoff?: bigint,
 ): Promise<PreparedTransaction> {
-  return finishPreparationFor(rpc, block, action, actor, campaignContracts[key], data, cutoff);
+  return finishPreparationFor(rpc, block, action, actor, tradeContracts[key], data, cutoff);
 }
 
 export async function finishPreparationFor(

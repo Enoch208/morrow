@@ -11,10 +11,11 @@ import {
   assertBrowserTerms,
   assertReservationClaim,
 } from "./browser-action-policy.ts";
-import { campaignRead, contractInterfaces } from "./contract-reads.ts";
+import { contractInterfaces } from "./contract-reads.ts";
 import { decodedClaim, decodedInteger } from "./decoded-state.ts";
 import { saleIdentity } from "./canonical.ts";
 import { ConfigurationError } from "./errors.ts";
+import { tradeRead } from "./trade-contracts.ts";
 
 export async function prepareBrowserReservation(
   terms: SaleTerms,
@@ -31,9 +32,9 @@ export async function prepareBrowserReservation(
     ]);
     await checkMarketConfiguration(destination, terms, destinationBlock.number);
     const [read, backing, balance] = await Promise.all([
-      campaignRead(source, "vault", "getClaim", [terms.claimId], block.number),
-      campaignRead(source, "vault", "totalBacking", [], block.number),
-      campaignRead(source, "sourceToken", "balanceOf", [terms.sourceVault], block.number),
+      tradeRead(source, "vault", "getClaim", [terms.claimId], block.number),
+      tradeRead(source, "vault", "totalBacking", [], block.number),
+      tradeRead(source, "sourceToken", "balanceOf", [terms.sourceVault], block.number),
     ]);
     assertReservationClaim(
       decodedClaim(read.decoded[0], terms.claimId),

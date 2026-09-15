@@ -1,8 +1,8 @@
 import { getAddress, ZeroAddress } from "ethers";
 import type { Address, Claim, PreparedTransaction, SaleTerms } from "@morrow/protocol";
-import { campaignContracts } from "./campaign-config.ts";
 import { encodeTerms } from "./canonical.ts";
 import { ConfigurationError } from "./errors.ts";
+import { tradeContracts } from "./trade-contracts.ts";
 
 export interface WalletIdentityProvider {
   request(args: { readonly method: string }): Promise<unknown>;
@@ -59,10 +59,10 @@ export function assertBrowserTerms(terms: SaleTerms): void {
     terms.protocolVersion !== 1n ||
     terms.sourceEvmChainId !== 11155111n ||
     terms.destinationEvmChainId !== 102031n ||
-    actionAddress(terms.sourceVault) !== campaignContracts.vault.address ||
-    actionAddress(terms.destinationMarket) !== campaignContracts.market.address ||
-    actionAddress(terms.sourceToken) !== campaignContracts.sourceToken.address ||
-    actionAddress(terms.settlementToken) !== campaignContracts.settlementToken.address ||
+    actionAddress(terms.sourceVault) !== tradeContracts.vault.address ||
+    actionAddress(terms.destinationMarket) !== tradeContracts.market.address ||
+    actionAddress(terms.sourceToken) !== tradeContracts.sourceToken.address ||
+    actionAddress(terms.settlementToken) !== tradeContracts.settlementToken.address ||
     terms.claimId <= 0n ||
     terms.round <= 0n ||
     terms.sourceFaceValueRaw <= 0n ||

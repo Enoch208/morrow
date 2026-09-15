@@ -3,6 +3,7 @@ import type { JsonRpcProvider } from "ethers";
 import type { SaleTerms } from "@morrow/protocol";
 import type { PreflightReaders } from "./preflight.ts";
 import { campaignRead, verifyCampaignContract } from "./contract-reads.ts";
+import { contractsForMarket } from "./trade-contracts.ts";
 import {
   decodedClaim,
   decodedHash,
@@ -19,17 +20,25 @@ export function livePreflightReaders(
   terms: SaleTerms,
   fundingHash: string,
 ): PreflightReaders {
+  const pinned = contractsForMarket(terms.destinationMarket);
   return {
     source: async () => {
       const block = await source.getBlock("latest");
       if (!block?.hash) throw new ConfigurationError("Latest source block unavailable");
-      await verifyCampaignContract(source, "vault", block.number);
-      await verifyCampaignContract(source, "sourceToken", block.number);
+      await verifyCampaignContract(source, "vault", block.number, pinned);
+      await verifyCampaignContract(source, "sourceToken", block.number, pinned);
       const [claimRead, roundRead, backing, balance, network, code] = await Promise.all([
-        campaignRead(source, "vault", "getClaim", [terms.claimId], block.number),
-        campaignRead(source, "vault", "getRound", [terms.claimId, terms.round], block.number),
-        campaignRead(source, "vault", "totalBacking", [], block.number),
-        campaignRead(source, "sourceToken", "balanceOf", [terms.sourceVault], block.number),
+        campaignRead(source, "vault", "getClaim", [terms.claimId], block.number, pinned),
+        campaignRead(
+          source,
+          "vault",
+          "getRound",
+          [terms.claimId, terms.round],
+          block.number,
+          pinned,
+        ),
+        campaignRead(source, "vault", "totalBacking", [], block.number, pinned),
+        campaignRead(source, "sourceToken", "balanceOf", [terms.sourceVault], block.number, pinned),
         source.getNetwork(),
         source.getCode(terms.sourceVault, block.number),
       ]);
@@ -63,8 +72,8 @@ export function livePreflightReaders(
     destination: async () => {
       const block = await destination.getBlock("finalized");
       if (!block?.hash) throw new ConfigurationError("Finalized destination block unavailable");
-      const abi = await verifyCampaignContract(destination, "market", block.number);
-      await verifyCampaignContract(destination, "settlementToken", block.number);
+      const abi = await verifyCampaignContract(destination, "market", block.number, pinned);
+      await verifyCampaignContract(destination, "settlementToken", block.number, pinned);
       const [
         saleRead,
         bound,
@@ -76,10 +85,17 @@ export function livePreflightReaders(
         marketCode,
         tokenCode,
       ] = await Promise.all([
-        campaignRead(destination, "market", "getSale", [saleIdentity(terms).saleId], block.number),
-        campaignRead(destination, "market", "totalBound", [], block.number),
-        campaignRead(destination, "market", "totalCredits", [], block.number),
-        campaignRead(destination, "market", "totalLiabilities", [], block.number),
+        campaignRead(
+          destination,
+          "market",
+          "getSale",
+          [saleIdentity(terms).saleId],
+          block.number,
+          pinned,
+        ),
+        campaignRead(destination, "market", "totalBound", [], block.number, pinned),
+        campaignRead(destination, "market", "totalCredits", [], block.number, pinned),
+        campaignRead(destination, "market", "totalLiabilities", [], block.number, pinned),
         campaignRead(
           destination,
           "settlementToken",

@@ -45,6 +45,7 @@ export {
 export type { SaleProgress } from "./browser-sale-state.ts";
 export type { WalletClaim, WalletSale } from "./browser-sales.ts";
 export { campaignContracts } from "./campaign-config.ts";
+export { minimumAttestedDepth, tradeContracts } from "./trade-contracts.ts";
 export { quoteEconomics, saleIdentity } from "./canonical.ts";
 export { confirmPreparedWallet } from "./browser-action-policy.ts";
 export type { WalletIdentityProvider } from "./browser-action-policy.ts";

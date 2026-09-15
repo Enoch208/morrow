@@ -2,9 +2,10 @@ import type { Claim } from "@morrow/protocol";
 import { actionBlock, finishPreparation, withBrowserAction } from "./browser-action-context.ts";
 import type { BrowserActionOptions } from "./browser-action-context.ts";
 import { assertActor } from "./browser-action-policy.ts";
-import { campaignRead, contractInterfaces } from "./contract-reads.ts";
+import { contractInterfaces } from "./contract-reads.ts";
 import { decodedClaim } from "./decoded-state.ts";
 import { ConfigurationError } from "./errors.ts";
+import { tradeRead } from "./trade-contracts.ts";
 
 export function assertRedeemable(claim: Claim, timestamp: bigint): void {
   if (claim.redeemed) throw new ConfigurationError("Claim already redeemed");
@@ -22,7 +23,7 @@ export async function prepareBrowserRedemption(
   assertActor(actor, actor, connectedChainId, 11155111n);
   return withBrowserAction(options, async ({ source }) => {
     const block = await actionBlock(source, "source");
-    const read = await campaignRead(source, "vault", "getClaim", [claimId], block.number);
+    const read = await tradeRead(source, "vault", "getClaim", [claimId], block.number);
     const claim = decodedClaim(read.decoded[0], claimId);
     assertRedeemable(claim, BigInt(block.timestamp));
     const prepared = await finishPreparation(

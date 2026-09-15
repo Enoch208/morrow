@@ -1,25 +1,19 @@
 import type { JsonRpcProvider } from "ethers";
 import type { SaleTerms } from "@morrow/protocol";
-import { campaignRead } from "./contract-reads.ts";
 import { decodedInteger, decodedTerms, decodedTuple } from "./decoded-state.ts";
 import { encodeTerms, saleIdentity } from "./canonical.ts";
 import { ConfigurationError } from "./errors.ts";
+import { tradeRead } from "./trade-contracts.ts";
 
 export async function browserMarketSnapshot(rpc: JsonRpcProvider, terms: SaleTerms, block: number) {
   const [read, bound, credits, liabilities, balance, allowance, buyerBalance] = await Promise.all([
-    campaignRead(rpc, "market", "getSale", [saleIdentity(terms).saleId], block),
-    campaignRead(rpc, "market", "totalBound", [], block),
-    campaignRead(rpc, "market", "totalCredits", [], block),
-    campaignRead(rpc, "market", "totalLiabilities", [], block),
-    campaignRead(rpc, "settlementToken", "balanceOf", [terms.destinationMarket], block),
-    campaignRead(
-      rpc,
-      "settlementToken",
-      "allowance",
-      [terms.buyer, terms.destinationMarket],
-      block,
-    ),
-    campaignRead(rpc, "settlementToken", "balanceOf", [terms.buyer], block),
+    tradeRead(rpc, "market", "getSale", [saleIdentity(terms).saleId], block),
+    tradeRead(rpc, "market", "totalBound", [], block),
+    tradeRead(rpc, "market", "totalCredits", [], block),
+    tradeRead(rpc, "market", "totalLiabilities", [], block),
+    tradeRead(rpc, "settlementToken", "balanceOf", [terms.destinationMarket], block),
+    tradeRead(rpc, "settlementToken", "allowance", [terms.buyer, terms.destinationMarket], block),
+    tradeRead(rpc, "settlementToken", "balanceOf", [terms.buyer], block),
   ]);
   const sale = decodedTuple(read.decoded[0], 2);
   const state = decodedInteger(sale[1]);

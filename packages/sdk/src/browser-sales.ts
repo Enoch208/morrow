@@ -3,10 +3,10 @@ import type { JsonRpcProvider, Log } from "ethers";
 import type { SaleTerms } from "@morrow/protocol";
 import { withBrowserAction } from "./browser-action-context.ts";
 import type { BrowserActionOptions } from "./browser-action-context.ts";
-import { campaignContracts } from "./campaign-config.ts";
-import { contractInterfaces, verifyCampaignContract } from "./contract-reads.ts";
+import { contractInterfaces } from "./contract-reads.ts";
 import { decodeCanonicalTerms, saleIdentity } from "./canonical.ts";
 import { ConfigurationError } from "./errors.ts";
+import { tradeContracts, verifyTradeContract } from "./trade-contracts.ts";
 
 export const vaultDeploymentBlock = 11_691_828;
 const logWindow = 40_000;
@@ -33,7 +33,7 @@ async function vaultLogs(rpc: JsonRpcProvider, topics: (string | null)[], to: nu
   for (let from = vaultDeploymentBlock; from <= to; from += logWindow) {
     logs.push(
       ...(await rpc.getLogs({
-        address: campaignContracts.vault.address,
+        address: tradeContracts.vault.address,
         topics,
         fromBlock: from,
         toBlock: Math.min(from + logWindow - 1, to),
@@ -64,7 +64,7 @@ export async function readWalletActivity(wallet: string, options: BrowserActionO
   const topic = zeroPadValue(address, 32);
   return withBrowserAction(options, async ({ source }) => {
     const head = await source.getBlockNumber();
-    await verifyCampaignContract(source, "vault", head);
+    await verifyTradeContract(source, "vault", head);
     const funded = eventTopic("ClaimFunded");
     const [asPayer, asBeneficiary, reservations, assigned, cancelled, redeemed] = await Promise.all(
       [

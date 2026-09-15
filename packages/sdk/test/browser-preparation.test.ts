@@ -3,7 +3,7 @@ import test from "node:test";
 import { Block, JsonRpcProvider, ZeroAddress, ZeroHash } from "ethers";
 import type { TransactionRequest } from "ethers";
 import { assertFreshTimestamp, finishPreparation } from "../src/browser-action-context.ts";
-import { campaignContracts } from "../src/campaign-config.ts";
+import { tradeContracts } from "../src/trade-contracts.ts";
 import { contractInterfaces } from "../src/contract-reads.ts";
 
 class SimulationRpc extends JsonRpcProvider {
@@ -50,10 +50,10 @@ await test("prepared withdrawal carries exact signer, target, network and simula
     const prepared = await finishPreparation(rpc, block, "withdraw", actor, "market", data);
     assert.equal(prepared.chainId, 102031n);
     assert.equal(prepared.expectedSigner, actor);
-    assert.equal(prepared.to, campaignContracts.market.address);
+    assert.equal(prepared.to, tradeContracts.market.address);
     assert.equal(prepared.checkedBlockHash, block.hash);
     assert.deepEqual(rpc.calls, [
-      { to: campaignContracts.market.address, from: actor, data, blockTag: 10 },
+      { to: tradeContracts.market.address, from: actor, data, blockTag: 10 },
     ]);
   } finally {
     rpc.destroy();

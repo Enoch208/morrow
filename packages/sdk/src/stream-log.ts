@@ -3,15 +3,12 @@ import { existsSync } from "node:fs";
 import type { SaleTerms } from "@morrow/protocol";
 import { json } from "./campaign-log.ts";
 import { decodeCanonicalTerms } from "./canonical.ts";
-import { ConfigurationError, repositoryRoot } from "./environment.ts";
+import { ConfigurationError } from "./environment.ts";
+import { runDirectory } from "./run-journal.ts";
 import type { StreamStep } from "./stream-config.ts";
 
 export function streamRunDirectory(argv: readonly string[]): string {
-  const flag = argv.find((argument) => argument.startsWith("--run="));
-  if (flag === undefined) return `${repositoryRoot}evidence/stream`;
-  const run = flag.slice("--run=".length);
-  if (!/^[a-z0-9-]{1,32}$/.test(run)) throw new ConfigurationError("Run names use a-z, 0-9 and -");
-  return `${repositoryRoot}evidence/stream/${run}`;
+  return runDirectory("stream", argv);
 }
 
 export const streamDirectory = streamRunDirectory(process.argv);

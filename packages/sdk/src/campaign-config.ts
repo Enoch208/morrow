@@ -34,6 +34,15 @@ export const campaignContracts = {
   },
 } as const;
 
+export interface PinnedContract {
+  readonly address: string;
+  readonly chainId: bigint;
+  readonly name: string;
+  readonly codeHash: string;
+}
+
+export type PinnedContracts = { readonly [K in keyof typeof campaignContracts]: PinnedContract };
+
 export type CampaignName = "gate" | "a" | "b";
 export function campaignName(value: string | undefined): CampaignName {
   if (value !== "gate" && value !== "a" && value !== "b")
