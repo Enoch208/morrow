@@ -4,6 +4,7 @@ import { campaignContracts } from "./campaign-config.ts";
 import { ConfigurationError } from "./errors.ts";
 
 export const sablierLockup = "0xe61cb9153356419bdaD0A8767c059f92d221a3C4";
+export const streamMarketDeploymentBlock = 5_490_321;
 export const streamDepositRaw = 10_000_000_000n;
 export const refusalDepositRaw = 1_000_000n;
 export const streamDurationSeconds = 14_400n;
@@ -21,6 +22,7 @@ export const lockupInterface = new Interface([
   "function isDepleted(uint256 streamId) view returns (bool)",
   "function getWithdrawnAmount(uint256 streamId) view returns (uint128)",
   "function getEndTime(uint256 streamId) view returns (uint40)",
+  "function calculateMinFeeWei(uint256 streamId) view returns (uint256)",
 ]);
 
 export const streamSteps = [
@@ -38,6 +40,9 @@ export const streamSteps = [
   "assign",
   "settle",
   "withdraw-seller",
+  "cancel",
+  "recognize",
+  "withdraw-buyer",
   "redeem",
 ] as const;
 export type StreamStep = (typeof streamSteps)[number];
@@ -63,13 +68,22 @@ export const streamSigner = {
   assign: "SELLER",
   settle: "SELLER",
   "withdraw-seller": "SELLER",
+  cancel: "SELLER",
+  recognize: "BUYER",
+  "withdraw-buyer": "BUYER",
   redeem: "BUYER",
 } as const satisfies Record<StreamStep, keyof typeof campaignActors>;
 
 export function streamChain(step: StreamStep): bigint {
-  return ["deploy-stream-market", "approve-fund", "fund", "settle", "withdraw-seller"].includes(
-    step,
-  )
+  return [
+    "deploy-stream-market",
+    "approve-fund",
+    "fund",
+    "settle",
+    "withdraw-seller",
+    "recognize",
+    "withdraw-buyer",
+  ].includes(step)
     ? 102031n
     : 11155111n;
 }
@@ -82,3 +96,13 @@ export const streamTokens = {
   source: campaignContracts.sourceToken.address,
   settlement: campaignContracts.settlementToken.address,
 } as const;
+
+export function streamOutcome(
+  expected: string | undefined,
+  status: number | null,
+  logCount: number,
+  replayedError: string | undefined,
+): "mined" | "refused" | "unexpected" {
+  if (!expected) return status === 1 ? "mined" : "unexpected";
+  return status === 0 && logCount === 0 && replayedError === expected ? "refused" : "unexpected";
+}

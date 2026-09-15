@@ -1,15 +1,14 @@
 import { getAddress } from "ethers";
-import type { JsonRpcProvider, TransactionReceipt, TransactionRequest } from "ethers";
 import type { SaleTerms } from "@morrow/protocol";
 import { campaignActors } from "./campaign-config.ts";
 import { encodeTerms, saleIdentity } from "./canonical.ts";
 import { contractInterfaces } from "./contract-reads.ts";
 import { decodedClaim } from "./decoded-state.ts";
-import { ConfigurationError, proverEndpoints } from "./environment.ts";
-import { obtainProof, verifyNativeProof } from "./proof.ts";
+import { ConfigurationError } from "./environment.ts";
 import {
   assignWindowSeconds,
   fundWindowSeconds,
+  lockupInterface,
   sablierLockup,
   streamFeeBps,
   streamPriceRaw,
@@ -17,61 +16,9 @@ import {
 } from "./stream-config.ts";
 import { setupRequest, vaultInterface } from "./stream-setup.ts";
 import type { StreamStep } from "./stream-config.ts";
-import { settledStream, streamField, streamTerms } from "./stream-log.ts";
-
-export interface StreamContext {
-  readonly source: JsonRpcProvider;
-  readonly destination: JsonRpcProvider;
-  readonly records: readonly Record<string, unknown>[];
-}
-
-export interface StreamRequest {
-  readonly request: TransactionRequest;
-  readonly context?: Record<string, unknown>;
-}
-
-export function createdStreamId(receipt: TransactionReceipt): bigint {
-  const transfer = receipt.logs.find(
-    (log) =>
-      log.address.toLowerCase() === sablierLockup.toLowerCase() &&
-      log.topics.length === 4 &&
-      log.topics[1] === `0x${"00".repeat(32)}`,
-  );
-  if (!transfer?.topics[3]) throw new ConfigurationError("Stream mint log not found");
-  return BigInt(transfer.topics[3]);
-}
-
-export function localLogIndex(receipt: TransactionReceipt, emitter: string, topic: string): bigint {
-  const index = receipt.logs.findIndex(
-    (log) => log.address.toLowerCase() === emitter.toLowerCase() && log.topics[0] === topic,
-  );
-  if (index < 0) throw new ConfigurationError("Expected sale event absent from receipt");
-  return BigInt(index);
-}
-
-async function provenEvent(context: StreamContext, step: StreamStep, eventName: string) {
-  const hash = settledStream(context.records, step).transactionHash;
-  const receipt = await context.source.getTransactionReceipt(hash);
-  if (receipt?.status !== 1) throw new ConfigurationError("Source transaction missing or failed");
-  const { proof } = await obtainProof(hash, proverEndpoints[0]);
-  const native = await verifyNativeProof(
-    context.destination,
-    proof,
-    await context.destination.getBlockNumber(),
-  );
-  if (native.verification.decoded[0] !== true)
-    throw new ConfigurationError("Native verifier refused proof");
-  const event = vaultInterface.getEvent(eventName);
-  if (!event) throw new ConfigurationError(`Unknown vault event ${eventName}`);
-  return {
-    proof,
-    logIndex: localLogIndex(
-      receipt,
-      streamField(context.records, "deploy-stream-vault", "contractAddress"),
-      event.topicHash,
-    ),
-  };
-}
+import { streamField, streamTerms } from "./stream-log.ts";
+import { provenEvent } from "./stream-evidence.ts";
+import type { StreamContext, StreamRequest } from "./stream-evidence.ts";
 
 async function saleTerms(context: StreamContext): Promise<SaleTerms> {
   const vault = streamField(context.records, "deploy-stream-vault", "contractAddress");
@@ -190,15 +137,62 @@ export async function streamRequest(
       };
     }
     case "withdraw-seller":
+    case "withdraw-buyer":
       return {
         request: { to: market(), data: contractInterfaces.market.encodeFunctionData("withdraw") },
       };
-    case "redeem":
+    case "cancel": {
+      const terms = streamTerms(records);
+      return {
+        request: {
+          to: vault(),
+          data: vaultInterface.encodeFunctionData("cancelExpiredSale", [
+            terms.claimId,
+            terms.round,
+          ]),
+        },
+      };
+    }
+    case "recognize": {
+      const { proof, logIndex } = await provenEvent(context, "cancel", "SaleCancelled");
+      return {
+        request: {
+          to: market(),
+          data: contractInterfaces.market.encodeFunctionData("recognizeCancellation", [
+            proof,
+            logIndex,
+            saleIdentity(streamTerms(records)).saleId,
+          ]),
+        },
+      };
+    }
+    case "redeem": {
+      const streamId = BigInt(streamField(records, "create-stream", "streamId"));
+      const [depleted, fee] = await Promise.all([
+        context.source.call({
+          to: sablierLockup,
+          data: lockupInterface.encodeFunctionData("isDepleted", [streamId]),
+        }),
+        context.source.call({
+          to: sablierLockup,
+          data: lockupInterface.encodeFunctionData("calculateMinFeeWei", [streamId]),
+        }),
+      ]);
+      const alreadyDepleted =
+        lockupInterface.decodeFunctionResult("isDepleted", depleted)[0] === true;
+      const [minimumFee]: unknown[] = lockupInterface.decodeFunctionResult(
+        "calculateMinFeeWei",
+        fee,
+      );
+      if (typeof minimumFee !== "bigint") throw new ConfigurationError("Invalid lockup fee read");
       return {
         request: {
           to: vault(),
           data: vaultInterface.encodeFunctionData("redeem", [streamTerms(records).claimId]),
+          value: alreadyDepleted ? 0n : minimumFee,
         },
+        context: { lockupFeeWei: alreadyDepleted ? 0n : minimumFee },
       };
+    }
   }
 }

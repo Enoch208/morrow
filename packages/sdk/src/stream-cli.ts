@@ -1,9 +1,6 @@
 import { keccak256 } from "ethers";
 import type { JsonRpcProvider, TransactionReceipt, TransactionRequest, Wallet } from "ethers";
 import { open } from "node:fs/promises";
-import { saleIdentity } from "./canonical.ts";
-import { contractInterfaces } from "./contract-reads.ts";
-import { decodedInteger, decodedTuple } from "./decoded-state.ts";
 import {
   cc3Rpc,
   ConfigurationError,
@@ -13,18 +10,20 @@ import {
   provider,
   requireTestnet,
 } from "./environment.ts";
-import { expectedRefusal, streamChain, streamSigner, streamStep } from "./stream-config.ts";
-import type { StreamStep } from "./stream-config.ts";
 import {
-  recordStream,
-  streamDirectory,
-  streamField,
-  streamRecords,
-  streamTerms,
-} from "./stream-log.ts";
+  expectedRefusal,
+  streamChain,
+  streamOutcome,
+  streamSigner,
+  streamStep,
+} from "./stream-config.ts";
+import type { StreamStep } from "./stream-config.ts";
+import { recordStream, streamDirectory, streamRecords, streamTerms } from "./stream-log.ts";
 import { waitForReceipt } from "./receipt-wait.ts";
+import { readStreamAssignment, validateStreamAssignment } from "./stream-preflight.ts";
 import { vaultInterface } from "./stream-setup.ts";
-import { createdStreamId, streamRequest } from "./stream-steps.ts";
+import { createdStreamId } from "./stream-evidence.ts";
+import { streamRequest } from "./stream-steps.ts";
 
 const sourceRpcUrl = "https://sepolia.gateway.tenderly.co";
 
@@ -38,20 +37,6 @@ function receiptFacts(step: StreamStep, receipt: TransactionReceipt) {
     return { claimId: BigInt(log.topics[1]) };
   }
   return receipt.contractAddress ? { contractAddress: receipt.contractAddress } : {};
-}
-
-async function assertBoundBeforeAssignment(destination: JsonRpcProvider): Promise<void> {
-  const records = await streamRecords();
-  const terms = streamTerms(records);
-  const market = streamField(records, "deploy-stream-market", "contractAddress");
-  const raw = await destination.call({
-    to: market,
-    data: contractInterfaces.market.encodeFunctionData("getSale", [saleIdentity(terms).saleId]),
-    blockTag: "finalized",
-  });
-  const sale = decodedTuple(contractInterfaces.market.decodeFunctionResult("getSale", raw)[0], 2);
-  if (decodedInteger(sale[1]) !== 1n)
-    throw new ConfigurationError("Buyer funds are not BOUND at a finalized destination block");
 }
 
 async function refusalReason(
@@ -85,7 +70,11 @@ try {
     )
   )
     throw new ConfigurationError("Step already submitted; reconcile before retrying");
-  if (step === "assign") await assertBoundBeforeAssignment(destination);
+  if (step === "assign")
+    validateStreamAssignment(
+      await readStreamAssignment(source, destination, streamTerms(records)),
+      streamTerms(records),
+    );
   const wallet = localRole(localConfiguration(), streamSigner[step]).connect(rpc);
   const { request, context = {} } = await streamRequest(step, { source, destination, records });
   const refusal = expectedRefusal[step];
@@ -128,13 +117,14 @@ try {
     const receipt = await waitForReceipt(response.hash, [rpc, fallback]).finally(() => {
       fallback.destroy();
     });
-    const ok = refusal ? receipt.status === 0 && receipt.logs.length === 0 : receipt.status === 1;
     const replayed = refusal
       ? await refusalReason(rpc, wallet, request, receipt.blockNumber - 1)
       : undefined;
+    const outcome = streamOutcome(refusal, receipt.status, receipt.logs.length, replayed);
+    const ok = outcome !== "unexpected";
     await recordStream({
       ...common,
-      state: ok ? (refusal ? "refused" : "mined") : "unexpected",
+      state: outcome,
       evidenceKind: "live-testnet-mined",
       transactionHash: response.hash,
       blockNumber: receipt.blockNumber,
