@@ -182,6 +182,15 @@ contract StreamPaymentVaultTest {
         require(address(lockup).balance == 0.001 ether);
     }
 
+    function test_redemptionRefusesALockupWhoseReturnDisagreesWithItsAccounting() public {
+        uint256 claimId = wrap(stream(0, false, true));
+        lockup.setReportedSkew(1);
+        VM.warp(11000);
+        VM.expectRevert(StreamPaymentVault.EntitlementMismatch.selector);
+        vault.redeem(claimId);
+        require(token.balanceOf(SELLER) == 0);
+    }
+
     function test_feeSentForADepletedStreamIsReturnedAndRedemptionStillPays() public {
         uint256 streamId = stream(0, false, true);
         uint256 claimId = wrap(streamId);

@@ -22,6 +22,7 @@ contract MockStreamLockup is ERC721 {
 
     uint256 public nextStreamId = 1;
     uint256 public minFeeWei;
+    uint128 public reportedSkew;
     mapping(uint256 => Stream) public streams;
 
     error InsufficientFee();
@@ -33,6 +34,10 @@ contract MockStreamLockup is ERC721 {
 
     function setMinFee(uint256 fee) external {
         minFeeWei = fee;
+    }
+
+    function setReportedSkew(uint128 skew) external {
+        reportedSkew = skew;
     }
 
     function create(
@@ -79,6 +84,7 @@ contract MockStreamLockup is ERC721 {
     function withdrawMax(uint256 streamId, address to) external payable returns (uint128 amount) {
         amount = streamedAmountOf(streamId) - streams[streamId].withdrawn;
         withdraw(streamId, to, amount);
+        amount -= reportedSkew;
     }
 
     function cancel(uint256 streamId) external {

@@ -145,7 +145,11 @@ contract StreamPaymentVault is ReentrancyGuard {
         claim.redeemed = true;
         totalBacking -= claim.sourceFaceValueRaw;
         bool depletedBefore = LOCKUP.isDepleted(streamId);
-        if (!depletedBefore) LOCKUP.withdrawMax{value: msg.value}(streamId, address(this));
+        if (!depletedBefore) {
+            uint128 withdrawnBefore = LOCKUP.getWithdrawnAmount(streamId);
+            uint128 pulled = LOCKUP.withdrawMax{value: msg.value}(streamId, address(this));
+            if (LOCKUP.getWithdrawnAmount(streamId) != withdrawnBefore + pulled) revert EntitlementMismatch();
+        }
         if (
             !LOCKUP.isDepleted(streamId)
                 || LOCKUP.getWithdrawnAmount(streamId) - withdrawnAtWrap[claimId] != claim.sourceFaceValueRaw
