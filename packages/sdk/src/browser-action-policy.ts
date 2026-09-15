@@ -74,7 +74,8 @@ export function assertBrowserTerms(terms: SaleTerms): void {
     terms.assignBefore >= terms.maturity ||
     [terms.seller, terms.buyer, terms.feeRecipient].some(
       (actor) => actionAddress(actor) === ZeroAddress,
-    )
+    ) ||
+    [terms.sourceVault, terms.destinationMarket].includes(actionAddress(terms.buyer))
   )
     throw new ConfigurationError("Sale terms differ from supported deployment or economics");
 }

@@ -25,8 +25,7 @@ import { ConfigurationError, proverEndpoints } from "./environment.ts";
 import { minedTrade, tradeTerms } from "./trade-log.ts";
 import type { TradeStep } from "./trade-log.ts";
 
-export const tradeFaceValueRaw = 10_000_000_000n;
-export const tradePriceRaw = 9_410_000_000n;
+import { tradeFaceValueRaw, tradePriceRaw } from "./trade-claim.ts";
 const maturitySeconds = 10_800n;
 const fundSeconds = 3_600n;
 const assignSeconds = 7_200n;
@@ -76,6 +75,13 @@ async function reservationTerms(
     readClaimState(claimId, options),
     readMarketRules(options),
   ]);
+  const created = minedTrade(records, "create");
+  if (
+    claim.sourceFaceValueRaw !== tradeFaceValueRaw ||
+    String(claim.maturity) !== String(created.maturity) ||
+    claim.originalBeneficiary !== campaignActors.SELLER
+  )
+    throw new ConfigurationError("Claim on chain differs from the created payout");
   return {
     protocolVersion: 1n,
     sourceEvmChainId: 11155111n,
@@ -131,7 +137,7 @@ export async function prepareTradeStep(
       const prepared = await prepareBrowserClaim(request, actor, chain, options);
       return {
         prepared,
-        context: { claimId: prepared.expectedClaimId, maturity: request.maturity },
+        context: { expectedClaimId: prepared.expectedClaimId, maturity: request.maturity },
       };
     }
     const approval = await prepareBrowserClaimApproval(request, actor, chain, options);

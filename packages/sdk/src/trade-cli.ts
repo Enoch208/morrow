@@ -12,6 +12,7 @@ import {
 } from "./environment.ts";
 import { waitForReceipt } from "./receipt-wait.ts";
 import { recordTrade, tradeDirectory, tradeRecords, tradeStep, tradeTerms } from "./trade-log.ts";
+import { createdClaimId } from "./trade-claim.ts";
 import { prepareTradeStep, tradeChain, tradeSigner } from "./trade-steps.ts";
 
 const sourceRpcUrl = "https://sepolia.gateway.tenderly.co";
@@ -69,39 +70,34 @@ try {
       const receipt = await waitForReceipt(response.hash, [rpc, fallback]).finally(() => {
         fallback.destroy();
       });
+      const facts =
+        step === "create" && receipt.status === 1
+          ? { claimId: createdClaimId(receipt, wallet.address, context) }
+          : {};
       const mined = receipt.status === 1;
-      const after = await tradeRecords();
-      const progress = [
-        "reserve",
-        "approve-fund",
-        "fund",
-        "assign",
-        "settle",
-        "withdraw-seller",
-        "cancel",
-        "recognize",
-        "withdraw-buyer",
-        "redeem",
-      ].includes(step)
-        ? await readSaleProgress(
-            tradeTerms(
-              step === "reserve"
-                ? [...after, { ...common, state: "mined", transactionHash: response.hash }]
-                : after,
-            ),
-            wallet.address,
-            options,
-          )
-        : undefined;
       await recordTrade({
         ...common,
+        ...facts,
         state: mined ? "mined" : "reverted",
         evidenceKind: "live-testnet-mined",
         transactionHash: response.hash,
         blockNumber: receipt.blockNumber,
         gasUsed: receipt.gasUsed,
-        ...(progress ? { progress } : {}),
       });
+      if (mined && step !== "drip-buyer" && step !== "approve-claim" && step !== "create") {
+        const observed = await readSaleProgress(
+          tradeTerms(await tradeRecords()),
+          wallet.address,
+          options,
+        )
+          .then((progress) => ({ state: "observed", evidenceKind: "live-read-verified", progress }))
+          .catch((error: unknown) => ({
+            state: "observation-unavailable",
+            evidenceKind: "blocked",
+            error: errorSummary(error),
+          }));
+        await recordTrade({ step, transactionHash: response.hash, ...observed });
+      }
       if (!mined) throw new ConfigurationError("Trade step reverted");
     }
   }

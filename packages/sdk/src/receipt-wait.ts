@@ -7,17 +7,19 @@ export async function waitForReceipt(
   timeoutMs = 300_000,
 ): Promise<TransactionReceipt> {
   const deadline = Date.now() + timeoutMs;
+  let lastFailure = "none";
   while (Date.now() < deadline) {
     for (const rpc of providers) {
-      const receipt = await rpc.getTransactionReceipt(hash).catch((error: unknown) => {
-        process.stderr.write(
-          `receipt poll failed: ${error instanceof Error ? error.message : "unknown"}\n`,
-        );
-        return null;
-      });
-      if (receipt) return receipt;
+      try {
+        const receipt = await rpc.getTransactionReceipt(hash);
+        if (receipt) return receipt;
+      } catch (error: unknown) {
+        lastFailure = error instanceof Error ? error.message.slice(0, 120) : "unknown";
+      }
     }
     await new Promise((resolve) => setTimeout(resolve, 5_000));
   }
-  throw new ConfigurationError("Receipt unavailable after polling; reconcile submitted hash");
+  throw new ConfigurationError(
+    `Receipt unavailable after polling (last failure: ${lastFailure}); reconcile submitted hash`,
+  );
 }

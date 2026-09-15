@@ -1,4 +1,4 @@
-import { ContractFactory, Interface, keccak256 } from "ethers";
+import { ContractFactory, Interface, keccak256, zeroPadValue } from "ethers";
 import type { JsonRpcProvider, TransactionRequest, Wallet } from "ethers";
 import { open } from "node:fs/promises";
 import { contractArtifact } from "./artifact.ts";
@@ -24,6 +24,7 @@ import {
 const tokenInterface = new Interface([
   "function transfer(address,uint256) returns (bool)",
   "function balanceOf(address) view returns (uint256)",
+  "event Transfer(address indexed from, address indexed to, uint256 value)",
 ]);
 const faucetInterface = new Interface(["function TOKEN() view returns (address)"]);
 
@@ -50,10 +51,16 @@ async function faucetTransaction(action: FaucetAction, rpc: JsonRpcProvider) {
   return { request, context: { faucet, amountRaw: faucetFundingRaw } };
 }
 
-async function faucetBalance(rpc: JsonRpcProvider, action: FaucetAction, holder: string) {
+async function faucetBalance(
+  rpc: JsonRpcProvider,
+  action: FaucetAction,
+  holder: string,
+  blockTag: number,
+) {
   const raw = await rpc.call({
     to: faucetSide(action).token,
     data: tokenInterface.encodeFunctionData("balanceOf", [holder]),
+    blockTag,
   });
   const [balance]: unknown[] = tokenInterface.decodeFunctionResult("balanceOf", raw);
   if (typeof balance !== "bigint") throw new ConfigurationError("Invalid token balance read");
@@ -127,11 +134,24 @@ try {
   });
   if (broadcast) {
     const holder = "faucet" in context ? context.faucet : undefined;
-    const before = holder ? await faucetBalance(rpc, action, holder) : 0n;
     const { response, receipt } = await submit(wallet, action, request, common, gasLimit, gasPrice);
-    const after = holder && receipt.status === 1 ? await faucetBalance(rpc, action, holder) : 0n;
+    const before =
+      holder && receipt.status === 1
+        ? await faucetBalance(rpc, action, holder, receipt.blockNumber - 1)
+        : 0n;
+    const after =
+      holder && receipt.status === 1
+        ? await faucetBalance(rpc, action, holder, receipt.blockNumber)
+        : 0n;
+    const transfer = tokenInterface.getEvent("Transfer")?.topicHash;
     const deltaMatches = holder
-      ? after - before === faucetFundingRaw
+      ? receipt.logs.some(
+          (log) =>
+            log.address.toLowerCase() === side.token.toLowerCase() &&
+            log.topics[0] === transfer &&
+            log.topics[2]?.toLowerCase() === zeroPadValue(holder, 32).toLowerCase() &&
+            BigInt(log.data) === faucetFundingRaw,
+        )
       : Boolean(receipt.contractAddress);
     await recordFaucet({
       ...common,
