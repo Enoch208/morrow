@@ -83,7 +83,9 @@ contract MockStreamLockup is ERC721 {
 
     function cancel(uint256 streamId) external {
         Stream storage stream = streams[streamId];
-        if (msg.sender != stream.sender || !stream.cancelable) revert NotAllowed();
+        if (msg.sender != stream.sender || !stream.cancelable || streamedAmountOf(streamId) >= stream.deposited) {
+            revert NotAllowed();
+        }
         uint128 refund = stream.deposited - streamedAmountOf(streamId);
         stream.refunded = refund;
         stream.canceled = true;
@@ -131,7 +133,7 @@ contract MockStreamLockup is ERC721 {
     }
 
     function isCancelable(uint256 streamId) external view returns (bool) {
-        return streams[streamId].cancelable;
+        return streams[streamId].cancelable && streamedAmountOf(streamId) < streams[streamId].deposited;
     }
 
     function wasCanceled(uint256 streamId) external view returns (bool) {

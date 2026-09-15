@@ -95,13 +95,53 @@ contract StreamPaymentVaultTest {
         require(vault.nextClaimId() == 1);
     }
 
-    function test_canceledStreamIsRejectedEvenAfterRenounce() public {
+    function test_canceledStreamIsRejected() public {
         uint256 streamId = stream(0, true, true);
         VM.warp(2000);
         lockup.cancel(streamId);
         VM.prank(SELLER);
         VM.expectRevert(StreamPaymentVault.UnsupportedStream.selector);
         vault.wrapStream(streamId, bytes32(0));
+    }
+
+    function test_renouncedStreamBecomesWrappable() public {
+        uint256 streamId = stream(0, true, true);
+        lockup.renounce(streamId);
+        uint256 claimId = wrap(streamId);
+        require(vault.getClaim(claimId).sourceFaceValueRaw == DEPOSIT);
+    }
+
+    function test_fullyWithdrawnEndedStreamIsRejected() public {
+        uint256 streamId = stream(0, false, true);
+        VM.warp(10999);
+        VM.prank(SELLER);
+        lockup.withdrawMax(streamId, SELLER);
+        VM.warp(11000);
+        VM.prank(SELLER);
+        lockup.withdrawMax(streamId, SELLER);
+        VM.prank(SELLER);
+        VM.expectRevert(StreamPaymentVault.UnsupportedStream.selector);
+        vault.wrapStream(streamId, bytes32(0));
+    }
+
+    function test_twoStreamsOnTheSameTokenKeepSeparateBacking() public {
+        uint256 first = wrap(stream(0, false, true));
+        uint256 secondStream = lockup.create(SELLER, address(token), DEPOSIT / 2, 1000, 21000, 0, false, true);
+        uint256 second = wrap(secondStream);
+        VM.warp(11000);
+        vault.redeem(first);
+        require(token.balanceOf(SELLER) == DEPOSIT);
+        require(token.balanceOf(address(vault)) == 0);
+        VM.warp(15000);
+        VM.prank(STRANGER);
+        lockup.withdrawMax(secondStream, address(vault));
+        VM.expectRevert(StreamPaymentVault.NotRedeemable.selector);
+        vault.redeem(second);
+        VM.warp(21000);
+        vault.redeem(second);
+        require(token.balanceOf(SELLER) == DEPOSIT + DEPOSIT / 2);
+        require(token.balanceOf(address(vault)) == 0);
+        require(vault.totalBacking() == 0);
     }
 
     function test_onlyTheCurrentOwnerCanWrap() public {
